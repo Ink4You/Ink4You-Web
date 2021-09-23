@@ -26,9 +26,9 @@ return;
 ``` 
 - Exportar os componentes e paginas no final do arquivo
 ```jsx
-export default {nome da function}();
+export default Button();
 ```
 - Usar as variáveis para as cores 
 ```jsx
-color : var(--white);
+color: var(--white);
 ```
