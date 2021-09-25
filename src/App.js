@@ -1,6 +1,7 @@
 import Login from './pages/Login';
 import Register from './pages/Register';
 import PasswordRecuperation from './pages/PasswordRecuperation';
+import './global.css';
 
 import {
   BrowserRouter as Router,

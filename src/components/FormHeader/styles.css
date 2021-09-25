@@ -1,0 +1,23 @@
+.form-header {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-header img:first-child {
+    width: 25px;
+    align-self: flex-end;
+    cursor: pointer;
+}
+
+.form-header img:nth-child(2) {
+    width: 110px;
+    align-self: center;
+    margin: 40px 0px 20px 0px;
+}
+
+.form-header p {
+    font-size: 28px;
+    font-weight: 500;
+    align-self: flex-start;
+    margin: 15px 0px 10px 0px;
+}

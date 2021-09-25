@@ -1,0 +1,19 @@
+.side-image {
+    width: 65vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('../../img/SideImageBlur.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    animation: fade-in 0.5s;
+}
+
+.side-image p {
+    font-size: 30px;
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+}
+

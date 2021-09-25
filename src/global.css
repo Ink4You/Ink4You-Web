@@ -9,6 +9,14 @@
   --secondary-evening-blue: #21232E;
   --purple: #525EFF;
   --cyan: #5CE1E6;
+  --blue-gradient: linear-gradient(to right, #5CE1E6 , #38A5FF, #525EFF);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  box-sizing: border-box;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Saira:wght@100;300;400;500;600;700&display=swap');
@@ -22,8 +30,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;;
+  }
+}
+ 

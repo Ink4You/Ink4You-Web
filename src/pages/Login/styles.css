@@ -1,0 +1,59 @@
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.container .form {
+    width: 35vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #E9E9E9;
+    animation: fade-in 1s;
+}
+
+.container .form-container {
+    width: 55%;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+}
+
+.container .form-container .form-input {
+    margin-bottom: 20px;
+}
+
+.container .form-container .forgot-password {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.container .form-container .forgot-password p {
+    font-size: 17px;
+    cursor: pointer;
+    margin: 15px 0px 15px 0px;
+}
+
+.container .form-container .btn-login {
+    height: 56px;
+    margin-top: 5px;
+    background-image: var(--blue-gradient);
+}
+
+.container .form-container .btn-register {
+    font-size: 17px;
+    font-weight: 400;
+    text-align: center;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.vaiDaRuim > input {
+    background-color: white;
+    border-radius: 5px;
+    height: 65px;
+}
