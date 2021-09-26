@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './styles.css';
 import '../../global.css';
+import Input from '../../components/Input';
 import InitialSideImage from '../../components/InitialSideImage';
 import FormHeader from '../../components/FormHeader';
 import { TextField, Button } from '@material-ui/core';
@@ -22,28 +23,35 @@ function Login() {
         return (
             <div className="form-container">
                 <FormHeader text="Realizar Login" />
-                <TextField
+
+                <Input 
+                    text="Email"
+                />
+                <Input 
+                    text="Senha"
+                />
+                {/* <TextField
                     fullWidth
                     label="Email"
                     margin="normal" />
                 <TextField
                     fullWidth
                     label="Senha"
-                    margin="normal" />
+                    margin="normal" /> */}
                 <div className="forgot-password">
                     <div onClick={() => setStep(1)}>
                         <p>Esqueci minha senha</p>
                     </div>
                 </div>
                 <Button
-                    className="btn-login"
+                    className="btn-primary"
                     variant="contained"
                     disableElevation
                     fullWidth>
                     Entrar
                 </Button>
                 <div>
-                    <p className="btn-register">Não tenho cadastro</p>
+                    <p className="btn-text">Não tenho cadastro</p>
                 </div>
 
             </div>
@@ -53,21 +61,23 @@ function Login() {
     function PasswordRecuperationStep() {
         return (
             <div className="form-container">
-                <FormHeader text="Recuperar senha" />
-                <p>Informe seu e-mail, e enviaremos um meio de recuperação de senha:</p>
-                <TextField
+                <FormHeader text="Recuperar senha" description="Informe seu e-mail, e enviaremos um meio de recuperação de senha" />
+                <Input 
+                    text="Email"
+                />
+                {/* <TextField
                     fullWidth
                     label="Email"
-                    margin="normal" />
+                    margin="normal" /> */}
                 <Button
-                    className="btn-login"
+                    className="btn-primary"
                     variant="contained"
                     disableElevation
                     fullWidth>
                     Prosseguir
                 </Button>
                 <div onClick={() => setStep(0)}>
-                    <p className="btn-register">Cancelar</p>
+                    <p className="btn-text">Cancelar</p>
                 </div>
             </div>
         )

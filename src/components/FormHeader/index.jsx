@@ -9,6 +9,9 @@ function FormHeader(props) {
             <img src={EveningIcon} alt="Trocar tema" />
             <img src={Logo} alt="Logo do Ink4You" />
             <p>{props.text}</p>
+            {props.description &&
+                <span>{props.description}</span>
+            }
         </div>
     );
 }

@@ -68,13 +68,13 @@ code {
   animation: fade-in 1s;
 }
 
-.container .form-container .btn-login {
+.container .form-container .btn-primary {
   height: 56px;
-  margin-top: 5px;
+  margin-top: 20px;
   background-image: var(--blue-gradient);
 }
 
-.container .form-container .btn-register {
+.container .form-container .btn-text {
   font-size: 17px;
   font-weight: 400;
   text-align: center;
