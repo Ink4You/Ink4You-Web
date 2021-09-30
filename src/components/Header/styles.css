@@ -8,6 +8,9 @@
     justify-content: space-between;
     background-color: var(--white);
     color: black;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 
 .header-container .div-logo img {

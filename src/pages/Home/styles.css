@@ -3,6 +3,7 @@
     height: calc(100vh - 75px);
     display: flex;
     flex-direction: row;
+    margin-top: 75px;
 }
 
 .container-options .tattoo-option-img {
