@@ -22,6 +22,9 @@
 .container-label-float input:focus{
     border: 2px solid #3951b2;
 }
+.container-label-float input:disabled {
+    background-color: #ddd;
+}
  
 /* .container-label-float input::placeholder {
     color: transparent;

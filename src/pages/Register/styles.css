@@ -6,3 +6,23 @@
     justify-content: space-between;
     align-items: center;
 }
+
+div.smallButtonsContainer {
+    display: flex;
+}
+
+div.instagramContainer .instagramSwitch {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+}
+
+div.instagramContainer .instagramOptions {
+    display: flex;
+    align-items: center;
+}
+
+div.instagramContainer .instagramOptions img {
+    width: 20px;
+    margin-right: 10px;
+}
