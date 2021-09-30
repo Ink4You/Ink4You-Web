@@ -3,7 +3,7 @@ import '../../global.css';
 import Input from '../../components/Input';
 import InitialSideImage from '../../components/InitialSideImage';
 import FormHeader from '../../components/FormHeader';
-import { TextField, Button } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 
 function PasswordRecuperation() {
     return (

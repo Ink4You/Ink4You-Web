@@ -4,16 +4,16 @@ import './styles.css';
 function Input(props) {
 
     const id = `input${props.text}`;
-    const width = props.width == null ? 100 : props.width;
-    const height = props.height == null ? 56 : props.height;
-    const marginLeft = props.marginLeft == null ? 0 : props.marginLeft;
-    const marginRight = props.marginRight == null ? 0 : props.marginRight;
+    const width = props.width === undefined ? 100 : props.width;
+    const height = props.height === undefined ? 56 : props.height;
+    const marginLeft = props.marginLeft === undefined ? 0 : props.marginLeft;
+    const marginRight = props.marginRight === undefined ? 0 : props.marginRight;
 
     return (
         <div 
             className="container-label-float" 
             style={{
-                maxWidth: width + (width == 100 ? '%' : 'px'),
+                maxWidth: width + (width === 100 ? '%' : 'px'),
                 marginLeft: marginLeft + 'px',
                 marginRight: marginRight + 'px',
             }}>
@@ -25,9 +25,11 @@ function Input(props) {
                     height: height + 'px',
                 }} 
                 id={id} 
+                disabled={props.disabled}
             />
             <label 
-                for="input"
+                htmlFor={id}
+                title={props.text}
                 style={{
                     marginTop: ((height / 2) + 5) + 'px'
                 }}

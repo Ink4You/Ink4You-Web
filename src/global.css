@@ -67,6 +67,11 @@ code {
   align-items: center;
   animation: fade-in 1s;
 }
+.container .form-elements {
+  justify-content: center;
+  align-items: center;
+  animation: fade-in 1s;
+}
 
 .container .form-container .btn-primary {
   height: 56px;
