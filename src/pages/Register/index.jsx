@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import './styles.css';
 import InitialSideImage from '../../components/InitialSideImage';
 import FormHeader from '../../components/FormHeader';
 import Input from '../../components/Input';
 import { Button, FormGroup, FormControlLabel, Switch, Stepper, Step, StepButton } from '@material-ui/core';
 import InstagramIcon from '../../img/instagramIcon.png';
+import api from '../../api';
+import './styles.css';
+
 
 function Register() {
     const [step, setStep] = useState(0);
@@ -12,7 +14,7 @@ function Register() {
     const titleSteps = [
         'Antes...',
         'Seus dados',
-        'Seus localidade',
+        'Sua localização',
         'Seus conta'
     ];
     const [currentTitleStep, setCurrentTitleStep] = useState(titleSteps[0]);
@@ -20,14 +22,14 @@ function Register() {
 
     const nextStep = () => {
         if (step < 3) {
-            setStep((currentStep) => currentStep + 1);
-            setCurrentTitleStep(titleSteps[step + 1]);
+            setStep(step + 1);
+            setCurrentTitleStep(titleSteps[step]);
         }
     }
     const previousStep = async () => {
         if (step > 0) {
-            setStep((currentStep) => currentStep - 1);
-            setCurrentTitleStep(titleSteps[step - 1]);
+            setStep(step - 1);
+            setCurrentTitleStep(titleSteps[step -1]);
         }
     }
 
@@ -40,36 +42,11 @@ function Register() {
         USER: 'User'
     }
 
-    return (
-        <section className="container">
-            <InitialSideImage phrase='“Procurando tattoo? Ink4you.”' />
-            <section className="form">
-                <div className="form-container">
-                    <FormHeader text={currentTitleStep} description={step === 0 ? "Conte-me sobre você" : ''} />
-                    {step === 0 && UserTypeStep()}
-
-                    {step > 0 &&
-                        <Stepper alternativeLabel activeStep={step - 1}>
-                            <Step>
-                                <StepButton>Personal</StepButton>
-                            </Step>
-                            <Step>
-                                <StepButton>Location</StepButton>
-                            </Step>
-                            <Step>
-                                <StepButton>Account</StepButton>
-                            </Step>
-                        </Stepper>
-                    }
-
-                    {step === 1 && PersonalInformationStep()}
-                    {step === 2 && LocationInformationStep()}
-                    {step === 3 && LoginInformationStep()}
-                </div>
-            </section>
-        </section>
-
-    );
+    function handleApi(){
+        console.log("Chamando api");
+        const tatuadores = api.post("/tatuadores", );
+        // console.log(tatuadores);
+    }
 
     function UserTypeStep() {
         return (
@@ -94,6 +71,7 @@ function Register() {
                         onClick={() => {
                             setUserType(users.TATTOOARTIST);
                             nextStep();
+                            handleApi();
                         }}>
                         Sou tatuador
                     </Button>
@@ -247,6 +225,37 @@ function Register() {
             </div>
         );
     }
+
+    return (
+        <section className="container">
+            <InitialSideImage phrase='“Procurando tattoo? Ink4you.”' />
+            <section className="form">
+                <div className="form-container">
+                    <FormHeader text={currentTitleStep} description={step === 0 ? "Conte-me sobre você" : ''} />
+                    {step === 0 && UserTypeStep()}
+
+                    {step > 0 &&
+                        <Stepper alternativeLabel activeStep={step - 1}>
+                            <Step>
+                                <StepButton>Personal</StepButton>
+                            </Step>
+                            <Step>
+                                <StepButton>Location</StepButton>
+                            </Step>
+                            <Step>
+                                <StepButton>Account</StepButton>
+                            </Step>
+                        </Stepper>
+                    }
+
+                    {step === 1 && PersonalInformationStep()}
+                    {step === 2 && LocationInformationStep()}
+                    {step === 3 && LoginInformationStep()}
+                </div>
+            </section>
+        </section>
+
+    );
 }
 
 export default Register;
