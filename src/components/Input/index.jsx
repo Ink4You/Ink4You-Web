@@ -27,6 +27,7 @@ function Input(props) {
                 }} 
                 id={id} 
                 disabled={props.disabled}
+                onChange={props.onChange}
             />
             <label 
                 htmlFor={id}
