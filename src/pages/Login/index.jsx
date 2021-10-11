@@ -10,35 +10,20 @@ import api from '../../api';
 
 function Login() {
     const [step, setStep] = useState(0);
-    const [email, setEmail] = useState("david.mariano@bandtec.com.br");
-    const [password, setPassword] = useState("CharlieBrownJr");
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [erroAutentication, setErrorAutenticatin] = useState(false);
     const history = useHistory();
-    return (
-        <section className="container">
-            <InitialSideImage phrase='“Procurando tattoo? Ink4you.”' />
-            <section className="form">
-                {step === 0 && LoginStep()}
-                {step === 1 && PasswordRecuperationStep()}
-            </section>
-        </section>
-    );
 
 
     async function handleLogin(){
         try{
-
             const {data} = await api.get(`/tatuadores/login/${email}/${password}`);
-            console.log(data);
-            localStorage.setItem("@dataUser", JSON.stringify(data));
-            history.push("/Home");
-
+            localStorage.setItem('@dataUser', JSON.stringify(data));
+            history.push('/Home');
         }catch(err){
             setErrorAutenticatin(true);
-            console.log("usuario o usenha incorreto");
         }
-        
-   
     }
 
 
@@ -53,18 +38,12 @@ function Login() {
 
                 <Input 
                     text="Email"
+                    onChange={e => setEmail(e.target.value)}
                 />
                 <Input 
                     text="Senha"
+                    onChange={e => setPassword(e.target.value)}
                 />
-                {/* <TextField
-                    fullWidth
-                    label="Email"
-                    margin="normal" />
-                <TextField
-                    fullWidth
-                    label="Senha"
-                    margin="normal" /> */}
                 <div className="forgot-password">
                     <div onClick={() => setStep(1)}>
                         <p>Esqueci minha senha</p>
@@ -93,10 +72,6 @@ function Login() {
                 <Input 
                     text="Email"
                 />
-                {/* <TextField
-                    fullWidth
-                    label="Email"
-                    margin="normal" /> */}
                 <Button
                     className="btn-primary"
                     variant="contained"
@@ -110,6 +85,16 @@ function Login() {
             </div>
         )
     }
+
+    return (
+        <section className="container">
+            <InitialSideImage phrase='“Procurando tattoo? Ink4you.”' />
+            <section className="form">
+                {step === 0 && LoginStep()}
+                {step === 1 && PasswordRecuperationStep()}
+            </section>
+        </section>
+    );
 }
 
 export default Login;
