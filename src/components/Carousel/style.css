@@ -1,0 +1,77 @@
+div#items::-webkit-scrollbar {
+    height: 5px;
+}
+
+div#items::-webkit-scrollbar-track {
+    background: var(--secundary-white);        /* color of the tracking area */
+}
+
+div#items::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-image: linear-gradient(to right, #5CE1E6 , #38A5FF, #525EFF);    /* color of the scroll thumb */
+}
+
+.items-wrapper {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: teal; */
+}
+div#items {
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+}
+
+div#items div.item:first-child div.report {
+    margin-left: 50px;
+}
+
+div#items div.item {
+    flex: none;
+    width: 35%;
+    pointer-events: none;
+    scroll-snap-align: start;
+    /* background-color: violet; */
+}
+
+
+/* div#items div.item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+} */
+div.report {
+    max-width: 500px;
+    max-height: 300px;
+    padding: 15px;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* background-color: tomato; */
+}
+
+div#items div.item:last-child div.report{
+    margin-right: 0px;   
+}
+
+div.report div {
+    width: 70%;
+    /* background-color: violet; */
+}
+
+div.report img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+div.report p {
+    color: #707070;
+}
