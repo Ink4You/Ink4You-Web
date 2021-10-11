@@ -1,9 +1,21 @@
+body::-webkit-scrollbar {
+    width: 5px;               /* width of the entire scrollbar */
+  }
+  
+  body::-webkit-scrollbar-track {
+    background: var(--white);        /* color of the tracking area */
+  }
+  
+  body::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(to bottom, #5CE1E6 , #38A5FF, #525EFF);    /* color of the scroll thumb */
+  }
+
 .container-options {
     width: 100%;
-    height: calc(100vh - 75px);
+    height: calc(100vh - 65px);
     display: flex;
     flex-direction: row;
-    margin-top: 75px;
+    margin-top: 65px;
 }
 
 .container-options .tattoo-option-img {
@@ -57,3 +69,58 @@
     color: white;
 }
 
+.information-container {
+    background-color: var(--secondary-white);
+}
+
+section.information-container section.styles {
+    padding: 100px 50px;
+    display: flex;
+}
+
+section.information-container section.styles div.demonstration {
+    display: flex;
+    flex: 1;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+section.information-container section.styles div.demonstration img {
+    width: 200px;
+    height: 200px;
+}
+
+section.information-container section.styles div.demonstration > img:not(:last-child) {
+    margin-bottom: 25px;
+}
+
+section.information-container section.styles div.styles-content {
+    max-height: 500px;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+section.information-container section.styles div.styles-content h2 {
+    font-size: 28px;
+}
+
+section.information-container section.styles div.styles-content p {
+    font-size: 18px;
+}
+
+section.information-container section.styles div.styles-content table{
+    font-size: 16px;
+    text-align: center;
+}
+
+section.reports {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+section.reports h2 {
+    font-size: 28px;
+    margin-left: 50px;
+}
