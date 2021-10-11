@@ -5,10 +5,15 @@ import Input from '../../components/Input';
 import InitialSideImage from '../../components/InitialSideImage';
 import FormHeader from '../../components/FormHeader';
 import { Button } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
+import api from '../../api';
 
 function Login() {
     const [step, setStep] = useState(0);
-
+    const [email, setEmail] = useState("david.mariano@bandtec.com.br");
+    const [password, setPassword] = useState("CharlieBrownJr");
+    const [erroAutentication, setErrorAutenticatin] = useState(false);
+    const history = useHistory();
     return (
         <section className="container">
             <InitialSideImage phrase='“Procurando tattoo? Ink4you.”' />
@@ -19,10 +24,32 @@ function Login() {
         </section>
     );
 
+
+    async function handleLogin(){
+        try{
+
+            const {data} = await api.get(`/tatuadores/login/${email}/${password}`);
+            console.log(data);
+            localStorage.setItem("@dataUser", JSON.stringify(data));
+            history.push("/Home");
+
+        }catch(err){
+            setErrorAutenticatin(true);
+            console.log("usuario o usenha incorreto");
+        }
+        
+   
+    }
+
+
     function LoginStep() {
         return (
             <div className="form-container">
+
                 <FormHeader text="Realizar Login" />
+                {erroAutentication && (
+                    <span> usuario ou senha incorreto </span>
+                )}
 
                 <Input 
                     text="Email"
@@ -47,7 +74,8 @@ function Login() {
                     className="btn-primary"
                     variant="contained"
                     disableElevation
-                    fullWidth>
+                    fullWidth
+                    onClick={handleLogin}>
                     Entrar
                 </Button>
                 <div>
