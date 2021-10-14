@@ -19,7 +19,7 @@ function Input(props) {
                 marginRight: marginRight + 'px',
             }}>
             <input 
-                type="text" 
+                type={props.type} 
                 placeholder=" " 
                 required 
                 style={{
