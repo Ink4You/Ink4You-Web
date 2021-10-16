@@ -7,40 +7,69 @@ import FormHeader from '../../components/FormHeader';
 import { Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import api from '../../api';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import Slide from '@material-ui/core/Slide';
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 function Login() {
     const [step, setStep] = useState(0);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [erroAutentication, setErrorAutenticatin] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [open, setOpen] = React.useState(false);
     const history = useHistory();
 
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
 
-    async function handleLogin(){
-        try{
-            const {data} = await api.get(`/tatuadores/login/${email}/${password}`);
+    const handleClick = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    async function handleLogin() {
+        setLoading(true);
+        try {
+            const { data } = await api.get(`/tatuadores/login/${email}/${password}`);
             localStorage.setItem('@dataUser', JSON.stringify(data));
             history.push('/Home');
-        }catch(err){
+        } catch (err) {
             setErrorAutenticatin(true);
+            setTimeout(() => {
+                setLoading(false);
+                handleClick();
+            }, 2000);
         }
     }
 
+    function SlideTransition(props) {
+        return <Slide {...props} direction="up" />;
+    }
 
     function LoginStep() {
         return (
             <div className="form-container">
-
                 <FormHeader text="Realizar Login" />
-                {erroAutentication && (
-                    <span> usuario ou senha incorreto </span>
-                )}
 
-                <Input 
+                <Input
                     text="Email"
                     onChange={e => setEmail(e.target.value)}
                 />
-                <Input 
+                <Input
                     text="Senha"
                     onChange={e => setPassword(e.target.value)}
                 />
@@ -54,7 +83,8 @@ function Login() {
                     variant="contained"
                     disableElevation
                     fullWidth
-                    onClick={handleLogin}>
+                    onClick={handleLogin}
+                    disabled={loading}>
                     Entrar
                 </Button>
                 <div>
@@ -69,7 +99,7 @@ function Login() {
         return (
             <div className="form-container">
                 <FormHeader text="Recuperar senha" description="Informe seu e-mail, e enviaremos um meio de recuperação de senha" />
-                <Input 
+                <Input
                     text="Email"
                 />
                 <Button
@@ -87,13 +117,27 @@ function Login() {
     }
 
     return (
-        <section className="container">
-            <InitialSideImage phrase='“Procurando tattoo? Ink4you.”' />
-            <section className="form">
-                {step === 0 && LoginStep()}
-                {step === 1 && PasswordRecuperationStep()}
+        <>
+            {loading && <LinearProgress style={{
+            
+            }} />}
+            <section className="container">
+                <InitialSideImage phrase='“Procurando tattoo? Ink4you.”' />
+                <section className="form">
+                    {step === 0 && LoginStep()}
+                    {step === 1 && PasswordRecuperationStep()}
+                </section>
             </section>
-        </section>
+            <Snackbar open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                TransitionComponent={SlideTransition}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}>
+                <Alert onClose={handleClose} severity="error">
+                    Email ou senha inválidos
+                </Alert>
+            </Snackbar>
+        </>
     );
 }
 
