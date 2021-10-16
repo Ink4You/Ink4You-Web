@@ -4,6 +4,7 @@ import FormHeader from '../../components/FormHeader';
 import Input from '../../components/Input';
 import { Button, FormGroup, FormControlLabel, Switch, Stepper, Step, StepButton } from '@material-ui/core';
 import InstagramIcon from '../../img/instagramIcon.png';
+import UsersTypes from '../../components/EnumUserTypes';
 import api from '../../api';
 import './styles.css';
 
@@ -37,10 +38,10 @@ function Register() {
     const [userType, setUserType] = useState(0);
     const [instagramIntegration, setinstagramIntegration] = useState(false);
 
-    const users = {
-        TATTOOARTIST: 'TattooArtist',
-        USER: 'User'
-    }
+    // const users = {
+    //     TATTOOARTIST: 'TattooArtist',
+    //     USER: 'User'
+    // }
 
     function handleApi(){
         console.log("Chamando api");
@@ -58,7 +59,7 @@ function Register() {
                         disableElevation
                         fullWidth
                         onClick={() => {
-                            setUserType(users.USER);
+                            setUserType(UsersTypes.USER);
                             nextStep();
                         }}>
                         Quero me tatuar
@@ -69,7 +70,7 @@ function Register() {
                         disableElevation
                         fullWidth
                         onClick={() => {
-                            setUserType(users.TATTOOARTIST);
+                            setUserType(UsersTypes.TATTOOARTIST);
                             nextStep();
                             handleApi();
                         }}>
@@ -87,10 +88,10 @@ function Register() {
         return (
             <div className="form-elements">
                 <Input text="Nome" />
-                {userType === users.TATTOOARTIST &&
+                {userType === UsersTypes.TATTOOARTIST &&
                     <Input text="CNPJ" />
                 }
-                {userType === users.USER &&
+                {userType === UsersTypes.USER &&
                     <>
                         <Input text="CPF" />
                         <Input text="Data nascimento" />
@@ -120,7 +121,7 @@ function Register() {
         return (
             <div className="form-elements">
                 <Input text="CEP" />
-                {userType === users.TATTOOARTIST &&
+                {userType === UsersTypes.TATTOOARTIST &&
                     <Input
                         text="Cidade"
                         disabled={true}
@@ -160,7 +161,7 @@ function Register() {
         return (
             <div className="form-elements">
                 <Input text="Email" />
-                {userType === users.TATTOOARTIST &&
+                {userType === UsersTypes.TATTOOARTIST &&
                     <>
                         <div className="smallButtonsContainer">
                             <Input
@@ -197,7 +198,7 @@ function Register() {
                         </div>
                     </>
                 }
-                {userType === users.USER &&
+                {userType === UsersTypes.USER &&
                     <>
                         <Input
                             text="Senha"
