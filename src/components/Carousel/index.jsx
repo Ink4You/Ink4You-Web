@@ -1,5 +1,4 @@
 import React from "react";
-import './carousel';
 import './style.css';
 import img from '../../img/option-tattoo.jpg';
 
