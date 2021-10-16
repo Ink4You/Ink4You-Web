@@ -124,3 +124,9 @@ section.reports h2 {
     font-size: 28px;
     margin-left: 50px;
 }
+
+@media (max-width: 1366px) {
+    .container .form-container {
+        width: 68%;
+    }
+}

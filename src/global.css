@@ -77,6 +77,12 @@ code {
   height: 56px;
   margin-top: 20px;
   background-image: var(--blue-gradient);
+  color: white;
+}
+
+.container .form-container .btn-primary:disabled {
+  background-color: #ddd;
+  background-image: none;
 }
 
 .container .form-container .btn-text {

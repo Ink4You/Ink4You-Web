@@ -21,3 +21,13 @@
     align-self: flex-start;
     margin: 15px 0px 10px 0px;
 }
+
+@media (max-width: 1366px) {
+    .form-header img:nth-child(2) {
+        width: 95px;
+    }
+
+    .form-header p {
+        font-size: 24px;
+    }
+}

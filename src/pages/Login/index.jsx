@@ -8,6 +8,11 @@ import { Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import UsersTypes from '../../components/EnumUserTypes';
 import api from '../../api';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import Slide from '@material-ui/core/Slide';
+
 
 function Login() {
     const [step, setStep] = useState(0);
@@ -15,26 +20,51 @@ function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [erroAutentication, setErrorAutenticatin] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [open, setOpen] = React.useState(false);
     const history = useHistory();
 
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
+
+    const handleClick = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
 
     async function handleLogin() {
+        setLoading(true);
         try {
-            if(UsersTypes.TATTOOARTIST){
+            if (userType === UsersTypes.TATTOOARTIST) {
                 const { data } = await api.get(`/tatuadores/login/${email}/${password}`);
                 localStorage.setItem('@dataUser', JSON.stringify(data));
                 history.push('/Home');
-            }else{
+            } else {
                 const { data } = await api.get(`/usuarios/login/${email}/${password}`);
                 localStorage.setItem('@dataUser', JSON.stringify(data));
                 history.push('/Home');
             }
-            
+
         } catch (err) {
             setErrorAutenticatin(true);
+            setTimeout(() => {
+                setLoading(false);
+                handleClick();
+            }, 2000);
         }
     }
 
+    function SlideTransition(props) {
+        return <Slide {...props} direction="up" />;
+    }
 
     function OptionsLoginStep() {
         return (
@@ -75,11 +105,7 @@ function Login() {
     function LoginStep() {
         return (
             <div className="form-container">
-
                 <FormHeader text="Realizar Login" />
-                {erroAutentication && (
-                    <span> usuario ou senha incorreto </span>
-                )}
 
                 <Input
                     text="Email"
@@ -101,7 +127,8 @@ function Login() {
                     variant="contained"
                     disableElevation
                     fullWidth
-                    onClick={handleLogin}>
+                    onClick={handleLogin}
+                    disabled={loading}>
                     Entrar
                 </Button>
                 <div>
@@ -135,14 +162,26 @@ function Login() {
     }
 
     return (
-        <section className="container">
-            <InitialSideImage phrase='“Procurando tattoo? Ink4you.”' />
-            <section className="form">
-                {step === 0 && OptionsLoginStep()}
-                {step === 1 && LoginStep()}
-                {step === 2 && PasswordRecuperationStep()}
+        <>
+            {loading && <LinearProgress />}
+            <section className="container">
+                <InitialSideImage phrase='“Procurando tattoo? Ink4you.”' />
+                <section className="form">
+                    {step === 0 && OptionsLoginStep()}
+                    {step === 1 && LoginStep()}
+                    {step === 2 && PasswordRecuperationStep()}
+                </section>
             </section>
-        </section>
+            <Snackbar open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                TransitionComponent={SlideTransition}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}>
+                <Alert onClose={handleClose} severity="error">
+                    Email ou senha inválidos
+                </Alert>
+            </Snackbar>
+        </>
     );
 }
 
