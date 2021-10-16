@@ -38,6 +38,12 @@ return;
 ```jsx
 export default Button();
 ```
+- Para partes de formulários (Steps) exportar utilizando Named Exports
+```jsx
+export function ExampleStep() {
+  // hidden code
+}
+```
 - Usar as variáveis para as cores 
 ```jsx
 color: var(--white);
