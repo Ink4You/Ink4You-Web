@@ -40,10 +40,10 @@ export function PersonalInformationStep(props) {
             }
             <Input 
                 text="Data nascimento"
-                value={props.accountState.dataNascimento}
+                value={props.accountState.data_nascimento}
                 onChange={e => props.setAccountState({
                     ...props.accountState,
-                    dataNascimento: e.target.value
+                    data_nascimento: e.target.value
                 })}
             />
             <Input 
@@ -123,12 +123,12 @@ export function LocationInformationStep(props) {
                 />
                 <Input
                     text="N°"
-                    value={props.accountState.numLogradouro}
+                    value={props.accountState.numero_logradouro}
                     marginLeft={15}
                     disabled={!props.accountState.logradouro}
                     onChange={e => props.setAccountState({
                         ...props.accountState,
-                        numLogradouro: e.target.value
+                        numero_logradouro: e.target.value
                     })}
                 />
             </div>
@@ -197,7 +197,7 @@ export function LoginInformationStep(props) {
                         disabled={!instagramIntegration}
                         onChange={e => props.setAccountState({
                             ...props.accountState,
-                            contaInstagram: e.target.value
+                            conta_instagram: e.target.value
                         })}
                     />
                 </div>
