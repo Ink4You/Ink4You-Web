@@ -7,12 +7,15 @@ import FormHeader from '../../../components/FormHeader';
 import { Button } from '@material-ui/core';
 import UsersTypes from '../../../components/EnumUserTypes';
 
+function saveUserType(type) {
+    localStorage.setItem('userType', type);
+}
+
 export function OptionsLoginStep(props) {
     const history = useHistory();
     return (
         <div className="form-container">
-            <FormHeader text="Selecione uma opção" />
-
+            <FormHeader text="Olá ;)" description="Selecione uma opção:" />
             <div>
                 <Button
                     className="btn-primary"
@@ -24,6 +27,7 @@ export function OptionsLoginStep(props) {
                             userType: UsersTypes.USER
                         });
                         props.setStep(1);
+                        saveUserType('User');
                     }}>
                     Sou usuário
                 </Button>
@@ -37,6 +41,7 @@ export function OptionsLoginStep(props) {
                             userType: UsersTypes.TATTOOARTIST
                         });
                         props.setStep(1);
+                        saveUserType('TattooArtist');
                     }}>
                     Sou tatuador
                 </Button>

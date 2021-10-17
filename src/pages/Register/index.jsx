@@ -1,230 +1,93 @@
 import React, { useState } from 'react';
 import InitialSideImage from '../../components/InitialSideImage';
 import FormHeader from '../../components/FormHeader';
-import Input from '../../components/Input';
-import { Button, FormGroup, FormControlLabel, Switch, Stepper, Step, StepButton } from '@material-ui/core';
-import InstagramIcon from '../../img/instagramIcon.png';
-import UsersTypes from '../../components/EnumUserTypes';
+import { Stepper, Step, StepButton, filledInputClasses } from '@material-ui/core';
 import api from '../../api';
 import './styles.css';
-
+import { PersonalInformationStep, LocationInformationStep, LoginInformationStep } from './Steps';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import Slide from '@material-ui/core/Slide';
 
 function Register() {
     const [step, setStep] = useState(0);
-
+    const userType = localStorage.getItem('userType');
+    const [accountState, setAccountState] = React.useState({ cep: '' });
+    const [errorAuthentication, setErrorAuthentication] = useState('');
+    
     const titleSteps = [
-        'Antes...',
         'Seus dados',
         'Sua localização',
-        'Seus conta'
+        'Sua conta'
     ];
-    const [currentTitleStep, setCurrentTitleStep] = useState(titleSteps[0]);
-
 
     const nextStep = () => {
-        if (step < 3) {
-            setStep(step + 1);
-            setCurrentTitleStep(titleSteps[step]);
-        }
+        setStep(step + 1);
     }
     const previousStep = async () => {
-        if (step > 0) {
-            setStep(step - 1);
-            setCurrentTitleStep(titleSteps[step -1]);
-        }
+        setStep(step - 1);
     }
 
-
-    const [userType, setUserType] = useState(0);
-    const [instagramIntegration, setinstagramIntegration] = useState(false);
-
-    // const users = {
-    //     TATTOOARTIST: 'TattooArtist',
-    //     USER: 'User'
-    // }
-
-    function handleApi(){
+    function handleApi() {
         console.log("Chamando api");
-        const tatuadores = api.post("/tatuadores", );
+        const tatuadores = api.post("/tatuadores",);
         // console.log(tatuadores);
     }
 
-    function UserTypeStep() {
-        return (
-            <div className="form-elements">
-                <div className="buttons">
-                    <Button
-                        className="btn-primary"
-                        variant="contained"
-                        disableElevation
-                        fullWidth
-                        onClick={() => {
-                            setUserType(UsersTypes.USER);
-                            nextStep();
-                        }}>
-                        Quero me tatuar
-                    </Button>
-                    <Button
-                        className="btn-primary"
-                        variant="contained"
-                        disableElevation
-                        fullWidth
-                        onClick={() => {
-                            setUserType(UsersTypes.TATTOOARTIST);
-                            nextStep();
-                            handleApi();
-                        }}>
-                        Sou tatuador
-                    </Button>
-                </div>
-                <div>
-                    <p className="btn-text">Cancelar</p>
-                </div>
-            </div>
-        )
+    function handleLogin() {
+        alert('login')
     }
 
-    function PersonalInformationStep() {
-        return (
-            <div className="form-elements">
-                <Input text="Nome" />
-                {userType === UsersTypes.TATTOOARTIST &&
-                    <Input text="CNPJ" />
-                }
-                {userType === UsersTypes.USER &&
-                    <>
-                        <Input text="CPF" />
-                        <Input text="Data nascimento" />
-                    </>
-                }
-                <Input text="Telefone" />
-                <Button
-                    className="btn-primary"
-                    variant="contained"
-                    disableElevation
-                    fullWidth
-                    onClick={() => {
-                        nextStep();
-                    }}>
-                    Prosseguir
-                </Button>
-                <div onClick={() => {
-                    previousStep();
-                }}>
-                    <p className="btn-text">Voltar</p>
-                </div>
-            </div>
-        );
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setErrorAuthentication(false);
+    };
+
+    function SlideTransition(props) {
+        return <Slide {...props} direction="up" />;
     }
 
-    function LocationInformationStep() {
-        return (
-            <div className="form-elements">
-                <Input text="CEP" />
-                {userType === UsersTypes.TATTOOARTIST &&
-                    <Input
-                        text="Cidade"
-                        disabled={true}
-                    />
-                }
-                <div className="smallButtonsContainer">
-                    <Input
-                        text="Endereço"
-                        disabled={true}
-                    />
-                    <Input
-                        text="N°"
-                        marginLeft={15}
-                        disabled={true}
-                    />
-                </div>
-                <Button
-                    className="btn-primary"
-                    variant="contained"
-                    disableElevation
-                    fullWidth
-                    onClick={() => {
-                        nextStep();
-                    }}>
-                    Prosseguir
-                </Button>
-                <div onClick={() => {
-                    previousStep();
-                }}>
-                    <p className="btn-text">Voltar</p>
-                </div>
-            </div>
-        );
+    async function handleCepAPI() {
+        if (accountState.cep !== '') {
+            try {
+                await api.get(`https://viacep.com.br/ws/${accountState.cep}/json/`)
+                    .then(response => {
+                        if (response.data.erro) {
+                            setErrorAuthentication('CEP inválido!')
+                        } else {
+                            fillAdressInputs(response.data)
+                        }
+                    })
+            } catch (error) {
+                setErrorAuthentication('Erro ao consultar CEP')
+                console.log(error)
+            }
+        }
     }
 
-    function LoginInformationStep() {
-        return (
-            <div className="form-elements">
-                <Input text="Email" />
-                {userType === UsersTypes.TATTOOARTIST &&
-                    <>
-                        <div className="smallButtonsContainer">
-                            <Input
-                                text="Senha"
-                            />
-                            <Input
-                                text="Confir. senha"
-                                marginLeft={15}
-                            />
-                        </div>
-
-                        <div className="instagramContainer">
-
-                            <FormGroup className="instagramSwitch">
-                                <FormControlLabel control={
-                                    <Switch
-                                        checked={instagramIntegration}
-                                        onChange={() => {
-                                            setinstagramIntegration(!instagramIntegration)
-                                        }}
-                                    />
-                                } label={
-                                    <div className="instagramOptions">
-                                        <img src={InstagramIcon} alt="Logo do instagram" />
-                                        <span>Integração com instagram</span>
-                                    </div>
-                                } />
-                            </FormGroup>
-
-                            <Input
-                                text="Usuário do instagram"
-                                disabled={!instagramIntegration}
-                            />
-                        </div>
-                    </>
-                }
-                {userType === UsersTypes.USER &&
-                    <>
-                        <Input
-                            text="Senha"
-                        />
-                        <Input
-                            text="Confirmar senha"
-                        />
-                    </>
-                }
-                <Button
-                    className="btn-primary"
-                    variant="contained"
-                    disableElevation
-                    fullWidth
-                    onClick={() => {
-                        nextStep();
-                    }}>
-                    Prosseguir
-                </Button>
-                <div onClick={() => {
-                    previousStep();
-                }}>
-                    <p className="btn-text">Voltar</p>
-                </div>
-            </div>
-        );
+    function fillAdressInputs(data) {
+        if (userType === 'TattooArtist') {
+            setAccountState({
+                ...accountState,
+                cep: data.cep.replace('-', ''),
+                logradouro: data.logradouro,
+                estado: data.uf,
+                cidade: data.localidade
+            })
+        } else {
+            setAccountState({
+                ...accountState,
+                cep: data.cep.replace('-', ''),
+                logradouro: data.logradouro
+            })
+        }
     }
 
     return (
@@ -232,26 +95,54 @@ function Register() {
             <InitialSideImage phrase='“Procurando tattoo? Ink4you.”' />
             <section className="form">
                 <div className="form-container">
-                    <FormHeader text={currentTitleStep} description={step === 0 ? "Conte-me sobre você" : ''} />
-                    {step === 0 && UserTypeStep()}
+                    <FormHeader text={titleSteps[step]} />
+                    <Stepper style={{backgroundColor: 'transparent'}} alternativeLabel activeStep={step}>
+                        <Step>
+                            <StepButton>Dados</StepButton>
+                        </Step>
+                        <Step>
+                            <StepButton>Localização</StepButton>
+                        </Step>
+                        <Step>
+                            <StepButton>Conta</StepButton>
+                        </Step>
+                    </Stepper>
 
-                    {step > 0 &&
-                        <Stepper alternativeLabel activeStep={step - 1}>
-                            <Step>
-                                <StepButton>Personal</StepButton>
-                            </Step>
-                            <Step>
-                                <StepButton>Location</StepButton>
-                            </Step>
-                            <Step>
-                                <StepButton>Account</StepButton>
-                            </Step>
-                        </Stepper>
-                    }
+                    {step === 0 && <PersonalInformationStep
+                        userType={userType}
+                        nextStep={nextStep}
+                        previousStep={previousStep}
+                        accountState={accountState}
+                        setAccountState={setAccountState} />}
 
-                    {step === 1 && PersonalInformationStep()}
-                    {step === 2 && LocationInformationStep()}
-                    {step === 3 && LoginInformationStep()}
+                    {step === 1 && <LocationInformationStep
+                        userType={userType}
+                        nextStep={nextStep}
+                        previousStep={previousStep}
+                        accountState={accountState}
+                        setAccountState={setAccountState}
+                        handleCepAPI={handleCepAPI}
+                    />}
+
+                    {step === 2 && <LoginInformationStep
+                        userType={userType}
+                        nextStep={nextStep}
+                        previousStep={previousStep}
+                        handleLogin={handleLogin}
+                        accountState={accountState}
+                        setAccountState={setAccountState} />}
+
+                    {console.log(accountState)}
+
+                    <Snackbar open={errorAuthentication}
+                        autoHideDuration={3000}
+                        onClose={handleClose}
+                        TransitionComponent={SlideTransition}
+                        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}>
+                        <Alert onClose={handleClose} severity="error">
+                           {errorAuthentication}
+                        </Alert>
+                    </Snackbar>
                 </div>
             </section>
         </section>
