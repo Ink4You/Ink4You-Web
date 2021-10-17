@@ -1,20 +1,22 @@
 import React, { useState } from 'react';
 import InitialSideImage from '../../components/InitialSideImage';
 import FormHeader from '../../components/FormHeader';
-import { Stepper, Step, StepButton, filledInputClasses } from '@material-ui/core';
+import { Stepper, Step, StepButton } from '@material-ui/core';
 import api from '../../api';
 import './styles.css';
 import { PersonalInformationStep, LocationInformationStep, LoginInformationStep } from './Steps';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import Slide from '@material-ui/core/Slide';
+import { useHistory } from 'react-router-dom';
 
 function Register() {
     const [step, setStep] = useState(0);
     const userType = localStorage.getItem('userType');
     const [accountState, setAccountState] = React.useState({ cep: '' });
     const [errorAuthentication, setErrorAuthentication] = useState('');
-    
+    const history = useHistory();
+
     const titleSteps = [
         'Seus dados',
         'Sua localização',
@@ -34,8 +36,41 @@ function Register() {
         // console.log(tatuadores);
     }
 
-    function handleLogin() {
-        alert('login')
+    async function HandleLogin() {
+        if (userType === 'User') {
+            setAccountState({
+                ...accountState,
+                foto_perfil: undefined
+            })
+
+            delete accountState.logradouro;
+            delete accountState.numLogradouro;
+
+            try {
+                await api.post('/usuarios/cadastro-usuario', accountState)
+                    .then(response => {
+                        console.log(response.data)
+                        history.push('/home')
+                    })
+            } catch (err) {
+                console.log(err);
+                setErrorAuthentication('Erro ao realizar cadastro')
+            }
+
+        } else {
+            console.log(accountState)
+            try {
+                await api.post('/tatuadores/cadastro-tatuador', accountState)
+                    .then(response => {
+                        console.log(response.data)
+                        history.push('/home')
+                    })
+            } catch (err) {
+                console.log(err);
+                setErrorAuthentication('Erro ao realizar cadastro')
+            }
+        }
+
     }
 
     const Alert = React.forwardRef(function Alert(props, ref) {
@@ -96,7 +131,7 @@ function Register() {
             <section className="form">
                 <div className="form-container">
                     <FormHeader text={titleSteps[step]} />
-                    <Stepper style={{backgroundColor: 'transparent'}} alternativeLabel activeStep={step}>
+                    <Stepper style={{ backgroundColor: 'transparent' }} alternativeLabel activeStep={step}>
                         <Step>
                             <StepButton>Dados</StepButton>
                         </Step>
@@ -128,11 +163,9 @@ function Register() {
                         userType={userType}
                         nextStep={nextStep}
                         previousStep={previousStep}
-                        handleLogin={handleLogin}
+                        handleLogin={HandleLogin}
                         accountState={accountState}
                         setAccountState={setAccountState} />}
-
-                    {console.log(accountState)}
 
                     <Snackbar open={errorAuthentication}
                         autoHideDuration={3000}
@@ -140,7 +173,7 @@ function Register() {
                         TransitionComponent={SlideTransition}
                         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}>
                         <Alert onClose={handleClose} severity="error">
-                           {errorAuthentication}
+                            {errorAuthentication}
                         </Alert>
                     </Snackbar>
                 </div>
