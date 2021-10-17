@@ -28,6 +28,9 @@ function Input(props) {
                 id={id} 
                 disabled={props.disabled}
                 onChange={props.onChange}
+                value={props.value}
+                onBlur={props.onBlur}
+                maxLength={props.maxLength}
             />
             <label 
                 htmlFor={id}

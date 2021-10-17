@@ -17,7 +17,6 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import Slide from '@material-ui/core/Slide';
 
-
 function Login() {
     const [step, setStep] = useState(0);
     const [accountState, setAccountState] = React.useState({
@@ -41,6 +40,10 @@ function Login() {
         setErrorAuthentication(false);
     };
 
+    function SlideTransition(props) {
+        return <Slide {...props} direction="up" />;
+    }
+
     async function HandleLogin() {
         setLoading(true);
         try {
@@ -60,10 +63,6 @@ function Login() {
                 setErrorAuthentication(true);
             }, 2000);
         }
-    }
-
-    function SlideTransition(props) {
-        return <Slide {...props} direction="up" />;
     }
 
     return (
