@@ -2,6 +2,7 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import Register from './pages/Register';
 import PasswordRecuperation from './pages/PasswordRecuperation';
+import Profile from './pages/Profile';
 import './global.css';
 
 import {
@@ -28,6 +29,9 @@ function Routes() {
         </Route>
         <Route path='/PasswordRecuperation'>
           <PasswordRecuperation />
+        </Route>
+        <Route path='/Profile'>
+          <Profile />
         </Route>
       </Switch>
     </Router>
