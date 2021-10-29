@@ -61,7 +61,7 @@ function Header(props) {
                                 </button>
                                 {open ? (
                                     <div className="dropdown">
-                                        <div className="btn" onClick={() => history.push('/perfil')}>
+                                        <div className="btn" onClick={() => history.push('/profile')}>
                                             <div></div>
                                             <span>Perfil</span>
                                         </div>

@@ -1,7 +1,7 @@
 .profile-banner {
-    width: 100%;
-    height: 22vh;
     top: 0;
+    width: 100%;
+    height: 18vh;
     background-image: var(--blue-gradient);
 }
 
@@ -12,9 +12,9 @@
 
 .profile-div {
     width: 100%;
+    height: 100px;
     display: flex;
     flex-direction: row;
-    align-items: center;
     justify-content: space-between;
     padding-right: 50px;
     padding-left: 50px;
@@ -22,34 +22,40 @@
 }
 
 .profile-img {
-    width: 70px;
-    height: 70px;
+    width: 80px;
+    height: 80px;
+    z-index: 5;
     border-radius: 50%;
     background-color: red;
+    transition: all ease 0.5s;
 }
 
 .edit-profile-btn {
     width: 130px;
     height: 45px;
-    border-radius: 50px;
-    background-color: var(--white);
+    margin-top: 13px;
     border: 2px solid var(--blue);
-    font-size: 14px;
+    border-radius: 50px;
+    background-color: var(--input-white);
     cursor: pointer;
+    font-size: 14px;
+    transition: all ease 0.3s;
 }
 
 .edit-profile-btn:hover {
-    background-color: whitesmoke;
-    transition: 2s;
+    background-color: var(--input-white);
+    border-color: var(--input-white);
+    transition: all ease 0.3s;
 }
 
 .profile-information {
-    padding-top: 8px;
     padding-left: 50px;
+    margin-top: -10px;
+    transition: all ease 0.3s;
 }
 
 .profile-information p {
-    font-size: 18px;
+    font-size: 19px;
     color: black;
 }
 
@@ -59,9 +65,56 @@
 }
 
 .edit-profile {
-    width: 30%;
+    width: 500px;
     height: 100vh;
-    background-color: blue;
+    display: flex;
+    justify-content: center;
+    margin-top: -102px;
     position: fixed;
-    z-index: -1;
+    z-index: 1;
+    background-color:var(--white);
+    transition: all ease 0.5s;
+   
+}
+
+.edit-profile .edit-profile-container {
+    width: 75%;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 75px;
+}
+
+.edit-profile .edit-profile-container p{
+    font-size: 22px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.save-btn {
+    width: 130px;
+    height: 45px;
+    margin-top: 18px;
+    align-self: flex-end;
+    border: none;
+    border-radius: 50px;
+    font-size: 14px;
+    color: var(--input-white);
+    cursor: pointer;
+    background-image: var(--blue-gradient);
+    transition: all ease 0.3s;
+}
+
+.container .tattoo-list {
+    display: flex;
+	flex-wrap: nowrap;
+	overflow-x: scroll;
+}
+
+.container .tattoo-list .tattoo-card {
+    width: 220px;
+    height: 250px;
+    background-color: yellow;
+    margin-left: 10px;
 }
