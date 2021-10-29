@@ -6,6 +6,7 @@ import Input from '../../../components/Input';
 import FormHeader from '../../../components/FormHeader';
 import { Button } from '@material-ui/core';
 import UsersTypes from '../../../components/EnumUserTypes';
+import { EmailValidator, PasswordValidator } from '../../../utils/Validator';
 
 function saveUserType(type) {
     localStorage.setItem('userType', type);
@@ -69,6 +70,8 @@ export function LoginStep(props) {
                     email: e.target.value,
                     password: props.accountState.password
                 })}
+                validate={props.accountState.email}
+                validator={EmailValidator}
             />
             <Input
                 text="Senha"
@@ -78,6 +81,8 @@ export function LoginStep(props) {
                     email: props.accountState.email,
                     password: e.target.value
                 })}
+                validate={props.accountState.password}
+                validator={PasswordValidator}
             />
             <div className="forgot-password">
                 <div onClick={() => props.setStep(2)}>

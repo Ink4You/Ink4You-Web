@@ -4,55 +4,70 @@ import { Button, FormGroup, FormControlLabel, Switch } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import InstagramIcon from '../../../img/instagramIcon.png';
 import UsersTypes from '../../../components/EnumUserTypes';
+import { CepValidator, CnpjValidator, CpfValidator, DateValidator, EmailValidator, HouseNumberValidator, NameValidator, PasswordValidator, PhoneValidator } from '../../../utils/Validator';
 import '../styles.css';
 
 export function PersonalInformationStep(props) {
     const history = useHistory();
     return (
         <div className="form-elements">
-            <Input 
+            <Input
                 text="Nome"
                 value={props.accountState.nome}
                 onChange={e => props.setAccountState({
                     ...props.accountState,
                     nome: e.target.value
                 })}
+                validator={NameValidator}
+                validate={props.accountState.nome}
             />
             {props.userType === UsersTypes.TATTOOARTIST &&
-                <Input 
+                <Input
                     text="CNPJ"
                     value={props.accountState.cnpj}
                     onChange={e => props.setAccountState({
                         ...props.accountState,
                         cnpj: e.target.value
                     })}
+                    maxLength={11}
+                    validator={CnpjValidator}
+                    validate={props.accountState.cnpj}
                 />
             }
             {props.userType === UsersTypes.USER &&
-                <Input 
+                <Input
                     text="CPF"
                     value={props.accountState.cpf}
                     onChange={e => props.setAccountState({
                         ...props.accountState,
                         cpf: e.target.value
                     })}
+                    maxLength={11}
+                    validator={CpfValidator}
+                    validate={props.accountState.cpf}
                 />
             }
-            <Input 
+            <Input
                 text="Data nascimento"
+                type="date"
                 value={props.accountState.data_nascimento}
                 onChange={e => props.setAccountState({
                     ...props.accountState,
                     data_nascimento: e.target.value
                 })}
+                validator={DateValidator}
+                validate={props.accountState.data_nascimento}
             />
-            <Input 
+            <Input
                 text="Telefone"
                 value={props.accountState.telefone}
                 onChange={e => props.setAccountState({
                     ...props.accountState,
                     telefone: e.target.value
                 })}
+                maxLength={11}
+                validator={PhoneValidator}
+                validate={props.accountState.telefone}
             />
             <Button
                 className="btn-primary"
@@ -76,17 +91,19 @@ export function PersonalInformationStep(props) {
 export function LocationInformationStep(props) {
     return (
         <div className="form-elements">
-            <Input 
+            <Input
                 text="CEP"
                 value={props.accountState.cep}
                 maxLength={8}
-                onChange={e => 
+                onChange={e =>
                     props.setAccountState({
                         ...props.accountState,
                         cep: e.target.value
                     })
                 }
-                onBlur={() => props.handleCepAPI()}
+                validator={CepValidator}
+                validate={props.accountState.cep}
+                onBlurFunction={() => props.handleCepAPI()}
 
             />
             {props.userType === UsersTypes.TATTOOARTIST &&
@@ -130,6 +147,8 @@ export function LocationInformationStep(props) {
                         ...props.accountState,
                         numero_logradouro: e.target.value
                     })}
+                    validator={HouseNumberValidator}
+                    validate={props.accountState.numero_logradouro}
                 />
             </div>
             <Button
@@ -160,6 +179,8 @@ export function LoginInformationStep(props) {
                     ...props.accountState,
                     email: e.target.value
                 })}
+                validate={props.accountState.email}
+                validator={EmailValidator}
             />
             <div className="smallButtonsContainer">
                 <Input
@@ -168,10 +189,14 @@ export function LoginInformationStep(props) {
                         ...props.accountState,
                         senha: e.target.value
                     })}
+                    validate={props.accountState.senha}
+                    validator={PasswordValidator}
                 />
                 <Input
                     text="Confir. senha"
                     marginLeft={15}
+                    validate={props.accountState.senha}
+                    validator={PasswordValidator}
                 />
             </div>
             {props.userType === UsersTypes.TATTOOARTIST &&
