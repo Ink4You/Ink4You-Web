@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../styles.css';
 import '../../../global.css';
 import { useHistory } from 'react-router-dom';
@@ -58,6 +58,21 @@ export function OptionsLoginStep(props) {
 
 export function LoginStep(props) {
     const history = useHistory();
+
+    const [respInputEmail, setRespInputEmail] = useState(false);
+    const [respInputPassword, setRespInputPassword] = useState(false);
+
+    function ValidationStep() {
+        let isValid = false;
+
+        if (respInputEmail && respInputPassword) {
+            isValid = true;
+        }
+
+        // inverte por conta do disabled do btn, se for invalido o disabled tem que receber true.
+        return !isValid;
+    }
+    
     return (
         <div className="form-container">
             <FormHeader text="Realizar Login" />
@@ -70,8 +85,9 @@ export function LoginStep(props) {
                     email: e.target.value,
                     password: props.accountState.password
                 })}
-                validate={props.accountState.email}
                 validator={EmailValidator}
+                validate={props.accountState.email}
+                setRespValidation={setRespInputEmail}
             />
             <Input
                 text="Senha"
@@ -81,8 +97,9 @@ export function LoginStep(props) {
                     email: props.accountState.email,
                     password: e.target.value
                 })}
-                validate={props.accountState.password}
                 validator={PasswordValidator}
+                validate={props.accountState.password}
+                setRespValidation={setRespInputPassword}
             />
             <div className="forgot-password">
                 <div onClick={() => props.setStep(2)}>
@@ -95,7 +112,7 @@ export function LoginStep(props) {
                 disableElevation
                 fullWidth
                 onClick={props.HandleLogin}
-                disabled={props.loading}>
+                disabled={ValidationStep() === false ? props.loading : true}>
                 Entrar
             </Button>
             <div onClick={() => history.push('/register')}>

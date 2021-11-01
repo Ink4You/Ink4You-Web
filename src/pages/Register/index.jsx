@@ -12,6 +12,7 @@ import { useHistory } from 'react-router-dom';
 
 function Register() {
     const [step, setStep] = useState(0);
+    const [stoppedAtStep, setStoppedAtStep] = useState(0);
     const userType = localStorage.getItem('userType');
     const [accountState, setAccountState] = React.useState({ cep: '' });
     const [errorAuthentication, setErrorAuthentication] = useState('');
@@ -145,6 +146,8 @@ function Register() {
 
                     {step === 0 && <PersonalInformationStep
                         userType={userType}
+                        stoppedAtStep={stoppedAtStep}
+                        setStoppedAtStep={setStoppedAtStep}
                         nextStep={nextStep}
                         previousStep={previousStep}
                         accountState={accountState}
@@ -152,6 +155,8 @@ function Register() {
 
                     {step === 1 && <LocationInformationStep
                         userType={userType}
+                        stoppedAtStep={stoppedAtStep}
+                        setStoppedAtStep={setStoppedAtStep}
                         nextStep={nextStep}
                         previousStep={previousStep}
                         accountState={accountState}
