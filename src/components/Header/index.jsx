@@ -27,9 +27,8 @@ function Header(props) {
         setOpen(false);
     };
 
-
     return (
-        <header className="header-container">
+        <header className="header-container" style={{position: props.position ? props.position : "fixed"}}>
             <div className="div-logo">
                 <img src={Logo} onClick={() => history.push('/')} alt="Logo Ink4You" />
             </div>
