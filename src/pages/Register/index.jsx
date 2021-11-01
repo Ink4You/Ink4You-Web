@@ -30,11 +30,11 @@ function Register() {
         setStep(step - 1);
     }
 
-    function handleApi() {
-        console.log("Chamando api");
-        const tatuadores = api.post("/tatuadores",);
-        // console.log(tatuadores);
-    }
+    // function HandleApi() {
+    //     console.log("Chamando api");
+    //     const tatuadores = api.post("/tatuadores",);
+    //     // console.log(tatuadores);
+    // }
 
     async function HandleLogin() {
         if (userType === 'User') {

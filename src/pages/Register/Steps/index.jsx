@@ -4,60 +4,98 @@ import { Button, FormGroup, FormControlLabel, Switch } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import InstagramIcon from '../../../img/instagramIcon.png';
 import UsersTypes from '../../../components/EnumUserTypes';
+import { CepValidator, CnpjValidator, CpfValidator, DateValidator, EmailValidator, HouseNumberValidator, InstagramAccountValidator, NameValidator, PasswordConfirmationValidator, PasswordValidator, PhoneValidator } from '../../../utils/Validator';
 import '../styles.css';
+import { isCallChain } from 'typescript';
 
 export function PersonalInformationStep(props) {
     const history = useHistory();
+
+    const [respInputName, setRespInputName] = useState(false);
+    const [respInputCpfOrCnpj, setRespInputCpfOrCnpj] = useState(false);
+    const [respInputBirthDate, setRespInputBirthDate] = useState(false);
+    const [respInputPhone, setRespInputPhone] = useState(false);
+
+    function ValidationStep() {
+        let isValid = false;
+
+        if (respInputName && respInputCpfOrCnpj && respInputBirthDate && respInputPhone)
+            isValid = true;
+
+        // inverte por conta do disabled do btn, se for invalido o disabled tem que receber true.
+        return !isValid;
+    }
+
     return (
         <div className="form-elements">
-            <Input 
+            <Input
                 text="Nome"
                 value={props.accountState.nome}
                 onChange={e => props.setAccountState({
                     ...props.accountState,
                     nome: e.target.value
                 })}
+                validator={NameValidator}
+                validate={props.accountState.nome}
+                setRespValidation={setRespInputName}
             />
             {props.userType === UsersTypes.TATTOOARTIST &&
-                <Input 
+                <Input
                     text="CNPJ"
                     value={props.accountState.cnpj}
                     onChange={e => props.setAccountState({
                         ...props.accountState,
                         cnpj: e.target.value
                     })}
+                    maxLength={14}
+                    validator={CnpjValidator}
+                    validate={props.accountState.cnpj}
+                    setRespValidation={setRespInputCpfOrCnpj}
                 />
             }
             {props.userType === UsersTypes.USER &&
-                <Input 
+                <Input
                     text="CPF"
                     value={props.accountState.cpf}
                     onChange={e => props.setAccountState({
                         ...props.accountState,
                         cpf: e.target.value
                     })}
+                    maxLength={11}
+                    validator={CpfValidator}
+                    validate={props.accountState.cpf}
+                    setRespValidation={setRespInputCpfOrCnpj}
                 />
             }
-            <Input 
+            <Input
                 text="Data nascimento"
+                type="date"
                 value={props.accountState.data_nascimento}
                 onChange={e => props.setAccountState({
                     ...props.accountState,
                     data_nascimento: e.target.value
                 })}
+                validator={DateValidator}
+                validate={props.accountState.data_nascimento}
+                setRespValidation={setRespInputBirthDate}
             />
-            <Input 
+            <Input
                 text="Telefone"
                 value={props.accountState.telefone}
                 onChange={e => props.setAccountState({
                     ...props.accountState,
                     telefone: e.target.value
                 })}
+                maxLength={11}
+                validator={PhoneValidator}
+                validate={props.accountState.telefone}
+                setRespValidation={setRespInputPhone}
             />
             <Button
                 className="btn-primary"
                 variant="contained"
                 disableElevation
+                disabled={ValidationStep()}
                 fullWidth
                 onClick={() => {
                     props.nextStep();
@@ -74,19 +112,36 @@ export function PersonalInformationStep(props) {
 }
 
 export function LocationInformationStep(props) {
+
+    const [respInputCep, setRespInputCep] = useState(false);
+    const [respInputNumber, setRespInputNumber] = useState(false);
+
+    function ValidationStep() {
+        let isValid = false;
+
+        if (respInputCep && respInputNumber)
+            isValid = true;
+
+        // inverte por conta do disabled do btn, se for invalido o disabled tem que receber true.
+        return !isValid;
+    }
+
     return (
         <div className="form-elements">
-            <Input 
+            <Input
                 text="CEP"
                 value={props.accountState.cep}
                 maxLength={8}
-                onChange={e => 
+                onChange={e =>
                     props.setAccountState({
                         ...props.accountState,
                         cep: e.target.value
                     })
                 }
-                onBlur={() => props.handleCepAPI()}
+                validator={CepValidator}
+                validate={props.accountState.cep}
+                setRespValidation={setRespInputCep}
+                onBlurFunction={() => props.handleCepAPI()}
 
             />
             {props.userType === UsersTypes.TATTOOARTIST &&
@@ -130,12 +185,16 @@ export function LocationInformationStep(props) {
                         ...props.accountState,
                         numero_logradouro: e.target.value
                     })}
+                    validator={HouseNumberValidator}
+                    validate={props.accountState.numero_logradouro}
+                    setRespValidation={setRespInputNumber}
                 />
             </div>
             <Button
                 className="btn-primary"
                 variant="contained"
                 disableElevation
+                disabled={ValidationStep()}
                 fullWidth
                 onClick={() => {
                     props.nextStep();
@@ -153,6 +212,39 @@ export function LocationInformationStep(props) {
 
 export function LoginInformationStep(props) {
     const [instagramIntegration, setinstagramIntegration] = useState(false);
+
+    const [confirmPassword, setConfirmPassword] = useState('');
+
+    const [respInputEmail, setRespInputEmail] = useState(false);
+    const [respInputPassword, setRespInputPassword] = useState(false);
+    const [respInputConfirmPassword, setRespInputConfirmPassword] = useState(false);
+    const [respInputInstagramAccount, setRespInputInstagramAccount] = useState(false);
+
+    const [finishRegister, setFinishRegister] = useState(false);
+
+    function ValidationStep() {
+        let isValid = false;
+
+        console.log('email: ' + respInputEmail, 'senha: ' + respInputPassword, 'confirm: ' + respInputConfirmPassword);
+        if (respInputEmail && respInputPassword && respInputConfirmPassword) {
+            
+            
+            console.log('switch: ' + instagramIntegration)
+            if (instagramIntegration) {
+                console.log('campoInsta: ' + respInputInstagramAccount)
+                isValid = respInputInstagramAccount ? true : false
+            } else {
+                console.log('campoInsta: ' + respInputInstagramAccount)
+                isValid = true
+            }
+            
+            console.log('resultado: ' + isValid)
+        }
+
+        // inverte por conta do disabled do btn, se for invalido o disabled tem que receber true.
+        setFinishRegister(isValid);
+    }
+
     return (
         <div className="form-elements">
             <Input text="Email"
@@ -160,6 +252,12 @@ export function LoginInformationStep(props) {
                     ...props.accountState,
                     email: e.target.value
                 })}
+                onBlurFunction={() => {
+                    ValidationStep();
+                }}
+                validate={props.accountState.email}
+                validator={EmailValidator}
+                setRespValidation={setRespInputEmail}
             />
             <div className="smallButtonsContainer">
                 <Input
@@ -168,10 +266,31 @@ export function LoginInformationStep(props) {
                         ...props.accountState,
                         senha: e.target.value
                     })}
+                    onBlurFunction={() => {
+                        ValidationStep();
+                    }}
+                    validate={props.accountState.senha}
+                    validator={PasswordValidator}
+                    setRespValidation={setRespInputPassword}
                 />
                 <Input
                     text="Confir. senha"
                     marginLeft={15}
+                    onChange={e => { 
+                        setConfirmPassword(e.target.value);
+                        setFinishRegister(ValidationStep());
+                    }}
+                    onBlurFunction={() => {
+                        setTimeout(() => {
+                            ValidationStep();
+                        }, 500)
+                    }}
+                    validate={{
+                        password: props.accountState.senha,
+                        confirmation: confirmPassword
+                    }}
+                    validator={PasswordConfirmationValidator}
+                    setRespValidation={setRespInputConfirmPassword}
                 />
             </div>
             {props.userType === UsersTypes.TATTOOARTIST &&
@@ -182,6 +301,7 @@ export function LoginInformationStep(props) {
                                 checked={instagramIntegration}
                                 onChange={() => {
                                     setinstagramIntegration(!instagramIntegration)
+                                    ValidationStep();
                                 }}
                             />
                         } label={
@@ -195,10 +315,18 @@ export function LoginInformationStep(props) {
                     <Input
                         text="Usuário do instagram"
                         disabled={!instagramIntegration}
-                        onChange={e => props.setAccountState({
-                            ...props.accountState,
-                            conta_instagram: e.target.value
-                        })}
+                        onChange={e => {
+                            props.setAccountState({
+                                ...props.accountState,
+                                conta_instagram: e.target.value
+                            });
+                        }}
+                        onBlurFunction={() => {
+                            ValidationStep();
+                        }}
+                        validate={props.accountState.conta_instagram}
+                        validator={InstagramAccountValidator}
+                        setRespValidation={setRespInputInstagramAccount}
                     />
                 </div>
             }
@@ -206,6 +334,7 @@ export function LoginInformationStep(props) {
                 className="btn-primary"
                 variant="contained"
                 disableElevation
+                disabled={!finishRegister}
                 fullWidth
                 onClick={() => {
                     props.handleLogin();
@@ -216,6 +345,7 @@ export function LoginInformationStep(props) {
                 props.previousStep();
             }}>
                 <p className="btn-text">Voltar</p>
+                {"instaSwitch: " + instagramIntegration}
             </div>
         </div>
     );
