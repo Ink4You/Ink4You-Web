@@ -6,7 +6,6 @@ import InstagramIcon from '../../../img/instagramIcon.png';
 import UsersTypes from '../../../components/EnumUserTypes';
 import { CepValidator, CnpjValidator, CpfValidator, DateValidator, EmailValidator, HouseNumberValidator, InstagramAccountValidator, NameValidator, PasswordConfirmationValidator, PasswordValidator, PhoneValidator } from '../../../utils/Validator';
 import '../styles.css';
-import { isCallChain } from 'typescript';
 
 export function PersonalInformationStep(props) {
     const history = useHistory();
@@ -95,9 +94,10 @@ export function PersonalInformationStep(props) {
                 className="btn-primary"
                 variant="contained"
                 disableElevation
-                disabled={ValidationStep()}
+                disabled={props.stoppedAtStep === 1 ? false : ValidationStep()}
                 fullWidth
                 onClick={() => {
+                    props.setStoppedAtStep(1);
                     props.nextStep();
                 }}>
                 Prosseguir
@@ -107,6 +107,7 @@ export function PersonalInformationStep(props) {
             }}>
                 <p className="btn-text">Voltar</p>
             </div>
+            {props.stoppedAtStep}
         </div>
     );
 }
@@ -194,9 +195,10 @@ export function LocationInformationStep(props) {
                 className="btn-primary"
                 variant="contained"
                 disableElevation
-                disabled={ValidationStep()}
+                disabled={props.stoppedAtStep === 2 ? false : ValidationStep()}
                 fullWidth
                 onClick={() => {
+                    props.setStoppedAtStep(2);
                     props.nextStep();
                 }}>
                 Prosseguir
@@ -206,12 +208,13 @@ export function LocationInformationStep(props) {
             }}>
                 <p className="btn-text">Voltar</p>
             </div>
+            {props.stoppedAtStep}
         </div>
     );
 }
 
 export function LoginInformationStep(props) {
-    const [instagramIntegration, setinstagramIntegration] = useState(false);
+    const [instagramIntegration, setInstagramIntegration] = useState(false);
 
     const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -220,76 +223,79 @@ export function LoginInformationStep(props) {
     const [respInputConfirmPassword, setRespInputConfirmPassword] = useState(false);
     const [respInputInstagramAccount, setRespInputInstagramAccount] = useState(false);
 
-    const [finishRegister, setFinishRegister] = useState(false);
+    // const [finishRegister, setFinishRegister] = useState(false);
 
-    function ValidationStep() {
+    function ValidateStep() {
         let isValid = false;
 
-        console.log('email: ' + respInputEmail, 'senha: ' + respInputPassword, 'confirm: ' + respInputConfirmPassword);
+        //console.log('email: ' + respInputEmail, 'senha: ' + respInputPassword, 'confirm: ' + respInputConfirmPassword);
         if (respInputEmail && respInputPassword && respInputConfirmPassword) {
-            
-            
-            console.log('switch: ' + instagramIntegration)
+
+
+            //console.log('switch: ' + instagramIntegration)
             if (instagramIntegration) {
-                console.log('campoInsta: ' + respInputInstagramAccount)
+                //console.log('campoInsta: ' + respInputInstagramAccount)
                 isValid = respInputInstagramAccount ? true : false
             } else {
-                console.log('campoInsta: ' + respInputInstagramAccount)
+                //console.log('campoInsta: ' + respInputInstagramAccount)
                 isValid = true
             }
-            
+
             console.log('resultado: ' + isValid)
         }
 
         // inverte por conta do disabled do btn, se for invalido o disabled tem que receber true.
-        setFinishRegister(isValid);
+        return !isValid;
     }
 
     return (
         <div className="form-elements">
-            <Input text="Email"
+            <Input
+                text="Email"
+                type="email"
                 onChange={e => props.setAccountState({
                     ...props.accountState,
                     email: e.target.value
                 })}
                 onBlurFunction={() => {
-                    ValidationStep();
+                    ValidateStep();
                 }}
-                validate={props.accountState.email}
                 validator={EmailValidator}
+                validate={props.accountState.email}
                 setRespValidation={setRespInputEmail}
             />
             <div className="smallButtonsContainer">
                 <Input
                     text="Senha"
+                    type="password"
                     onChange={e => props.setAccountState({
                         ...props.accountState,
                         senha: e.target.value
                     })}
                     onBlurFunction={() => {
-                        ValidationStep();
+                        ValidateStep();
                     }}
-                    validate={props.accountState.senha}
                     validator={PasswordValidator}
+                    validate={props.accountState.senha}
                     setRespValidation={setRespInputPassword}
                 />
                 <Input
                     text="Confir. senha"
+                    type="password"
                     marginLeft={15}
-                    onChange={e => { 
+                    onChange={e => {
                         setConfirmPassword(e.target.value);
-                        setFinishRegister(ValidationStep());
+                        ValidateStep();
                     }}
                     onBlurFunction={() => {
-                        setTimeout(() => {
-                            ValidationStep();
-                        }, 500)
+                        ValidateStep();
+
                     }}
+                    validator={PasswordConfirmationValidator}
                     validate={{
                         password: props.accountState.senha,
                         confirmation: confirmPassword
                     }}
-                    validator={PasswordConfirmationValidator}
                     setRespValidation={setRespInputConfirmPassword}
                 />
             </div>
@@ -300,8 +306,8 @@ export function LoginInformationStep(props) {
                             <Switch
                                 checked={instagramIntegration}
                                 onChange={() => {
-                                    setinstagramIntegration(!instagramIntegration)
-                                    ValidationStep();
+                                    setInstagramIntegration(!instagramIntegration)
+                                    ValidateStep();
                                 }}
                             />
                         } label={
@@ -322,10 +328,10 @@ export function LoginInformationStep(props) {
                             });
                         }}
                         onBlurFunction={() => {
-                            ValidationStep();
+                            ValidateStep();
                         }}
-                        validate={props.accountState.conta_instagram}
                         validator={InstagramAccountValidator}
+                        validate={props.accountState.conta_instagram}
                         setRespValidation={setRespInputInstagramAccount}
                     />
                 </div>
@@ -334,7 +340,7 @@ export function LoginInformationStep(props) {
                 className="btn-primary"
                 variant="contained"
                 disableElevation
-                disabled={!finishRegister}
+                disabled={ValidateStep()}
                 fullWidth
                 onClick={() => {
                     props.handleLogin();
@@ -345,7 +351,6 @@ export function LoginInformationStep(props) {
                 props.previousStep();
             }}>
                 <p className="btn-text">Voltar</p>
-                {"instaSwitch: " + instagramIntegration}
             </div>
         </div>
     );
