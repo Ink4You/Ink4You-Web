@@ -16,6 +16,7 @@ function Input(props) {
         let resp = props.validator(props.validate);
         //console.log(props.validator(props.validate))
         setIsValid(resp);
+        props.setRespValidation(resp);
         return resp;
     }
 
