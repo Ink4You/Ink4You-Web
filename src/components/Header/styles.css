@@ -50,6 +50,10 @@
 }
 
 .header-container .div-options .avatarIcon {
+    width: 35px;
+    height: 35px;
+    margin-left: 6px;
+    margin-top: 6px;
     background-color: var(--purple);
 }
 
@@ -67,7 +71,7 @@
 .dropdown {
     width: 100px;
     position: absolute;
-    top: 55px;
+    top: 60px;
     right: 0;
     left: -30px;
     z-index: 1;

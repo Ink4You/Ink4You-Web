@@ -56,7 +56,7 @@ function Header(props) {
                         <ClickAwayListener onClickAway={handleClickAway}>
                             <div className="root">
                                 <button className="btn-icon" type="button" onClick={handleClick}>
-                                    <Avatar className="avatarIcon">{dataUser.nome.slice(0, 1).toUpperCase()}</Avatar>
+                                    <Avatar className="avatarIcon" src={dataUser.foto_perfil}>{dataUser.nome.slice(0, 1).toUpperCase()}</Avatar>
                                 </button>
                                 {open ? (
                                     <div className="dropdown">
