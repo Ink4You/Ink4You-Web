@@ -86,8 +86,8 @@ function Profile() {
 
     return (
         <>
-            {loading && <LinearProgress />}
             <Header position={headerPosition} />
+            {loading && <LinearProgress />}
             <section>
                 <div className="profile-banner" style={{ height: loading ? "105px" : "170px" }} />
                 <div className="profile-div">
@@ -114,25 +114,34 @@ function Profile() {
                         <Input text="Nome"
                             onChange={e => setName(e.target.value)}
                             value={name} />
-                        <Input text="CPF"
-                            onChange={e => setCpf(e.target.value)}
-                            value={cpf} />
-                        <Input text="Data nascimento"
-                            type={"date"}
-                            onChange={e => setBirthdayDate(e.target.value)}
-                            value={birthdayDate} />
-                        <Input text="CEP"
-                            onChange={e => setCep(e.target.value)}
-                            value={cep} />
-                        <Input text="Telefone"
-                            onChange={e => setPhone(e.target.value)}
-                            value={phone} />
-                        <Input text="Email"
-                            onChange={e => setEmail(e.target.value)}
-                            value={email} />
-                        <Input text="Senha"
-                            onChange={e => setPassword(e.target.value)}
-                            value={password} />
+                        <div className="inputs-row">
+                            <Input text="CPF"
+                                marginRight ={15}
+                                onChange={e => setCpf(e.target.value)}
+                                value={cpf} />
+                            <Input text="Data nascimento"
+                                type={"date"}
+                                onChange={e => setBirthdayDate(e.target.value)}
+                                value={birthdayDate} />
+                        </div>
+                        <div className="inputs-row">
+                            <Input text="CEP"
+                                onChange={e => setCep(e.target.value)}
+                                value={cep} />
+                            <Input text="Telefone"
+                                marginLeft={15}
+                                onChange={e => setPhone(e.target.value)}
+                                value={phone} />
+                        </div>
+                        <div className="inputs-row">
+                            <Input text="Email"
+                                onChange={e => setEmail(e.target.value)}
+                                value={email} />
+                            <Input text="Senha"
+                                marginLeft={15}
+                                onChange={e => setPassword(e.target.value)}
+                                value={password} />
+                        </div>
                         <button
                             className="save-btn"
                             disabled={loading}
