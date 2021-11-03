@@ -12,6 +12,7 @@ import InitialSideImage from '../../components/InitialSideImage';
 import { useHistory } from 'react-router-dom';
 import UsersTypes from '../../components/EnumUserTypes';
 import api from '../../api';
+import HandleCepAPI from '../../viaCep';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
@@ -49,11 +50,14 @@ function Login() {
         try {
             if (accountState.userType === UsersTypes.TATTOOARTIST) {
                 const { data } = await api.get(`/tatuadores/login/${accountState.email}/${accountState.password}`);
+                console.log(data)
                 localStorage.setItem('@dataUser', JSON.stringify(data));
                 history.push('/Home');
             } else {
                 const { data } = await api.get(`/usuarios/login/${accountState.email}/${accountState.password}`);
+                console.log(data)
                 localStorage.setItem('@dataUser', JSON.stringify(data));
+                HandleCepAPI(data.cep);
                 history.push('/Home');
             }
 

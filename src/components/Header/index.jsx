@@ -27,9 +27,8 @@ function Header(props) {
         setOpen(false);
     };
 
-
     return (
-        <header className="header-container">
+        <header className="header-container" style={{position: props.position ? props.position : "fixed"}}>
             <div className="div-logo">
                 <img src={Logo} onClick={() => history.push('/')} alt="Logo Ink4You" />
             </div>
@@ -57,11 +56,11 @@ function Header(props) {
                         <ClickAwayListener onClickAway={handleClickAway}>
                             <div className="root">
                                 <button className="btn-icon" type="button" onClick={handleClick}>
-                                    <Avatar className="avatarIcon">{dataUser.nome.slice(0, 1).toUpperCase()}</Avatar>
+                                    <Avatar className="avatarIcon" src={dataUser.foto_perfil}>{dataUser.nome.slice(0, 1).toUpperCase()}</Avatar>
                                 </button>
                                 {open ? (
                                     <div className="dropdown">
-                                        <div className="btn" onClick={() => history.push('/perfil')}>
+                                        <div className="btn" onClick={() => history.push('/profile')}>
                                             <div></div>
                                             <span>Perfil</span>
                                         </div>

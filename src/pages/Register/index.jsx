@@ -3,6 +3,7 @@ import InitialSideImage from '../../components/InitialSideImage';
 import FormHeader from '../../components/FormHeader';
 import { Stepper, Step, StepButton } from '@material-ui/core';
 import api from '../../api';
+import HandleCepAPI from '../../viaCep';
 import './styles.css';
 import { PersonalInformationStep, LocationInformationStep, LoginInformationStep } from './Steps';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -31,12 +32,6 @@ function Register() {
         setStep(step - 1);
     }
 
-    // function HandleApi() {
-    //     console.log("Chamando api");
-    //     const tatuadores = api.post("/tatuadores",);
-    //     // console.log(tatuadores);
-    // }
-
     async function HandleLogin() {
         if (userType === 'User') {
             setAccountState({
@@ -48,22 +43,21 @@ function Register() {
             delete accountState.numLogradouro;
 
             try {
-                await api.post('/usuarios/cadastro-usuario', accountState)
-                    .then(response => {
-                        console.log(response.data)
-                        history.push('/home')
-                    })
+                const { data } = await api.post('/usuarios/cadastro-usuario', accountState);
+                localStorage.setItem('@dataUser', JSON.stringify(data));
+                HandleCepAPI(accountState.cep);
+                history.push('/home')
             } catch (err) {
                 console.log(err);
                 setErrorAuthentication('Erro ao realizar cadastro')
             }
-
         } else {
             console.log(accountState)
             try {
                 await api.post('/tatuadores/cadastro-tatuador', accountState)
                     .then(response => {
                         console.log(response.data)
+                        HandleCepAPI(accountState.cep);
                         history.push('/home')
                     })
             } catch (err) {
@@ -92,6 +86,8 @@ function Register() {
 
     async function handleCepAPI() {
         if (accountState.cep !== '') {
+
+
             try {
                 await api.get(`https://viacep.com.br/ws/${accountState.cep}/json/`)
                     .then(response => {
