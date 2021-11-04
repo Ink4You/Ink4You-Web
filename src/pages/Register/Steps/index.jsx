@@ -94,7 +94,7 @@ export function PersonalInformationStep(props) {
                 className="btn-primary"
                 variant="contained"
                 disableElevation
-                disabled={props.stoppedAtStep === 1 ? false : ValidationStep()}
+                disabled={props.stoppedAtStep > 1 ? false : ValidationStep()}
                 fullWidth
                 onClick={() => {
                     props.setStoppedAtStep(1);
@@ -107,7 +107,6 @@ export function PersonalInformationStep(props) {
             }}>
                 <p className="btn-text">Voltar</p>
             </div>
-            {props.stoppedAtStep}
         </div>
     );
 }
@@ -208,7 +207,6 @@ export function LocationInformationStep(props) {
             }}>
                 <p className="btn-text">Voltar</p>
             </div>
-            {props.stoppedAtStep}
         </div>
     );
 }

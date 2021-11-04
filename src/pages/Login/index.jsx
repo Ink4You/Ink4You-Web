@@ -69,6 +69,8 @@ function Login() {
         }
     }
 
+    loading ? document.documentElement.style.overflow = 'hidden' : document.documentElement.style.overflow = 'auto';
+
     return (
         <>
             {loading && <LinearProgress />}
