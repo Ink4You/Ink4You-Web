@@ -61,7 +61,8 @@ function Home() {
             </section>
             <section className="reports">
                 <h2>Experiência de usuários</h2>
-                <Carousel/>
+                <Carousel data={[{"id": 1,"comment": 'Adorei me tatuar, foi uma experiência ótima!', "name": "ale"}]}/>
+
             </section>
             <Footer/>
         </>

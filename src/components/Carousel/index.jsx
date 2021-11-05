@@ -17,46 +17,7 @@ function Carousel(props) {
                         </div>
                         {/* <img src={img} alt="" /> */}
                     </div>
-                    <div className="item">
-                        <div className="report">
-                            <img src={img} alt="Foto usuário" />
-                            <div>
-                                <p>"Lorem ipsum dolor sit amet consectetur, adipisicing elit. Deleniti esse labore expedita officiis eum provident, nemo ab."</p>
-                                <span>Nome do usário</span>
-                            </div>
-                        </div>
-                        {/* <img src={img} alt="" /> */}
-                    </div>
-                    <div className="item">
-                        <div className="report">
-                            <img src={img} alt="Foto usuário" />
-                            <div>
-                                <p>"Lorem ipsum dolor sit amet consectetur, adipisicing elit. Deleniti esse labore expedita officiis eum provident, nemo ab."</p>
-                                <span>Nome do usário</span>
-                            </div>
-                        </div>
-                        {/* <img src={img} alt="" /> */}
-                    </div>
-                    <div className="item">
-                        <div className="report">
-                            <img src={img} alt="Foto usuário" />
-                            <div>
-                                <p>"Lorem ipsum dolor sit amet consectetur, adipisicing elit. Deleniti esse labore expedita officiis eum provident, nemo ab."</p>
-                                <span>Nome do usário</span>
-                            </div>
-                        </div>
-                        {/* <img src={img} alt="" /> */}
-                    </div>
-                    <div className="item">
-                        <div className="report">
-                            <img src={img} alt="Foto usuário" />
-                            <div>
-                                <p>"Lorem ipsum dolor sit amet consectetur, adipisicing elit. Deleniti esse labore expedita officiis eum provident, nemo ab."</p>
-                                <span>Nome do usário</span>
-                            </div>
-                        </div>
-                        {/* <img src={img} alt="" /> */}
-                    </div>
+                  
                 </div>
             </div>
         </>

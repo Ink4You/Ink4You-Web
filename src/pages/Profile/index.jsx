@@ -108,6 +108,7 @@ function Profile() {
 
     const testeCard = [{
         id: '1',
+        isFavorite: true,
         photo: profilePhoto,
         title: "Tatuagem cachorro",
         artistPhoto: profilePhoto,
@@ -115,6 +116,7 @@ function Profile() {
     },
     {
         id: '2',
+        isFavorite: true,
         photo: profilePhoto,
         title: "Tatuagem besouro",
         artistPhoto: profilePhoto,
@@ -122,6 +124,56 @@ function Profile() {
     },
     {
         id: '3',
+        isFavorite: true,
+        photo: profilePhoto,
+        title: "Tatuagem de besouro",
+        artistPhoto: profilePhoto,
+        artistName: name
+    },
+    {
+        id: '4',
+        photo: profilePhoto,
+        title: "Tatuagem cachorro",
+        artistPhoto: profilePhoto,
+        artistName: name
+    },
+    {
+        id: '5',
+        photo: profilePhoto,
+        title: "Tatuagem besouro",
+        artistPhoto: profilePhoto,
+        artistName: name
+    },
+    {
+        id: '6',
+        photo: profilePhoto,
+        title: "Tatuagem de besouro",
+        artistPhoto: profilePhoto,
+        artistName: name
+    },
+    {
+        id: '7',
+        photo: profilePhoto,
+        title: "Tatuagem de besouro",
+        artistPhoto: profilePhoto,
+        artistName: name
+    },
+    {
+        id: '8',
+        photo: profilePhoto,
+        title: "Tatuagem cachorro",
+        artistPhoto: profilePhoto,
+        artistName: name
+    },
+    {
+        id: '9',
+        photo: profilePhoto,
+        title: "Tatuagem besouro",
+        artistPhoto: profilePhoto,
+        artistName: name
+    },
+    {
+        id: '10',
         photo: profilePhoto,
         title: "Tatuagem de besouro",
         artistPhoto: profilePhoto,
@@ -215,8 +267,9 @@ function Profile() {
                         </button>
                     </div>
                 </div>
-                <div className="container">
-                    <Flatlist data={testeCard} type="tattoo" />
+                <div className="profile-container">
+                    <Flatlist data={testeCard} type="tattoo" label="Tatuagens favoritas" />
+                    <Flatlist data={testeCard} type="tattooArtist" label="Tatuadores favoritos"/>
                 </div>
                 <Footer />
             </section>

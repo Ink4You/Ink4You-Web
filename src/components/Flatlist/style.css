@@ -1,0 +1,36 @@
+.flatlist {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: max-content;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.flatlist .label {
+    margin-left: 50px;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--secondary-black);
+}
+
+.flatlist .list-container {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth; 
+}
+
+.flatlist .list-container::-webkit-scrollbar {
+    height: 3px;
+}
+
+.flatlist .list-container::-webkit-scrollbar-track {
+    background: var(--secundary-white);        /* color of the tracking area */
+}
+
+.flatlist .list-container::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(to right, #5CE1E6 , #38A5FF, #525EFF);    /* color of the scroll thumb */
+    /* background-color: black; */
+}

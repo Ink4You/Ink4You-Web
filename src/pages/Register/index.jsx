@@ -86,10 +86,8 @@ function Register() {
 
     async function handleCepAPI() {
         if (accountState.cep !== '') {
-
-
             try {
-                await api.get(`https://viacep.com.br/ws/${accountState.cep}/json/`)
+                api.get(`https://viacep.com.br/ws/${accountState.cep}/json/`)
                     .then(response => {
                         if (response.data.erro) {
                             setErrorAuthentication('CEP inválido!')

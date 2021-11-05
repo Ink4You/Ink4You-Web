@@ -4,12 +4,24 @@
     display: flex;
     flex-direction: column;
     margin: 30px;
+    margin-top: 25px;
+}
 
+.card:nth-child(1) {
+    margin-left: 50px;
 }
 
 .card .tattoo-photo {
     width: 170px;
     border-radius: 5px;
+    z-index: -1
+}
+
+.heart-icon {   
+    width: 18px;
+    align-self: flex-end;
+    margin-bottom: -24px;
+    margin-right: 8px;
 }
 
 .row {

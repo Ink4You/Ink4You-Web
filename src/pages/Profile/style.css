@@ -54,7 +54,8 @@
 
 .profile-information p {
     font-size: 19px;
-    color: black;
+    font-weight: 500;
+    color: var(--secondary-black);
 }
 
 
@@ -91,7 +92,8 @@
 
 .edit-profile .edit-profile-container p{
     font-size: 22px;
-    font-weight: 400;
+    font-weight: 500;
+    color: var(--secondary-black);
     text-align: center;
 }
 
@@ -116,15 +118,9 @@
     cursor: wait;
 }
 
-.container .tattoo-list {
+.profile-container {
+    height: 100%;
     display: flex;
-	flex-wrap: nowrap;
-	overflow-x: scroll;
-}
-
-.container .tattoo-list .tattoo-card {
-    width: 220px;
-    height: 250px;
-    background-color: yellow;
-    margin-left: 10px;
+    flex-direction: column;
+    justify-content: center;
 }
