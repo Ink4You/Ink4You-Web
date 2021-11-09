@@ -9,6 +9,9 @@ import Slide from '@material-ui/core/Slide';
 import Footer from '../../components/Footer';
 import api from '../../api';
 import HandleCepAPI from '../../viaCep';
+import Flatlist from '../../components/Flatlist';
+// import TattooCard from '../../components/TattooCard';
+import { CepValidator, CpfValidator, DateValidator, EmailValidator, NameValidator, PasswordValidator, PhoneValidator } from '../../utils/Validator';
 import './style.css';
 
 function Profile() {
@@ -40,6 +43,25 @@ function Profile() {
         "senha": password,
         "foto_perfil": profilePhoto
     };
+
+    const [respInputName, setRespInputName] = useState(true);
+    const [respInputCpfOrCnpj, setRespInputCpfOrCnpj] = useState(true);
+    const [respInputBirthDate, setRespInputBirthDate] = useState(true);
+    const [respInputPhone, setRespInputPhone] = useState(true);
+    const [respInputCep, setRespInputCep] = useState(true);
+    const [respInputEmail, setRespInputEmail] = useState(true);
+    const [respInputPassword, setRespInputPassword] = useState(true);
+
+    function ValidationStep() {
+        let isValid = false;
+
+        if (respInputName && respInputCpfOrCnpj && respInputBirthDate && respInputPhone
+            && respInputCep && respInputEmail && respInputPassword)
+            isValid = true;
+
+        // inverte por conta do disabled do btn, se for invalido o disabled tem que receber true.
+        return !isValid;
+    }
 
     showEditProfile ? document.documentElement.style.overflow = 'hidden' : document.documentElement.style.overflow = 'auto';
 
@@ -84,10 +106,84 @@ function Profile() {
 
     useEffect(() => { setCity(localStorage.getItem("cidade")) }, [])
 
+    const testeCard = [{
+        id: '1',
+        isFavorite: true,
+        photo: profilePhoto,
+        title: "Tatuagem cachorro",
+        artistPhoto: profilePhoto,
+        artistName: name
+    },
+    {
+        id: '2',
+        isFavorite: true,
+        photo: profilePhoto,
+        title: "Tatuagem besouro",
+        artistPhoto: profilePhoto,
+        artistName: name
+    },
+    {
+        id: '3',
+        isFavorite: true,
+        photo: profilePhoto,
+        title: "Tatuagem de besouro",
+        artistPhoto: profilePhoto,
+        artistName: name
+    },
+    {
+        id: '4',
+        photo: profilePhoto,
+        title: "Tatuagem cachorro",
+        artistPhoto: profilePhoto,
+        artistName: name
+    },
+    {
+        id: '5',
+        photo: profilePhoto,
+        title: "Tatuagem besouro",
+        artistPhoto: profilePhoto,
+        artistName: name
+    },
+    {
+        id: '6',
+        photo: profilePhoto,
+        title: "Tatuagem de besouro",
+        artistPhoto: profilePhoto,
+        artistName: name
+    },
+    {
+        id: '7',
+        photo: profilePhoto,
+        title: "Tatuagem de besouro",
+        artistPhoto: profilePhoto,
+        artistName: name
+    },
+    {
+        id: '8',
+        photo: profilePhoto,
+        title: "Tatuagem cachorro",
+        artistPhoto: profilePhoto,
+        artistName: name
+    },
+    {
+        id: '9',
+        photo: profilePhoto,
+        title: "Tatuagem besouro",
+        artistPhoto: profilePhoto,
+        artistName: name
+    },
+    {
+        id: '10',
+        photo: profilePhoto,
+        title: "Tatuagem de besouro",
+        artistPhoto: profilePhoto,
+        artistName: name
+    }]
+
     return (
         <>
-            <Header position={headerPosition} />
             {loading && <LinearProgress />}
+            <Header position={headerPosition} />
             <section>
                 <div className="profile-banner" style={{ height: loading ? "105px" : "170px" }} />
                 <div className="profile-div">
@@ -113,46 +209,67 @@ function Profile() {
                         <p>Edição de Perfil</p>
                         <Input text="Nome"
                             onChange={e => setName(e.target.value)}
+                            validator={NameValidator}
+                            validate={name}
+                            setRespValidation={setRespInputName}
                             value={name} />
                         <div className="inputs-row">
                             <Input text="CPF"
-                                marginRight ={15}
+                                marginRight={15}
                                 onChange={e => setCpf(e.target.value)}
-                                value={cpf} />
+                                value={cpf}
+                                validator={CpfValidator}
+                                validate={cpf}
+                                setRespValidation={setRespInputCpfOrCnpj} />
                             <Input text="Data nascimento"
                                 type={"date"}
                                 onChange={e => setBirthdayDate(e.target.value)}
-                                value={birthdayDate} />
+                                value={birthdayDate}
+                                validator={NameValidator}
+                                validate={name}
+                                setRespValidation={setRespInputEmail} />
                         </div>
                         <div className="inputs-row">
                             <Input text="CEP"
                                 onChange={e => setCep(e.target.value)}
-                                value={cep} />
+                                value={cep}
+                                validator={CepValidator}
+                                validate={cep}
+                                setRespValidation={setRespInputCep} />
                             <Input text="Telefone"
                                 marginLeft={15}
                                 onChange={e => setPhone(e.target.value)}
-                                value={phone} />
+                                value={phone}
+                                validator={PhoneValidator}
+                                validate={phone}
+                                setRespValidation={setRespInputPhone} />
                         </div>
                         <div className="inputs-row">
                             <Input text="Email"
                                 onChange={e => setEmail(e.target.value)}
-                                value={email} />
+                                value={email}
+                                validator={EmailValidator}
+                                validate={email}
+                                setRespValidation={setRespInputEmail} />
                             <Input text="Senha"
                                 marginLeft={15}
                                 onChange={e => setPassword(e.target.value)}
-                                value={password} />
+                                value={password}
+                                validator={PasswordValidator}
+                                validate={password}
+                                setRespValidation={setRespInputPassword} />
                         </div>
                         <button
                             className="save-btn"
-                            disabled={loading}
+                            disabled={ValidationStep()}
                             onClick={() => HandleEdit()}>
                             Salvar
                         </button>
                     </div>
                 </div>
-                <div className="container" style={{ overflow: 'hidden' }}>
-                    <div className="tattoo-list">
-                    </div>
+                <div className="profile-container">
+                    <Flatlist data={testeCard} type="tattoo" label="Tatuagens favoritas" />
+                    <Flatlist data={testeCard} type="tattooArtist" label="Tatuadores favoritos"/>
                 </div>
                 <Footer />
             </section>

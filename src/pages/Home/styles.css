@@ -76,11 +76,13 @@ body::-webkit-scrollbar {
 section.information-container section.styles {
     padding: 100px 50px;
     display: flex;
+    justify-content: space-evenly;
 }
 
 section.information-container section.styles div.demonstration {
     display: flex;
     flex: 1;
+    max-width: 500px;
     justify-content: space-evenly;
     flex-wrap: wrap;
 }
@@ -95,11 +97,13 @@ section.information-container section.styles div.demonstration > img:not(:last-c
 }
 
 section.information-container section.styles div.styles-content {
+    max-width: 700px;
     max-height: 500px;
     display: flex;
     flex: 1;
     flex-direction: column;
     justify-content: space-evenly;
+    margin-left: 10px;
 }
 
 section.information-container section.styles div.styles-content h2 {

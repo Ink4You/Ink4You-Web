@@ -37,7 +37,6 @@ function Login() {
         if (reason === 'clickaway') {
             return;
         }
-
         setErrorAuthentication(false);
     };
 
@@ -50,17 +49,16 @@ function Login() {
         try {
             if (accountState.userType === UsersTypes.TATTOOARTIST) {
                 const { data } = await api.get(`/tatuadores/login/${accountState.email}/${accountState.password}`);
-                console.log(data)
                 localStorage.setItem('@dataUser', JSON.stringify(data));
+                setLoading(false);
                 history.push('/Home');
             } else {
                 const { data } = await api.get(`/usuarios/login/${accountState.email}/${accountState.password}`);
-                console.log(data)
                 localStorage.setItem('@dataUser', JSON.stringify(data));
                 HandleCepAPI(data.cep);
+                setLoading(false);
                 history.push('/Home');
             }
-
         } catch (err) {
             setTimeout(() => {
                 setLoading(false);
@@ -68,6 +66,8 @@ function Login() {
             }, 2000);
         }
     }
+
+    loading ? document.documentElement.style.overflow = 'hidden' : document.documentElement.style.overflow = 'auto';
 
     return (
         <>

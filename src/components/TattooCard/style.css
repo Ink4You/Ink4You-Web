@@ -1,0 +1,52 @@
+.card {
+    width: 170px;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    margin: 30px;
+    margin-top: 25px;
+}
+
+.card:nth-child(1) {
+    margin-left: 50px;
+}
+
+.card .tattoo-photo {
+    width: 170px;
+    border-radius: 5px;
+    z-index: -1
+}
+
+.heart-icon {   
+    width: 18px;
+    align-self: flex-end;
+    margin-bottom: -24px;
+    margin-right: 8px;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.row .tattoo-artist-photo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.row .description {
+    margin-left: 10px;
+}
+
+.row .description p:nth-child(1) {
+    font-weight: 500;
+    color: var(--black);
+}
+
+.row .description p:nth-child(2) {
+    font-size: 14px;
+    color: var(--black);
+}

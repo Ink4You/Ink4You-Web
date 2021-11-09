@@ -20,6 +20,7 @@ div#items::-webkit-scrollbar-thumb {
     /* background-color: teal; */
 }
 div#items {
+    width: 100%;
     min-height: 200px;
     display: flex;
     align-items: center;
@@ -35,6 +36,7 @@ div#items div.item:first-child div.report {
 div#items div.item {
     flex: none;
     width: 35%;
+    min-width: 350px;
     pointer-events: none;
     scroll-snap-align: start;
     /* background-color: violet; */
