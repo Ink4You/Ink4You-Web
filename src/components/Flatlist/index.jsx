@@ -1,5 +1,6 @@
 import React from "react";
 import TattooCard from "../TattooCard";
+import TattooSimpleCard from "../TattooSimpleCard";
 import TattooArtistCard from "../TattooArtistCard";
 import './style.css';
 
@@ -9,7 +10,7 @@ function Flatlist(props) {
   return (
     <div className="flatlist">
       <p className="label">{props.label}</p>
-      <div className="list-container">
+      <div className="list-container" style={props.type === 'tattooSimple' ? {flexWrap: 'wrap', justifyContent: 'center'} : {}}>
         {props.type === 'tattoo' &&
           data.map((element) =>
             <TattooCard
@@ -24,6 +25,16 @@ function Flatlist(props) {
         {props.type === 'tattooArtist' &&
           data.map((element) =>
             <TattooArtistCard
+              key={element.id}
+              id={element.id}
+              tattooPhoto={element.photo}
+              artistPhoto={element.artistPhoto}
+              title={element.title}
+              artistName={element.artistName}
+            />)}
+        {props.type === 'tattooSimple' &&
+          data.map((element) =>
+            <TattooSimpleCard
               key={element.id}
               id={element.id}
               tattooPhoto={element.photo}

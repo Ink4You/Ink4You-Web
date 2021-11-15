@@ -1,0 +1,20 @@
+.simple-card {
+    width: 170px;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: 20px;
+    margin-top: 25px;
+}
+
+.simple-card .tattoo-photo {
+    width: 170px;
+    border-radius: 5px;
+    z-index: -1
+}
+
+.simple-card p {
+    color: var(--black);
+    margin-top: 8px;
+}
