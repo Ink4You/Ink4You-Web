@@ -1,7 +1,8 @@
 import React from "react";
-import TattooCard from "../TattooCard";
-import TattooSimpleCard from "../TattooSimpleCard";
-import TattooArtistCard from "../TattooArtistCard";
+import TattooCard from '../TattooCard';
+import TattooSimpleCard from '../TattooSimpleCard';
+import TattooArtistCard from '../TattooArtistCard';
+import Comment from '../Comment'
 import './style.css';
 
 function Flatlist(props) {
@@ -10,7 +11,7 @@ function Flatlist(props) {
   return (
     <div className="flatlist">
       <p className="label">{props.label}</p>
-      <div className="list-container" style={props.type === 'tattooSimple' ? {flexWrap: 'wrap', justifyContent: 'center'} : {}}>
+      <div className="list-container" style={props.type === 'tattooSimple' ? { flexWrap: 'wrap', justifyContent: 'center' } : {}}>
         {props.type === 'tattoo' &&
           data.map((element) =>
             <TattooCard
@@ -42,10 +43,21 @@ function Flatlist(props) {
               title={element.title}
               artistName={element.artistName}
             />)}
+        {props.type === 'comment' &&
+          data.map((element) =>
+            <Comment
+              key={element.id}
+              id={element.id}
+              userName={element.userName}
+              userPhoto={element.userPhoto}
+              comment={element.comment}
+              commentDate={element.commentDate}
+              ratting={element.ratting}
+            />)}
       </div>
     </div>
   );
-
+  
 }
 
 export default Flatlist

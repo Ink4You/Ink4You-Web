@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 import StarIcon from '../../img/star.svg';
 import EditIcon from '../../img/edit-2.svg';
 import MapPin from '../../img/map-pin.png';
@@ -73,6 +74,23 @@ const testeCard = [{
     artistName: "Bruno Matos"
 }];
 
+const testeComment = [{
+    id: '1',
+    userName: "Saulo Ferraz",
+    comment: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia, tempore, placeat numquam minima id dolorum quibusdam laborum ex, aliquam iusto in. Rem reiciendis repudiandae nisi, quasi asperiores molestiae repellendus error?",
+    userPhoto: profilePhoto,
+    commentDate: "31/07/2021",
+    ratting: 1
+},
+{
+    id: '2',
+    userName: "Paulo Pinto",
+    comment: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia, tempore, placeat numquam minima id dolorum quibusdam laborum ex, aliquam iusto in. Rem reiciendis repudiandae nisi, quasi asperiores molestiae repellendus error?",
+    userPhoto: profilePhoto,
+    commentDate: "28/07/2021",
+    ratting: 2
+}];
+
 function ArtistProfile() {
     return (
         <>
@@ -122,6 +140,9 @@ function ArtistProfile() {
                 </div>
                 <Flatlist wrap={true} data={testeCard} type="tattooSimple" label="Destaques" />
                 <Flatlist wrap={true} data={testeCard} type="tattooSimple" label="Tatuagens do Instagram" />
+                <Flatlist data={testeComment} type="comment" label="Avaliações e feedbacks" />
+
+                <Footer />
             </div>
         </>
     )

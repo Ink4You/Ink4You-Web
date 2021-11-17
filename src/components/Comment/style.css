@@ -1,0 +1,57 @@
+.comment-card {
+    width: 430px;
+    min-height: 160px;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: var(--secondary-white);
+}
+
+.comment-card .user-photo {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+
+.card-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.card-column {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.card-column:nth-child(1) {
+    width: 22%;
+}
+
+.card-column:nth-child(2) {
+    width: 60%;
+}
+
+.card-column p:nth-child(1) {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.card-column p:nth-child(2) {
+    font-size: 14px;
+}
+
+.comment-text {
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.ratings-star {
+    display: flex;
+    flex-direction: row;
+}
+
+.star-icon {
+    height: 5px;
+}
