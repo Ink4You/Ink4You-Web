@@ -10,7 +10,6 @@ import Footer from '../../components/Footer';
 import api from '../../api';
 import HandleCepAPI from '../../viaCep';
 import Flatlist from '../../components/Flatlist';
-import {testeCard} from '../../utils/MockData'; // Dados usados para teste.
 // import TattooCard from '../../components/TattooCard';
 import { CepValidator, CpfValidator, DateValidator, EmailValidator, NameValidator, PasswordValidator, PhoneValidator } from '../../utils/Validator';
 import './style.css';
@@ -64,7 +63,6 @@ function Profile() {
         return !isValid;
     }
 
-    // Travar scrool da tela quando o modal de edição estiver aberto.
     showEditProfile ? document.documentElement.style.overflow = 'hidden' : document.documentElement.style.overflow = 'auto';
 
     if (loading && headerPosition !== "relative") {
@@ -105,6 +103,82 @@ function Profile() {
         }
         setShowSnack(true);
     }
+
+    useEffect(() => { setCity(localStorage.getItem("cidade")) }, [])
+
+    const testeCard = [{
+        id: '1',
+        isFavorite: true,
+        photo: profilePhoto,
+        title: "Tatuagem cachorro",
+        artistPhoto: profilePhoto,
+        artistName: name
+    },
+    {
+        id: '2',
+        isFavorite: true,
+        photo: profilePhoto,
+        title: "Tatuagem besouro",
+        artistPhoto: profilePhoto,
+        artistName: name
+    },
+    {
+        id: '3',
+        isFavorite: true,
+        photo: profilePhoto,
+        title: "Tatuagem de besouro",
+        artistPhoto: profilePhoto,
+        artistName: name
+    },
+    {
+        id: '4',
+        photo: profilePhoto,
+        title: "Tatuagem cachorro",
+        artistPhoto: profilePhoto,
+        artistName: name
+    },
+    {
+        id: '5',
+        photo: profilePhoto,
+        title: "Tatuagem besouro",
+        artistPhoto: profilePhoto,
+        artistName: name
+    },
+    {
+        id: '6',
+        photo: profilePhoto,
+        title: "Tatuagem de besouro",
+        artistPhoto: profilePhoto,
+        artistName: name
+    },
+    {
+        id: '7',
+        photo: profilePhoto,
+        title: "Tatuagem de besouro",
+        artistPhoto: profilePhoto,
+        artistName: name
+    },
+    {
+        id: '8',
+        photo: profilePhoto,
+        title: "Tatuagem cachorro",
+        artistPhoto: profilePhoto,
+        artistName: name
+    },
+    {
+        id: '9',
+        photo: profilePhoto,
+        title: "Tatuagem besouro",
+        artistPhoto: profilePhoto,
+        artistName: name
+    },
+    {
+        id: '10',
+        photo: profilePhoto,
+        title: "Tatuagem de besouro",
+        artistPhoto: profilePhoto,
+        artistName: name
+    }]
 
     return (
         <>

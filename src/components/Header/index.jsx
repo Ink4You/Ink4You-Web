@@ -12,6 +12,7 @@ function Header(props) {
     const history = useHistory();
     const [iconTheme, setIconTheme] = useState(EveningIcon);
     const dataUser = JSON.parse(localStorage.getItem('@dataUser'));
+    const userType = localStorage.getItem('userType');
 
     function logout() {
         localStorage.removeItem('@dataUser');
@@ -60,7 +61,7 @@ function Header(props) {
                                 </button>
                                 {open ? (
                                     <div className="dropdown">
-                                        <div className="btn" onClick={() => history.push('/userProfile')}>
+                                        <div className="btn" onClick={() => userType === 'USER' ? history.push('/userProfile') : history.push('/artistProfile') }>
                                             <div></div>
                                             <span>Perfil</span>
                                         </div>

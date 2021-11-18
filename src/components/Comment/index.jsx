@@ -1,13 +1,21 @@
 import DOMPurify from 'dompurify';
-import StarIcon from '../../img/star.svg';
+import StarIcon from '../../img/star.png';
+import FilledStarIcon from '../../img/star-filled.png';
 import './style.css';
 
 function Ratings(nota) {
-    var teste = '';
+    let stars = '';
+    let rest = 5 - nota;
+
     for (let i = 1; i <= nota; i++) {
-        teste += `<img style="height: 15px" src=${StarIcon} alt="" />`;
+        stars += `<img style="height: 15px" src=${StarIcon} alt="" />`;
     }
-    return teste;
+
+    for(let i = 1; i <= rest; i++) {
+        stars += `<img style="height: 15px" src=${FilledStarIcon} alt="" />`;
+    }
+
+    return stars;
 }
 
 function Comment(props) {
