@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header';
 import img1 from '../../img/option-tattoo.jpg';
 import img2 from '../../img/option-tatuador.jpg';
@@ -6,8 +6,24 @@ import img3 from '../../img/SideImage.png';
 import Carousel from '../../components/Carousel';
 import Footer from '../../components/Footer';
 import './styles.css';
+import api from '../../api';
 
 function Home() {
+    const [relatos, setRelatos] = useState([]);
+
+
+    useEffect(() => {
+        async function getData() {
+            try {
+                const { data } = await api.get("/relatos/buscar-relatos");
+                setRelatos(data);
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        getData();
+    }, []);
+
     return (
         <>
             <Header />
@@ -32,39 +48,41 @@ function Home() {
                     </div>
                     <div className="styles-content">
                         <h2>Estilos</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem fugit odio officia ullam, explicabo repellat maiores modi soluta optio dolorem rem reiciendis debitis recusandae pariatur similique deleniti tempora porro quae?</p>
+                        <p> A tatuagem evoluiu muito - tanto socialmente como artisticamente - e novas técnicas e estilos surgem 
+                            para encantar quem curte os desenhos na pele. A boa notícia é que tem para todos os gostos, tanto para o 
+                            público que procura algo mais delicado quanto àqueles que prezam pelos detalhes do desenho.</p>
 
                         <table>
                             <tr>
-                                <td>estilo1</td>
-                                <td>estilo2</td>
-                                <td>estilo3</td>
+                                <td>PONTILHISMO</td>
+                                <td>OLD SCHOOL</td>
+                                <td>GEOMÉTRICO</td>
                             </tr>
                             <tr>
-                                <td>estilo4</td>
-                                <td>estilo5</td>
-                                <td>estilo6</td>
+                                <td>MINIMALISTA</td>
+                                <td>BLACKWORK</td>
+                                <td>SINGLE LINE</td>
                             </tr>
                             <tr>
-                                <td>estilo7</td>
-                                <td>estilo8</td>
-                                <td>estilo9</td>
+                                <td>GLITCH</td>
+                                <td>TINTA BRANCA</td>
+                                <td>TINTA VERMELHA</td>
                             </tr>
                             <tr>
-                                <td>estilo10</td>
-                                <td>estilo11</td>
-                                <td>estilo12</td>
+                                <td>PRETO E BRANCO</td>
+                                <td>SEM CONTORNO</td>
+                                <td>AQUARELA</td>
                             </tr>
+                            
                         </table>
                     </div>
                 </section>
             </section>
             <section className="reports">
                 <h2>Experiência de usuários</h2>
-                <Carousel data={[{"id": 1,"comment": 'Adorei me tatuar, foi uma experiência ótima!', "name": "ale"}]}/>
-
+                <Carousel data={relatos} />
             </section>
-            <Footer/>
+            <Footer />
         </>
     )
 }
