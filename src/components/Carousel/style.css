@@ -76,4 +76,6 @@ div.report img {
 
 div.report p {
     color: #707070;
+    width: 200px;
+    margin: 5px;
 }
