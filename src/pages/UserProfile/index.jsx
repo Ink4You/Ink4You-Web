@@ -10,7 +10,7 @@ import Footer from '../../components/Footer';
 import api from '../../api';
 import HandleCepAPI from '../../viaCep';
 import Flatlist from '../../components/Flatlist';
-import {testeCard} from '../../utils/MockData'; // Dados usados para teste.
+import { testeCard } from '../../utils/MockData'; // Dados usados para teste.
 // import TattooCard from '../../components/TattooCard';
 import { CepValidator, CpfValidator, DateValidator, EmailValidator, NameValidator, PasswordValidator, PhoneValidator } from '../../utils/Validator';
 import './style.css';
@@ -52,6 +52,14 @@ function Profile() {
     const [respInputCep, setRespInputCep] = useState(true);
     const [respInputEmail, setRespInputEmail] = useState(true);
     const [respInputPassword, setRespInputPassword] = useState(true);
+
+    useEffect(() => {
+        async function WorkAround() {
+            setCity(localStorage.getItem('cidade'));
+            setUf(localStorage.getItem('uf'));
+        }
+        WorkAround();
+    }, [loading]);
 
     function ValidationStep() {
         let isValid = false;
@@ -95,7 +103,7 @@ function Profile() {
         try {
             const { data } = await api.put(`/usuarios/${dataUser.id_usuario}`, userData);
             localStorage.setItem('@dataUser', JSON.stringify(data));
-            HandleCepAPI(data.cep);
+            await HandleCepAPI(cep);
             setLoading(false);
             setShowEditProfile(false);
         } catch (error) {
@@ -113,13 +121,25 @@ function Profile() {
             <section>
                 <div className="profile-banner" style={{ height: loading ? "105px" : "170px" }} />
                 <div className="profile-div">
-                    <img className="profile-img" style={{
-                        marginLeft: showEditProfile ? 150 : 0,
-                        width: showEditProfile ? 100 : 80,
-                        height: showEditProfile ? 100 : 80
-                    }}
-                        src={profilePhoto}
-                        alt="" />
+                    {profilePhoto &&
+                        <img className="profile-img" style={{
+                            marginLeft: showEditProfile ? 150 : 0,
+                            width: showEditProfile ? 100 : 80,
+                            height: showEditProfile ? 100 : 80
+                        }}
+                            src={profilePhoto}
+                            alt="" />
+                    }
+                    {!profilePhoto &&
+                        <div className="profile-avatar" id="profile-user-avatar" style={{
+                            marginLeft: showEditProfile ? 150 : 0,
+                            width: showEditProfile ? 100 : 80,
+                            height: showEditProfile ? 100 : 80
+                        }}>
+                            <p>{dataUser.nome.slice(0, 1).toUpperCase()}</p>
+                        </div>
+                    }
+
                     <button
                         className="edit-profile-btn"
                         onClick={() => setShowEditProfile(!showEditProfile)}>
@@ -195,7 +215,7 @@ function Profile() {
                 </div>
                 <div className="profile-container">
                     <Flatlist data={testeCard} type="tattoo" label="Tatuagens favoritas" />
-                    <Flatlist data={testeCard} type="tattooArtist" label="Tatuadores favoritos"/>
+                    <Flatlist data={testeCard} type="tattooArtist" label="Tatuadores favoritos" />
                 </div>
                 <Footer />
             </section>
