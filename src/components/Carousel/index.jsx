@@ -47,10 +47,3 @@ function Carousel() {
 }
 
 export default Carousel;
-
-
-{/* <img src={data[0].imagem} alt="Foto usuário" />
-                            <div>
-                                <p>{data[0].descricao}</p>
-                                <span>{data[0].nome_usuario}</span>
-                            </div> */}
