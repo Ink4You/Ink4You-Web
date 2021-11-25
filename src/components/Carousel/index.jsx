@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import './style.css';
 import img from '../../img/option-tattoo.jpg';
+import api from '../../api';
 
-function Carousel(props) {
-    const { data } = props
+
+function Carousel() {
+    const [relatos, setRelatos] = useState([]);
+
+
+    useEffect(() => {
+        async function getData() {
+            const { data } = await api.get("/relatos/buscar-relatos");
+            setRelatos(data.pilha);
+        }
+        getData();
+    }, []);
     return (
         <>
             <div className="items-wrapper">
@@ -12,19 +23,18 @@ function Carousel(props) {
 
                         <div className="report">
                             {
-                                data.map((element) =>
-                                    <> 
-                                        <img src={element.imagem} alt="Foto usuário" />
+                                relatos?.map((element) =>
+                                    <>
+                                        <img src={element?.imagem || ""}/>
                                         <div>
-                                            <p>{element.descricao}</p>
-                                            <span>{element.nome_usuario}</span>
+                                            <p>{element?.descricao || ""}</p>
+                                            <span>{element?.nome_usuario || ""}</span>
                                         </div>
                                     </>
                                 )
-                            }
 
+                            }
                         </div>
-                        {/* <img src={img} alt="" /> */}
                     </div>
 
                 </div>
