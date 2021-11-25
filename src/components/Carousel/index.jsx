@@ -24,13 +24,16 @@ function Carousel() {
                         <div className="report">
                             {
                                 relatos?.map((element) =>
-                                    <>
-                                        <img src={element?.imagem || ""}/>
-                                        <div>
-                                            <p>{element?.descricao || ""}</p>
-                                            <span>{element?.nome_usuario || ""}</span>
-                                        </div>
-                                    </>
+                                    element !== null && (
+                                        <>
+                                            <img src={element?.imagem || ""} />
+                                            <div>
+                                                <p>{element?.descricao || ""}</p>
+                                                <span>{element?.nome_usuario || ""}</span>
+                                            </div>
+                                        </>
+                                    )
+
                                 )
 
                             }
