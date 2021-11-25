@@ -24,13 +24,16 @@ function Carousel() {
                         <div className="report">
                             {
                                 relatos?.map((element) =>
-                                    <>
-                                        <img src={element?.imagem || ""}/>
-                                        <div>
-                                            <p>{element?.descricao || ""}</p>
-                                            <span>{element?.nome_usuario || ""}</span>
-                                        </div>
-                                    </>
+                                    element !== null && (
+                                        <>
+                                            <img src={element?.imagem || ""} />
+                                            <div>
+                                                <p>{element?.descricao || ""}</p>
+                                                <span>{element?.nome_usuario || ""}</span>
+                                            </div>
+                                        </>
+                                    )
+
                                 )
 
                             }
@@ -44,10 +47,3 @@ function Carousel() {
 }
 
 export default Carousel;
-
-
-{/* <img src={data[0].imagem} alt="Foto usuário" />
-                            <div>
-                                <p>{data[0].descricao}</p>
-                                <span>{data[0].nome_usuario}</span>
-                            </div> */}
