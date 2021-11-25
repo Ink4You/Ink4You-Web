@@ -6,24 +6,8 @@ import img3 from '../../img/SideImage.png';
 import Carousel from '../../components/Carousel';
 import Footer from '../../components/Footer';
 import './styles.css';
-import api from '../../api';
 
 function Home() {
-    const [relatos, setRelatos] = useState([]);
-
-
-    useEffect(() => {
-        async function getData() {
-            try {
-                const { data } = await api.get("/relatos/buscar-relatos");
-                setRelatos(data);
-            } catch (err) {
-                console.log(err);
-            }
-        }
-        getData();
-    }, []);
-
     return (
         <>
             <Header />
@@ -48,8 +32,8 @@ function Home() {
                     </div>
                     <div className="styles-content">
                         <h2>Estilos</h2>
-                        <p> A tatuagem evoluiu muito - tanto socialmente como artisticamente - e novas técnicas e estilos surgem 
-                            para encantar quem curte os desenhos na pele. A boa notícia é que tem para todos os gostos, tanto para o 
+                        <p> A tatuagem evoluiu muito - tanto socialmente como artisticamente - e novas técnicas e estilos surgem
+                            para encantar quem curte os desenhos na pele. A boa notícia é que tem para todos os gostos, tanto para o
                             público que procura algo mais delicado quanto àqueles que prezam pelos detalhes do desenho.</p>
 
                         <table>
@@ -73,14 +57,14 @@ function Home() {
                                 <td>SEM CONTORNO</td>
                                 <td>AQUARELA</td>
                             </tr>
-                            
+
                         </table>
                     </div>
                 </section>
             </section>
             <section className="reports">
                 <h2>Experiência de usuários</h2>
-                <Carousel data={relatos} />
+                <Carousel />
             </section>
             <Footer />
         </>
