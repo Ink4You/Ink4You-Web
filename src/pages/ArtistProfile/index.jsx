@@ -17,6 +17,7 @@ import { FormGroup, FormControlLabel, Switch } from '@material-ui/core';
 import InstagramIcon from '../../img/instagramIcon.png';
 import { apiKey, testeCard, testeComment } from '../../utils/MockData'; // Dados usados para teste.
 import { CepValidator, CnpjValidator, EmailValidator, NameValidator, PasswordValidator, PhoneValidator, InstagramAccountValidator } from '../../utils/Validator';
+import { InstagramImagesResponseToJson } from '../../utils/Adapter';
 import api from '../../api';
 import HandleCepAPI from '../../viaCep';
 import GeocodingApi from '../../geocodingApi';
@@ -65,6 +66,7 @@ function ArtistProfile() {
     const [respInputPassword, setRespInputPassword] = useState(true);
     const [respInstagramUsername, setRespInstagramUsername] = useState(true);
     const [pinCenter, setPinCenter] = useState({ lat: Number(localStorage.getItem('latitude')), lng: Number(localStorage.getItem('longitude')) });
+    const [instagramImages, setInstagramImages] = useState([]);
 
     useEffect(() => {
         async function WorkAround() {
@@ -75,6 +77,10 @@ function ArtistProfile() {
         }
         WorkAround();
     }, [loading]);
+
+    useEffect(() => {
+        GetInstagramImages();
+    },[]);
 
     const MapPin = () => <div> <img src={MapPinIcon} alt="" className="pin-img" /> </div>;
 
@@ -121,6 +127,16 @@ function ArtistProfile() {
 
     function SlideTransition(props) {
         return <Slide {...props} direction="up" />;
+    }
+
+    async function UpdateInstagramImages() {
+        alert("se prapara que o bagulho vai ficar doido")
+    }
+
+    async function GetInstagramImages() {
+        const { data } = await api.get("/instagram/3");
+        let dataFormated = InstagramImagesResponseToJson(data);
+        setInstagramImages(dataFormated);
     }
 
     function RenderMap() {
@@ -289,10 +305,13 @@ function ArtistProfile() {
                     <img src={PlusIcon} alt="" />
                 </div>
                 <Flatlist wrap={true} data={testeCard} type="tattooSimple" label="Destaques" />
-                <div className="update-instagram-button" id="update-instagram-images">
+                <div className="update-instagram-button" id="update-instagram-images" onClick={() => {
+                    UpdateInstagramImages();
+                    GetInstagramImages();
+                }}>
                     <img src={RefreshIcon} alt="" />
                 </div>
-                <Flatlist wrap={true} data={testeCard} type="tattooSimple" label="Tatuagens do Instagram" />
+                <Flatlist wrap={true} data={instagramImages} type="tattooSimple" label="Tatuagens do Instagram" />
                 <Flatlist data={testeComment} type="comment" label="Avaliações e feedbacks" />
                 <Snackbar open={showSnack}
                     autoHideDuration={6000}
