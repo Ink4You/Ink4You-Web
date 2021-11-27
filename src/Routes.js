@@ -4,6 +4,7 @@ import Register from './pages/Register';
 import PasswordRecuperation from './pages/PasswordRecuperation';
 import UserProfile from './pages/UserProfile';
 import ArtistProfile from './pages/ArtistProfile';
+import ArtistList from './pages/ArtistList';
 import './global.css';
 
 import {
@@ -27,6 +28,9 @@ function Routes() {
         </Route>
         <Route path='/Home'>
           <Home />
+        </Route>
+        <Route path='/TattooArtists'>
+          <ArtistList />
         </Route>
         <Route path='/PasswordRecuperation'>
           <PasswordRecuperation />

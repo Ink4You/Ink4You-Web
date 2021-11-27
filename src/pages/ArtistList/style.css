@@ -1,0 +1,83 @@
+section.container {
+    height: calc(100vh - 65px);
+    margin-top: 65px;
+    background-color: var(--white);
+}
+
+section.container section.filters {
+    width: 270px;
+    padding: 50px;
+    background-color: var(--secondary-white);
+}
+
+section.container section.filters fieldset {
+    border: 0;
+    margin-top: 15px;
+}
+
+section.container section.filters fieldset h3 {
+    margin-bottom: 15px;
+}
+
+section.container section.filters fieldset div label {
+    margin-left: 10px;
+} 
+
+section.container section.filters fieldset div select {
+    width: 100%;
+    height: 36px;
+    margin-bottom: 15px;
+    border: 0;
+    border-radius: 5px;
+    padding-left: 5px;
+    font-family: 'Saira', 'Roboto', 'Oxygen',
+   'Helvetica Neue',
+    sans-serif;
+}
+
+section.container section.artist-list {
+    width: calc(100% - 270px);
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 32px 50px; /* 32px por causa da label do input de pesquisa */
+    /* background-color: var(--white); */
+}
+
+section.container section.artist-list div.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* background-color: tomato; */
+}
+
+section.container section.artist-list div.header h2 {
+    margin-top: 18px; /* 18px por causa da label do input de pesquisa */
+}
+
+section.container section.artist-list div.header div.search-container {
+    display: flex;
+    align-items: flex-end; /* por causa da label */
+    /* background-color: yellowgreen; */
+}
+
+section.container section.artist-list div.header div.search-container button {
+    width: 46px;
+    height: 46px;
+    border: transparent;
+    border-radius: 5px;
+    color: white;
+    background-image: var(--blue-gradient);
+}
+
+section.container section.artist-list div.header div.search-container button img {
+    width: 20px;
+    color: #fff;
+}
+
+section.container section.artist-list div.content {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    /* background-color: turquoise; */
+}
