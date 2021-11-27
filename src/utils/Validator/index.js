@@ -236,10 +236,8 @@ export function InstagramAccountValidator(input) {
     let resp = false;
 
     if (input !== '' && input !== null && input !== undefined) {
-
-        if (input.search('@') !== -1) {
+        
             resp = input.length > 1 ? true : false;
-        }
 
     }
 

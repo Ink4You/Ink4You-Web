@@ -50,11 +50,13 @@ function Login() {
             if (accountState.userType === UsersTypes.TATTOOARTIST) {
                 const { data } = await api.get(`/tatuadores/login/${accountState.email}/${accountState.password}`);
                 localStorage.setItem('@dataUser', JSON.stringify(data));
+                localStorage.setItem('userType', 'TATTOOARTIST');
                 setLoading(false);
                 history.push('/Home');
             } else {
                 const { data } = await api.get(`/usuarios/login/${accountState.email}/${accountState.password}`);
                 localStorage.setItem('@dataUser', JSON.stringify(data));
+                localStorage.setItem('userType', 'USER');
                 HandleCepAPI(data.cep);
                 setLoading(false);
                 history.push('/Home');

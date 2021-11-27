@@ -92,3 +92,7 @@ code {
   margin-top: 20px;
   cursor: pointer;
 } 
+
+.MuiLinearProgress-root {
+  z-index: 25;
+}

@@ -2,7 +2,8 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import Register from './pages/Register';
 import PasswordRecuperation from './pages/PasswordRecuperation';
-import Profile from './pages/Profile';
+import UserProfile from './pages/UserProfile';
+import ArtistProfile from './pages/ArtistProfile';
 import './global.css';
 
 import {
@@ -30,8 +31,11 @@ function Routes() {
         <Route path='/PasswordRecuperation'>
           <PasswordRecuperation />
         </Route>
-        <Route path='/Profile'>
-          <Profile />
+        <Route path='/UserProfile'>
+          <UserProfile />
+        </Route>
+        <Route path='/ArtistProfile'>
+          <ArtistProfile />
         </Route>
       </Switch>
     </Router>
