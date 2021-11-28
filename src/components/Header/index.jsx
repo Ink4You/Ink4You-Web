@@ -34,7 +34,7 @@ function Header(props) {
                 <img src={Logo} onClick={() => history.push('/')} alt="Logo Ink4You" />
             </div>
             <div className="div-options">
-                <Link to='/'>Tatuadores</Link>
+                <Link to='/TattooArtists'>Tatuadores</Link>
                 <Link to='/'>Tatuagens</Link>
                 <Link to='/'>Informações</Link>
                 <Link to='/'>Relatos</Link>

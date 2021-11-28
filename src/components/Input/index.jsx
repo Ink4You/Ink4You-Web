@@ -13,11 +13,13 @@ function Input(props) {
     const [isValid, setIsValid] = useState(true);
 
     function Validation() {
-        let resp = props.validator(props.validate);
-        //console.log(props.validator(props.validate))
-        setIsValid(resp);
-        props.setRespValidation(resp);
-        return resp;
+        if (props.validator !== undefined) {
+            let resp = props.validator(props.validate);
+            //console.log(props.validator(props.validate))
+            setIsValid(resp);
+            props.setRespValidation(resp);
+            return resp;
+        }
     }
 
     return (
