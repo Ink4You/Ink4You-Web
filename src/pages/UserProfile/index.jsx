@@ -94,10 +94,6 @@ function Profile() {
         setShowSnack(false);
     };
 
-    function SlideTransition(props) {
-        return <Slide {...props} direction="up" />;
-    }
-
     async function HandleEdit() {
         setLoading(true);
         try {
@@ -222,7 +218,6 @@ function Profile() {
             <Snackbar open={showSnack}
                 autoHideDuration={6000}
                 onClose={handleClose}
-                TransitionComponent={SlideTransition}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
                 <Alert onClose={handleClose} severity={error ? "error" : "success"}>
                     {error ? "Erro ao editar perfil" : "Perfil editado com sucesso"}

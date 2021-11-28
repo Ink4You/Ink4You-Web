@@ -58,10 +58,9 @@
 }
 
 .profile-avatar p {
-    font-size: 70px;
-    color: white;
+    font-size: 50px !important;
+    color: white !important;
 }
-
 
 .profile-artist-container .profile-infos .name-and-photo .stars-row {
     display: flex;
@@ -175,6 +174,21 @@
     height: 16px;
 }
 
+.circularProgress {
+    display: flex;
+    width: 30px;
+    height: 30px;
+    justify-content: center;
+    align-items: center;
+    align-self: flex-end;
+    margin-right: 75px;
+    margin-bottom: -55px;
+}
+
+.circularProgress img {
+    height: 35px;
+}
+
 .profile-artist-container .profile-infos .location-infos .map {
     width: 265px;
     height: 150px;
@@ -185,7 +199,71 @@
     height: 40px;
 }
 
-.edit-profile-container-row {
+.add-tattoo {
+    width: 500px;
+    height: calc(100% + 102px);
+    display: flex;
+    justify-content: center;
+    margin-top: -102px;
+    position: absolute;
+    z-index: 1;
+    background-color:var(--white);
+    transition: all ease 0.5s;
+}
+
+.add-tattoo .add-tattoo-container {
+    width: 75%;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 70px;
+}
+
+.add-tattoo .add-tattoo-container .inputs-row { 
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.add-tattoo .add-tattoo-container p{
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--secondary-black);
+    text-align: center;
+}
+
+.add-tattoo .add-tattoo-container .inputs-column,
+.edit-profile .edit-profile-container .inputs-column { 
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+}
+
+.add-tattoo .add-tattoo-container .inputs-column textarea,
+.edit-profile .edit-profile-container .inputs-column textarea {
+    width: 100%;
+    max-width: 375px;
+    border: none;
+    border-radius: 5px;
+    padding: 15px;
+    font-size: 14px;
+    font-family: 'Saira', 'Roboto', 'Oxygen',
+   'Helvetica Neue',
+    sans-serif;
+}
+
+.add-tattoo .add-tattoo-container .inputs-column label,
+.edit-profile .edit-profile-container .inputs-column label {
+    font-size: 14px;
+    margin-left: 15px;
+    color: #757575;
+    font-weight: 500;
+}
+
+.edit-profile-container-row,
+.add-tattoo-container-row {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -194,7 +272,8 @@
     margin-bottom: 15px;
 }
 
-.edit-profile-container-row img {
+.edit-profile-container-row img, 
+.add-tattoo-container-row img {
     height: 90px;
     border-radius: 50%;
     margin-right: 20px;

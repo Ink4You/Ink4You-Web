@@ -81,7 +81,7 @@
     justify-content: center;
     margin-top: -102px;
     position: absolute;
-    z-index: 1;
+    z-index: 2;
     background-color:var(--white);
     transition: all ease 0.5s;
 }
@@ -99,33 +99,6 @@
     width: 100%;
     display: flex;
     flex-direction: row;
-}
-
-.edit-profile .edit-profile-container .inputs-column { 
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    margin-top: 5px;
-}
-
-
-.edit-profile .edit-profile-container .inputs-column textarea {
-    width: 100%;
-    max-width: 375px;
-    border: none;
-    border-radius: 5px;
-    padding: 15px;
-    font-size: 14px;
-    font-family: 'Saira', 'Roboto', 'Oxygen',
-   'Helvetica Neue',
-    sans-serif;
-}
-
-.edit-profile .edit-profile-container .inputs-column label {
-    font-size: 14px;
-    margin-left: 15px;
-    color: #757575;
-    font-weight: 500;
 }
 
 .edit-profile .edit-profile-container p{

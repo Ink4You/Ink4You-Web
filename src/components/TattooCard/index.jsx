@@ -8,7 +8,7 @@ function TattooCard(props) {
 
     return (
     <div className="card">
-        <img className="heart-icon" onClick={() => alert(props.id)} src={props.isFavorite ? heartIcon : heartFilledIcon} alt=""/>
+        {/* <img className="heart-icon" onClick={() => alert(props.id)} src={props.isFavorite ? heartIcon : heartFilledIcon} alt=""/> */}
         <img className="tattoo-photo" src={props.tattooPhoto} alt=""/>
         <div className="row">
             <img className="tattoo-artist-photo" src={props.artistPhoto} alt=""/>

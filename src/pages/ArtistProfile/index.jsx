@@ -8,14 +8,14 @@ import PlusIcon from '../../img/plus.svg';
 import RefreshIcon from '../../img/refresh.svg';
 import MapPinIcon from '../../img/map-pin.png';
 import GoogleMapReact from 'google-map-react';
+import CircularLoading from '../../img/circularLoading.gif';
 import Flatlist from '../../components/Flatlist';
 import Input from '../../components/Input';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import Slide from '@material-ui/core/Slide';
 import { FormGroup, FormControlLabel, Switch } from '@material-ui/core';
 import InstagramIcon from '../../img/instagramIcon.png';
-import { apiKey, testeCard, testeComment } from '../../utils/MockData'; // Dados usados para teste.
+import { apiKey, testeCard, testeComment, randomTatooImg } from '../../utils/MockData'; // Dados usados para teste.
 import { CepValidator, CnpjValidator, EmailValidator, NameValidator, PasswordValidator, PhoneValidator, InstagramAccountValidator } from '../../utils/Validator';
 import { InstagramImagesResponseToJson } from '../../utils/Adapter';
 import api from '../../api';
@@ -24,25 +24,29 @@ import GeocodingApi from '../../geocodingApi';
 import './style.css';
 
 function ArtistProfile() {
+    const [isAdmin, setIsAdmin] = useState(false);
     const [showEditProfile, setShowEditProfile] = useState(false);
+    const [showAddTattoo, setShowAddTattoo] = useState(false);
+    const [updateStatus, setUpdateStatus] = useState(false);
     const [loading, setLoading] = useState(false);
     const [showSnack, setShowSnack] = useState(false);
     const [error, setError] = useState(false);
 
     const dataUser = JSON.parse(localStorage.getItem('@dataUser'));
-    const [name, setName] = useState(dataUser.nome);
-    const [birthdayDate, setBirthdayDate] = useState(dataUser.data_nascimento.substring(0, 10));
-    const [cnpj, setCnpj] = useState(dataUser.cnpj);
-    const [cep, setCep] = useState(dataUser.cep);
-    const [street, setStreet] = useState(localStorage.getItem('logradouro'));
-    const [streetNumber, setStreetNumber] = useState(dataUser.numero_logradouro);
-    const [profilePhoto, setProfilePhoto] = useState(dataUser.foto_perfil);
-    const [aboutArtist, setAboutArtist] = useState(dataUser.sobre);
-    const [email, setEmail] = useState(dataUser.email);
-    const [password, setPassword] = useState(dataUser.senha);
-    const [instagramIntegration, setInstagramIntegration] = useState(dataUser.conta_instagram ? true : false);
-    const [instagramUsername, setInstagramUsername] = useState(dataUser.conta_instagram);
-    const [phone, setPhone] = useState(dataUser.telefone);
+    const [id, setId] = useState();
+    const [name, setName] = useState();
+    const [birthdayDate, setBirthdayDate] = useState();
+    const [cnpj, setCnpj] = useState();
+    const [cep, setCep] = useState();
+    const [street, setStreet] = useState();
+    const [streetNumber, setStreetNumber] = useState();
+    const [profilePhoto, setProfilePhoto] = useState();
+    const [aboutArtist, setAboutArtist] = useState();
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+    const [instagramIntegration, setInstagramIntegration] = useState();
+    const [instagramUsername, setInstagramUsername] = useState();
+    const [phone, setPhone] = useState();
     const userData = {
         "nome": name,
         "username": null,
@@ -79,10 +83,52 @@ function ArtistProfile() {
     }, [loading]);
 
     useEffect(() => {
-        GetInstagramImages();
-    },[]);
+        async function WorkAround2() {
+            const instaImages = await GetInstagramImages(id);
+            setInstagramImages(instaImages);
+        }
+        WorkAround2();
+    }, [updateStatus]);
+
+    useEffect(() => {
+        GetArtistId();
+    }, []);
 
     const MapPin = () => <div> <img src={MapPinIcon} alt="" className="pin-img" /> </div>;
+
+    function GetArtistId() {
+        const url = window.location.href.split('?');
+
+        url[1] == dataUser.id_tatuador ? setIsAdmin(true) : setIsAdmin(false)
+
+        if (url[1] !== undefined) {
+            GetArtistInfos(url[1]);
+        } else {
+            GetArtistInfos(dataUser.id_tatuador);
+        }
+    }
+
+    async function GetArtistInfos(id) {
+        const { data } = await api.get(`/tatuadores/${id}`);
+
+        setId(data.id_tatuador);
+        setName(data.nome);
+        setBirthdayDate(data.data_nascimento);
+        setCnpj(data.cnpj);
+        setCep(data.cep);
+        setStreet(data.logradouro);
+        setStreetNumber(data.numero_logradouro);
+        setProfilePhoto(data.foto_perfil);
+        setAboutArtist(data.sobre);
+        setEmail(data.email);
+        setPassword(data.senha);
+        setInstagramIntegration(data.conta_instagram ? true : false);
+        setInstagramUsername(data.conta_instagram);
+        setPhone(data.telefone);
+
+        GetInstagramImages(data.id_tatuador);
+
+    }
 
     function ValidationStep() {
         let isValid = false;
@@ -98,6 +144,10 @@ function ArtistProfile() {
         setLoading(true);
         try {
             const { data } = await api.put(`/tatuadores/${dataUser.id_tatuador}`, userData);
+            if (dataUser.conta_instagram !== instagramUsername) {
+                setUpdateStatus(true);
+                UpdateInstagramImages();
+            }
             localStorage.setItem('@dataUser', JSON.stringify(data));
             HandleCepAPI(data.cep);
             GeocodingApi(data.cep);
@@ -111,7 +161,7 @@ function ArtistProfile() {
         setShowSnack(true);
     }
 
-    showEditProfile ? document.documentElement.style.overflow = 'hidden' : document.documentElement.style.overflow = 'auto';  // Travar scrool da tela quando o modal de edição estiver aberto.
+    showEditProfile || showAddTattoo ? document.documentElement.style.overflow = 'hidden' : document.documentElement.style.overflow = 'auto';  // Travar scrool da tela quando o modal de edição estiver aberto.
 
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -125,18 +175,16 @@ function ArtistProfile() {
         setShowSnack(false);
     };
 
-    function SlideTransition(props) {
-        return <Slide {...props} direction="up" />;
-    }
-
     async function UpdateInstagramImages() {
-        alert("se prapara que o bagulho vai ficar doido")
+        await api.get(`/instagram/atualizar-imagens/${id}`);
+        setUpdateStatus(false);
     }
 
-    async function GetInstagramImages() {
-        const { data } = await api.get("/instagram/3");
+    async function GetInstagramImages(id) {
+        const { data } = await api.get(`/instagram/${id}`);
         let dataFormated = InstagramImagesResponseToJson(data);
         setInstagramImages(dataFormated);
+        return dataFormated;
     }
 
     function RenderMap() {
@@ -158,6 +206,8 @@ function ArtistProfile() {
         <>
             {loading && <LinearProgress />}
             <Header />
+
+            {/* MODAIS */}
             <div className="edit-profile" style={{ left: showEditProfile ? 0 : -700 }}>
                 <div className="edit-profile-container" style={{ marginTop: loading ? 140 : 70 }}>
                     <div className="edit-profile-container-row">
@@ -258,9 +308,43 @@ function ArtistProfile() {
                         onClick={() => HandleEdit()}>
                         Salvar
                     </button>
+                </div>
+            </div>
+
+            <div className="add-tattoo" style={{ left: showAddTattoo ? 0 : -700 }}>
+                <div className="add-tattoo-container" style={{ marginTop: loading ? 140 : 70 }}>
+                    <div className="add-tattoo-container-row">
+                        <img src={randomTatooImg} alt="" srcset="" />
+                        <p>Adicionar Destaque</p>
+                    </div>
+                    <Input text="Título"
+                        onChange={e => setName(e.target.value)}
+                        value={name}
+                        validator={NameValidator}
+                        validate={name}
+                        setRespValidation={setRespInputName} />
+                    <Input text="Local"
+                        onChange={e => setCnpj(e.target.value)}
+                        value={cnpj}
+                        validator={CnpjValidator}
+                        validate={cnpj}
+                        setRespValidation={setRespInputCpfOrCnpj} />
+                    <Input text="SRC da Imagem"
+                        onChange={e => setCnpj(e.target.value)}
+                        value={cnpj}
+                        validator={CnpjValidator}
+                        validate={cnpj}
+                        setRespValidation={setRespInputCpfOrCnpj} />
+                    <button
+                        className="save-btn"
+                        disabled={ValidationStep()}
+                        onClick={() => HandleEdit()}>
+                        Salvar
+                    </button>
 
                 </div>
             </div>
+
             <div className="profile-artist-container">
                 <div className="profile-infos">
                     <div className="name-and-photo">
@@ -270,7 +354,7 @@ function ArtistProfile() {
                         }
                         {!profilePhoto &&
                             <div className="profile-avatar" alt="">
-                                <p>{dataUser.nome.slice(0, 1).toUpperCase()}</p>
+                                <p>{name !== undefined ? name[0].toUpperCase() : ''}</p>
                             </div>
                         }
                         <div className="stars-row">
@@ -294,29 +378,47 @@ function ArtistProfile() {
                     <div className="location-infos">
                         <div className="location-row">
                             <p>Local - {street}, {streetNumber} - {cep}</p>
-                            <div className="edit-button" onClick={() => setShowEditProfile(!showEditProfile)}>
-                                <img src={EditIcon} alt="" />
-                            </div>
+                            {isAdmin &&
+                                <div className="edit-button" onClick={() => {
+                                    setShowAddTattoo(false);
+                                    setShowEditProfile(!showEditProfile);
+                                }}>
+                                    <img src={EditIcon} alt="" />
+                                </div>
+                            }
                         </div>
                         {RenderMap()}
                     </div>
                 </div>
-                <div className="new-tattoo-button" id="new-tattoo">
-                    <img src={PlusIcon} alt="" />
-                </div>
+                {isAdmin &&
+                    <div className="new-tattoo-button" id="new-tattoo" onClick={() => {
+                        setShowEditProfile(false);
+                        setShowAddTattoo(!showAddTattoo);
+                    }}>
+                        <img src={PlusIcon} alt="" />
+                    </div>
+                }
                 <Flatlist wrap={true} data={testeCard} type="tattooSimple" label="Destaques" />
-                <div className="update-instagram-button" id="update-instagram-images" onClick={() => {
-                    UpdateInstagramImages();
-                    GetInstagramImages();
-                }}>
-                    <img src={RefreshIcon} alt="" />
-                </div>
-                <Flatlist wrap={true} data={instagramImages} type="tattooSimple" label="Tatuagens do Instagram" />
+                {(!updateStatus && isAdmin) &&
+                    <div className="update-instagram-button" id="update-instagram-images" onClick={() => {
+                        setUpdateStatus(true);
+                        UpdateInstagramImages();
+                    }}>
+                        <img src={RefreshIcon} alt="" />
+                    </div>
+                }
+                {updateStatus &&
+                    <div className="circularProgress">
+                        <img src={CircularLoading} alt="" />
+                    </div>
+                }
+                {instagramUsername &&
+                    <Flatlist wrap={true} data={instagramImages} type="tattooSimple" label="Tatuagens do Instagram" />
+                }
                 <Flatlist data={testeComment} type="comment" label="Avaliações e feedbacks" />
                 <Snackbar open={showSnack}
                     autoHideDuration={6000}
                     onClose={handleClose}
-                    TransitionComponent={SlideTransition}
                     anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
                     <Alert onClose={handleClose} severity={error ? "error" : "success"}>
                         {error ? "Erro ao editar perfil" : "Perfil editado com sucesso"}

@@ -21,7 +21,7 @@ function ArtistList() {
     return (
         <>
             <Header/>
-            <section className="container">
+            <section className="container container-artist-list">
                 <section className="filters">
                     <h2>Aplicar filtros</h2>
                     <fieldset>
@@ -63,7 +63,7 @@ function ArtistList() {
                 <section className="artist-list">
                     <div className="header">
                         <h2>Tatuadores</h2>
-                        <div className="search-container">    
+                        <div className="search-container-artist-list">    
                             <Input text="Pesquisar" type="search" height={46} /> 
                             <button><img src={SearchIcon} alt="Buscar" /></button>
                         </div>

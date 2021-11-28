@@ -16,7 +16,6 @@ import HandleCepAPI from '../../viaCep';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import Slide from '@material-ui/core/Slide';
 
 function Login() {
     const [step, setStep] = useState(0);
@@ -39,10 +38,6 @@ function Login() {
         }
         setErrorAuthentication(false);
     };
-
-    function SlideTransition(props) {
-        return <Slide {...props} direction="up" />;
-    }
 
     async function HandleLogin() {
         setLoading(true);
@@ -96,7 +91,6 @@ function Login() {
             <Snackbar open={errorAuthentication}
                 autoHideDuration={6000}
                 onClose={handleClose}
-                TransitionComponent={SlideTransition}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}>
                 <Alert onClose={handleClose} severity="error">
                     Email ou senha inválidos

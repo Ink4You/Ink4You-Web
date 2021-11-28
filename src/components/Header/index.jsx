@@ -61,7 +61,7 @@ function Header(props) {
                                 </button>
                                 {open ? (
                                     <div className="dropdown">
-                                        <div className="btn" onClick={() => userType === 'USER' ? history.push('/userProfile') : history.push('/artistProfile') }>
+                                        <div className="btn" onClick={() => userType === 'USER' ? history.push('/userProfile') : history.push(`/artistProfile/?${dataUser.id_tatuador}`) }>
                                             <div></div>
                                             <span>Perfil</span>
                                         </div>

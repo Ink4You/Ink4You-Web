@@ -7,7 +7,6 @@ import './style.css';
 
 function Flatlist(props) {
   const data = props.data;
-  console.log(data);
   return (
     <div className="flatlist">
       <p className="label">{props.label}</p>
