@@ -1,3 +1,10 @@
+label {
+    font-size: 14px;
+    margin-left: 15px;
+    color: #757575;
+    font-weight: 500;
+} 
+
 .profile-artist-container {
     display: flex;
     width: 100%;
@@ -42,7 +49,6 @@
     border-radius: 50%;
     margin-top: 8px;
     margin-bottom: 8px;
-    background-color: tomato;
 }
 
 .profile-avatar {
@@ -85,6 +91,7 @@
 
 .profile-artist-container .profile-infos .description .instagram-row {
     display: flex;
+    width: max-content;
     flex-direction: row;
     align-items: center;
     cursor: pointer;
@@ -239,12 +246,15 @@
     display: flex;
     flex-direction: column;
     margin-top: 5px;
+    margin-bottom: 10px;
 }
 
 .add-tattoo .add-tattoo-container .inputs-column textarea,
 .edit-profile .edit-profile-container .inputs-column textarea {
     width: 100%;
     max-width: 375px;
+    max-height: 120px;
+    resize: none;
     border: none;
     border-radius: 5px;
     padding: 15px;
@@ -262,13 +272,36 @@
     font-weight: 500;
 }
 
+.tattoo-styles {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    display: flex;
+    flex-direction: row;
+}
+
+.tattoo-styles input {
+    margin-left: 10px;
+}
+
+.tattoo-styles p {
+    font-size: 16px !important;
+    margin-left: 5px;
+}
+
+.tattoo-styles .tattoo-styles-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .edit-profile-container-row,
 .add-tattoo-container-row {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin-top: 50px;
+    margin-top: 40px;
     margin-bottom: 15px;
 }
 

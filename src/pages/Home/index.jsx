@@ -5,9 +5,13 @@ import img2 from '../../img/option-tatuador.jpg';
 import img3 from '../../img/SideImage.png';
 import Carousel from '../../components/Carousel';
 import Footer from '../../components/Footer';
+import { useHistory } from 'react-router-dom';
 import './styles.css';
 
 function Home() {
+
+    const history = useHistory();
+
     return (
         <>
             <Header />
@@ -17,7 +21,7 @@ function Home() {
                         <p>Tatuagens</p>
                     </div>
                 </div>
-                <div className="artist-option-img">
+                <div className="artist-option-img" onClick={() => history.push('/TattooArtists')} >
                     <div className="artist-option">
                         <p>Tatuadores</p>
                     </div>

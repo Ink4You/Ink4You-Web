@@ -60,4 +60,4 @@ function Flatlist(props) {
 
 }
 
-export default Flatlist
+export default Flatlist;

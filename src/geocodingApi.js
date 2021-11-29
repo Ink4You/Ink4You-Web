@@ -13,6 +13,8 @@ async function GeocodingApi(cep) {
         const data = response.data.results[0].geometry.location;
         localStorage.setItem('latitude', data.lat);
         localStorage.setItem('longitude', data.lng);
+
+
     } catch (error) {
         console.log(error);
     }
