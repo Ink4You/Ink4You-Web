@@ -5,6 +5,7 @@ import PasswordRecuperation from './pages/PasswordRecuperation';
 import UserProfile from './pages/UserProfile';
 import ArtistProfile from './pages/ArtistProfile';
 import ArtistList from './pages/ArtistList';
+import TattooList from './pages/TattooList';
 import './global.css';
 
 import {
@@ -31,6 +32,9 @@ function Routes() {
         </Route>
         <Route path='/TattooArtists'>
           <ArtistList />
+        </Route>
+        <Route path='/Tattoo'>
+          <TattooList/>
         </Route>
         <Route path='/PasswordRecuperation'>
           <PasswordRecuperation />

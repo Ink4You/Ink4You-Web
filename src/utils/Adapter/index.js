@@ -28,6 +28,5 @@ export function Ratings(nota) {
         stars += `<img style="height: 15px" src=${FilledStarIcon} alt="" />`;
     }
 
-    console.log(stars)
     return stars;
 }

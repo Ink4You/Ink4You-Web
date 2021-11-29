@@ -161,7 +161,7 @@ function ArtistProfile() {
             <div className="edit-profile" style={{ left: showEditProfile ? 0 : -700 }}>
                 <div className="edit-profile-container" style={{ marginTop: loading ? 140 : 70 }}>
                     <div className="edit-profile-container-row">
-                        <img src={profilePhoto} alt="" srcset="" />
+                        <img src={`data:image/jpeg;base64,${profilePhoto}`} alt="" srcset="" />
                         <p>Edição de Perfil</p>
                     </div>
                     <Input text="Nome"

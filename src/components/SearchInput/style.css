@@ -1,0 +1,19 @@
+div.search-container {
+    display: flex;
+    align-items: flex-end; /* por causa da label */
+    /* background-color: yellowgreen; */
+}
+
+div.search-container button {
+    width: 46px;
+    height: 46px;
+    border: transparent;
+    border-radius: 5px;
+    color: white;
+    background-image: var(--blue-gradient);
+}
+
+div.search-container button img {
+    width: 20px;
+    color: #fff;
+}

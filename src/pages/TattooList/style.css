@@ -1,10 +1,4 @@
-section.container {
-    height: calc(100vh - 65px);
-    margin-top: 65px;
-    background-color: var(--white);
-}
-
-section.container section.artist-list {
+section.container section.tattoo-list {
     width: calc(100% - 270px);
     display: flex;
     flex: 1;
@@ -13,18 +7,19 @@ section.container section.artist-list {
     /* background-color: var(--white); */
 }
 
-section.container section.artist-list div.header {
+
+section.container section.tattoo-list div.header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     /* background-color: tomato; */
 }
 
-section.container section.artist-list div.header h2 {
+section.container section.tattoo-list div.header h2 {
     margin-top: 18px; /* 18px por causa da label do input de pesquisa */
 }
 
-section.container section.artist-list div.content {
+section.container section.tattoo-list div.content {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
