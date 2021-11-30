@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import { useHistory } from 'react-router-dom';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import StarIcon from '../../img/star.png';
+import DOMPurify from 'dompurify';
 import EditIcon from '../../img/edit.png';
 import PlusIcon from '../../img/plus.svg';
 import RefreshIcon from '../../img/refresh.svg';
@@ -17,13 +18,14 @@ import { FormGroup, FormControlLabel, Switch } from '@material-ui/core';
 import InstagramIcon from '../../img/instagramIcon.png';
 import { apiKey, testeCard, testeComment, randomTatooImg } from '../../utils/MockData'; // Dados usados para teste.
 import { CepValidator, CnpjValidator, EmailValidator, NameValidator, PasswordValidator, PhoneValidator, InstagramAccountValidator } from '../../utils/Validator';
-import { InstagramImagesResponseToJson } from '../../utils/Adapter';
+import { InstagramImagesResponseToJson, Ratings } from '../../utils/Adapter';
 import api from '../../api';
 import HandleCepAPI from '../../viaCep';
 import GeocodingApi from '../../geocodingApi';
 import './style.css';
 
 function ArtistProfile() {
+    const history = useHistory();
     const [isAdmin, setIsAdmin] = useState(false);
     const [showEditProfile, setShowEditProfile] = useState(false);
     const [showAddTattoo, setShowAddTattoo] = useState(false);
@@ -32,23 +34,25 @@ function ArtistProfile() {
     const [showSnack, setShowSnack] = useState(false);
     const [error, setError] = useState(false);
 
-    const dataUser = JSON.parse(localStorage.getItem('@dataUser'));
+    const [dataUser, setDataUser] = useState('');
     const [id, setId] = useState(0);
-    const [name, setName] = useState();
+    const [name, setName] = useState('...');
     const [birthdayDate, setBirthdayDate] = useState();
     const [cnpj, setCnpj] = useState();
-    const [cep, setCep] = useState();
-    const [street, setStreet] = useState();
-    const [streetNumber, setStreetNumber] = useState();
+    const [cep, setCep] = useState('...');
+    const [street, setStreet] = useState('...');
+    const [streetNumber, setStreetNumber] = useState('...');
     const [profilePhoto, setProfilePhoto] = useState();
-    const [aboutArtist, setAboutArtist] = useState();
+    const [aboutArtist, setAboutArtist] = useState('...');
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [instagramIntegration, setInstagramIntegration] = useState(false);
     const [instagramUsername, setInstagramUsername] = useState();
     const [phone, setPhone] = useState();
+    const [artistRating, setArtistRating] = useState(0);
     const [tattooStylesData, setTattooStylesData] = useState([{}]);
-    var tattooStylesSelected = [];
+    const [tattooArtistStyles, setTattooArtistStyles] = useState('...');
+    const [stylesSelected, setStylesSelected] = useState([]);
 
     const [respInputName, setRespInputName] = useState(true);
     const [respInputCpfOrCnpj, setRespInputCpfOrCnpj] = useState(true);
@@ -64,8 +68,10 @@ function ArtistProfile() {
 
     useEffect(() => {
         async function WorkAround() {
+            ValidateUser();
+            GetTattooArtistRatings();
             GetTattooStyles();
-            GetArtistId();
+            GetTattooArtistStyles(); 
         }
         WorkAround();
     }, []);
@@ -95,29 +101,38 @@ function ArtistProfile() {
         WorkAround();
     }, [updateStatus]);
 
-    const MapPin = () => <div> <img src={MapPinIcon} alt="" className="pin-img" /> </div>;
+    async function ValidateUser() {
+        if (localStorage.getItem('@dataUser') == null) {
+            history.push('/');
 
-    async function GetArtistId() {
-        const url = window.location.href.split('?');
-
-        if (url[1] == dataUser.id_tatuador) {
-            setIsAdmin(true);
         } else {
-            setIsAdmin(false);
-        }
+            let id = window.location.href.split('?')[1];
+            setId(id);
 
-        if (url[1] !== undefined) {
-            GetArtistInfos(url[1]);
-        } else {
-            GetArtistInfos(dataUser.id_tatuador);
+            // localstorage usado para contornar o problema de atualização do state
+            localStorage.setItem('id_tatuador_aux', id);
+
+            let data = JSON.parse(localStorage.getItem('@dataUser'));
+            setDataUser(data);
+
+            if (id !== undefined) {
+                GetArtistInfos();
+            } else {
+                GetArtistInfos();
+            }
+
+            if (id == data.id_tatuador) {
+                setIsAdmin(true);
+            } else {
+                setIsAdmin(false);
+            }
+
         }
     }
 
-    async function GetArtistInfos(id) {
-        const { data } = await api.get(`/tatuadores/${id}`);
-        console.log(data);
+    async function GetArtistInfos() {
+        const { data } = await api.get(`/tatuadores/${localStorage.getItem('id_tatuador_aux')}`);
 
-        setId(data.id_tatuador);
         setName(data.nome);
         setBirthdayDate(data.data_nascimento);
         setCnpj(data.cnpj);
@@ -136,18 +151,6 @@ function ArtistProfile() {
         setPinCenter({ lat: Number(localStorage.getItem('latitude')), lng: Number(localStorage.getItem('longitude')) });
 
         GetInstagramImages(data.id_tatuador);
-
-        console.log("foto perfil:", data.foto_perfil);
-    }
-
-    function ValidationStep() {
-        let isValid = false;
-
-        if (respInputName && respInputCpfOrCnpj && respInputBirthDate && respInputPhone
-            && respInputCep && respInputEmail && respInputPassword && respInstagramUsername)
-            isValid = true;
-
-        return !isValid;
     }
 
     async function GetTattooStyles() {
@@ -156,11 +159,58 @@ function ArtistProfile() {
         setTattooStylesData(data);
     }
 
+    async function GetTattooArtistStyles() {
+        let stylesList = '';
+       
+        const { data } = await api.get(`/estilo-tatuador/id-tatuador/${localStorage.getItem('id_tatuador_aux')}`);
+        
+        if (data.length > 0) {
+            data.map((element) => {
+                stylesList += element.titulo + ", ";
+            });
+            
+            setTattooArtistStyles(stylesList.slice(0, -2));
+            uncheckStylesCheckbox();
+            markStylesCheckbox(data);
+        } else {
+            setTattooArtistStyles('...');
+        }
+       
+    }
+
+    function markStylesCheckbox(data) {
+        let checked = [];
+        data.map((element) => {
+            document.getElementById(element.id_estilo).checked = true;
+            checked.push(element.id_estilo);
+        });
+
+        setStylesSelected(checked);
+    }
+
+    function uncheckStylesCheckbox(params) {
+        let selecteds = document.getElementById("tattoo-styles").querySelectorAll("input[type='checkbox']");
+        
+        for (let index = 0; index < selecteds.length; index++) {
+            selecteds[index].checked = false;
+        }
+    }
+
+    async function GetTattooArtistRatings() {
+        try {
+            const { data } = await api.get(`/avaliacao/media/${localStorage.getItem('id_tatuador_aux')}`);
+            setArtistRating(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     async function HandleEdit() {
         setLoading(true);
 
         try {
             await HandleCepAPI(cep);
+
             const userData = {
                 "nome": name,
                 "username": null,
@@ -173,12 +223,14 @@ function ArtistProfile() {
                 "email": email,
                 "senha": password,
                 "conta_instagram": instagramUsername,
-                "foto_perfil": "http://hornettattoo.com.br/wp-content/uploads/2017/10/zhimpa_perfil-b-330x330.jpg",
+                "foto_perfil": null,
                 "sobre": aboutArtist
             };
 
             const { data } = await api.put(`/tatuadores/${dataUser.id_tatuador}`, userData);
-            await api.patch(`/tatuadores/foto/${dataUser.id_tatuador}`,);
+            await api.post(`/estilo-tatuador/atualiza-estilos/${id}`, stylesSelected);
+            
+            // await api.patch(`/tatuadores/foto/${dataUser.id_tatuador}`,);
 
             if (dataUser.conta_instagram !== instagramUsername) {
                 setUpdateStatus(true);
@@ -188,6 +240,7 @@ function ArtistProfile() {
             localStorage.setItem('@dataUser', JSON.stringify(data));
             HandleCepAPI(data.cep);
             GeocodingApi(data.cep);
+            GetTattooArtistStyles();
             setLoading(false);
             setShowEditProfile(false);
 
@@ -201,23 +254,14 @@ function ArtistProfile() {
         setShowSnack(true);
     }
 
-    showEditProfile || showAddTattoo ? document.documentElement.style.overflow = 'hidden' : document.documentElement.style.overflow = 'auto';  // Travar scrool da tela quando o modal de edição estiver aberto.
+    function ValidationStep() {
+        let isValid = false;
 
-    const Alert = React.forwardRef(function Alert(props, ref) {
-        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-    });
+        if (respInputName && respInputCpfOrCnpj && respInputBirthDate && respInputPhone
+            && respInputCep && respInputEmail && respInputPassword && respInstagramUsername)
+            isValid = true;
 
-    function handleClose(event, reason) {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        setShowSnack(false);
-    };
-
-    async function UpdateInstagramImages() {
-        await api.get(`/instagram/atualizar-imagens/${id}`);
-        setUpdateStatus(false);
+        return !isValid;
     }
 
     async function GetInstagramImages(id) {
@@ -226,6 +270,27 @@ function ArtistProfile() {
         setInstagramImages(dataFormated);
         return dataFormated;
     }
+
+    async function UpdateInstagramImages() {
+        await api.get(`/instagram/atualizar-imagens/${id}`);
+        setUpdateStatus(false);
+    }
+
+    showEditProfile || showAddTattoo ? document.documentElement.style.overflow = 'hidden' : document.documentElement.style.overflow = 'auto';  // Travar scrool da tela quando o modal de edição estiver aberto.
+
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
+
+    const MapPin = () => <div> <img src={MapPinIcon} alt="" className="pin-img" /> </div>;
+
+    function handleClose(event, reason) {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setShowSnack(false);
+    };
 
     function RenderMap() {
         return (
@@ -359,18 +424,27 @@ function ArtistProfile() {
                     </div>
 
                     <label>Estilos</label>
-                    <div className="tattoo-styles">
+                    <div className="tattoo-styles" id="tattoo-styles">
                         {tattooStylesData.map((element) =>
                             <div className="tattoo-styles-row">
                                 <input type="checkbox"
                                     id={element.id_estilo}
-                                    onChange={() => {
-                                        if (document.getElementById(element.id_estilo).checked) {
-                                            tattooStylesSelected.push({ idEstilo: element.id_estilo, idTatuador: id });
+                                    onChange={(e) => {
+                                        let tattooStylesSelected = stylesSelected;
+
+                                        let value_included = tattooStylesSelected.includes(element.id_estilo);
+                                        let is_checked = e.target.checked;
+
+                                        if (value_included && !is_checked) {
+                                            let position = tattooStylesSelected.indexOf(element.id_estilo);
+                                            tattooStylesSelected.splice(position, 1);
                                         }
-                                        if (!document.getElementById(element.id_estilo).checked) {
-                                            tattooStylesSelected.splice(tattooStylesSelected.findIndex(({ idEstilo }) => idEstilo == element.id_estilo), 1);
+
+                                        if (!value_included && is_checked) {
+                                            tattooStylesSelected.push(element.id_estilo);
                                         }
+
+                                        setStylesSelected(tattooStylesSelected);
                                     }}
                                 />
                                 <p key={element.id_estilo}>
@@ -379,13 +453,13 @@ function ArtistProfile() {
                             </div>
                         )}
                     </div>
-
                     <button
                         className="save-btn"
                         disabled={ValidationStep()}
                         onClick={() => HandleEdit()}>
                         Salvar
                     </button>
+
                 </div>
             </div>
 
@@ -435,12 +509,7 @@ function ArtistProfile() {
                                 <p>{name !== undefined ? name[0].toUpperCase() : ''}</p>
                             </div>
                         }
-                        <div className="stars-row">
-                            <img src={StarIcon} alt="" />
-                            <img src={StarIcon} alt="" />
-                            <img src={StarIcon} alt="" />
-                            <img src={StarIcon} alt="" />
-                            <img src={StarIcon} alt="" />
+                        <div className="stars-row" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(Ratings(artistRating)) }}>
                         </div>
                     </div>
 
@@ -450,7 +519,7 @@ function ArtistProfile() {
                             <p className="instagram-user">{instagramUsername}</p>
                         </div>
                         <p className="title-label">Estilos</p>
-                        <p>Realismo, Aquarela e Tribal</p>
+                        <p>{tattooArtistStyles}</p>
                         <p className="title-label">Sobre</p>
                         <p>{aboutArtist}</p>
                     </div>
@@ -460,6 +529,7 @@ function ArtistProfile() {
                             <p>Local - {street}, {streetNumber} - {cep}</p>
                             {isAdmin &&
                                 <div className="edit-button" onClick={() => {
+                                    window.scrollTo(0, 0);
                                     setShowAddTattoo(false);
                                     setShowEditProfile(!showEditProfile);
                                 }}>
@@ -472,6 +542,7 @@ function ArtistProfile() {
                 </div>
                 {isAdmin &&
                     <div className="new-tattoo-button" id="new-tattoo" onClick={() => {
+                        window.scrollTo(0, 0);
                         setShowEditProfile(false);
                         setShowAddTattoo(!showAddTattoo);
                     }}>

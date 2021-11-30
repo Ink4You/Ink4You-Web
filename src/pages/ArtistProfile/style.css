@@ -253,7 +253,7 @@ label {
 .edit-profile .edit-profile-container .inputs-column textarea {
     width: 100%;
     max-width: 375px;
-    max-height: 120px;
+    max-height: 150px;
     resize: none;
     border: none;
     border-radius: 5px;
@@ -310,6 +310,16 @@ label {
     height: 90px;
     border-radius: 50%;
     margin-right: 20px;
+}
+
+.edit-profile-container-row .profile-avatar {
+    width: 100px;
+    height: 100px;
+    margin-right: 15px;
+}
+
+.edit-profile-container-row .profile-avatar p {
+    font-size: 40px !important;
 }
 
 .instagram-slider-button {

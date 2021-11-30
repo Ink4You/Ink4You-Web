@@ -80,15 +80,17 @@
     display: flex;
     justify-content: center;
     margin-top: -102px;
+    padding-bottom: 100px;
     position: absolute;
     z-index: 2;
     background-color:var(--white);
     transition: all ease 0.5s;
+    overflow: auto;
 }
 
 .edit-profile .edit-profile-container {
     width: 75%;
-    height: 100%;
+    height: max-content;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
