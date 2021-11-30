@@ -22,6 +22,7 @@ import { InstagramImagesResponseToJson, Ratings } from '../../utils/Adapter';
 import api from '../../api';
 import HandleCepAPI from '../../viaCep';
 import GeocodingApi from '../../geocodingApi';
+import Swal from 'sweetalert2';
 import './style.css';
 
 function ArtistProfile() {
@@ -71,7 +72,7 @@ function ArtistProfile() {
             ValidateUser();
             GetTattooArtistRatings();
             GetTattooStyles();
-            GetTattooArtistStyles(); 
+            GetTattooArtistStyles();
         }
         WorkAround();
     }, []);
@@ -161,21 +162,21 @@ function ArtistProfile() {
 
     async function GetTattooArtistStyles() {
         let stylesList = '';
-       
+
         const { data } = await api.get(`/estilo-tatuador/id-tatuador/${localStorage.getItem('id_tatuador_aux')}`);
-        
+
         if (data.length > 0) {
             data.map((element) => {
                 stylesList += element.titulo + ", ";
             });
-            
+
             setTattooArtistStyles(stylesList.slice(0, -2));
             uncheckStylesCheckbox();
             markStylesCheckbox(data);
         } else {
             setTattooArtistStyles('...');
         }
-       
+
     }
 
     function markStylesCheckbox(data) {
@@ -190,7 +191,7 @@ function ArtistProfile() {
 
     function uncheckStylesCheckbox(params) {
         let selecteds = document.getElementById("tattoo-styles").querySelectorAll("input[type='checkbox']");
-        
+
         for (let index = 0; index < selecteds.length; index++) {
             selecteds[index].checked = false;
         }
@@ -222,17 +223,21 @@ function ArtistProfile() {
                 "telefone": phone,
                 "email": email,
                 "senha": password,
-                "conta_instagram": instagramUsername,
+                "conta_instagram": instagramIntegration ? instagramUsername : null,
                 "foto_perfil": null,
                 "sobre": aboutArtist
             };
 
             const { data } = await api.put(`/tatuadores/${dataUser.id_tatuador}`, userData);
             await api.post(`/estilo-tatuador/atualiza-estilos/${id}`, stylesSelected);
-            
+
             // await api.patch(`/tatuadores/foto/${dataUser.id_tatuador}`,);
 
-            if (dataUser.conta_instagram !== instagramUsername) {
+            if (!instagramIntegration) {
+                setInstagramUsername(null);
+            }
+
+            if (dataUser.conta_instagram !== instagramUsername && instagramUsername !== null) {
                 setUpdateStatus(true);
                 UpdateInstagramImages();
             }
@@ -269,6 +274,38 @@ function ArtistProfile() {
         let dataFormated = InstagramImagesResponseToJson(data);
         setInstagramImages(dataFormated);
         return dataFormated;
+    }
+
+    function showConfirmDialog() {
+        Swal.fire({
+            title: 'Confirmar Atualização',
+            text: "Deseja atualizar seu catálogo de fotos do Instagram?",
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonText: 'Sim, atualizar fotos!',
+            cancelButtonText: 'Não, cancelar',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                setUpdateStatus(true);
+                UpdateInstagramImages();
+                Swal.fire(
+                    'Feito!',
+                    'Seu catálogo de fotos está sendo atualizado!',
+                    'success'
+                )
+
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                Swal.fire(
+                    'Cancelada',
+                    'Volte quando quiser atualizar suas fotos :)',
+                    'error'
+                )
+            }
+        })
     }
 
     async function UpdateInstagramImages() {
@@ -514,10 +551,12 @@ function ArtistProfile() {
                     </div>
 
                     <div className="description">
-                        <div className="instagram-row" onClick={() => window.location.href = `https://www.instagram.com/${instagramUsername}/`}>
-                            <img src={InstagramIcon} alt="" />
-                            <p className="instagram-user">{instagramUsername}</p>
-                        </div>
+                        {instagramUsername &&
+                            <div className="instagram-row" onClick={() => window.location.href = `https://www.instagram.com/${instagramUsername}/`}>
+                                <img src={InstagramIcon} alt="" />
+                                <p className="instagram-user">{instagramUsername}</p>
+                            </div>
+                        }
                         <p className="title-label">Estilos</p>
                         <p>{tattooArtistStyles}</p>
                         <p className="title-label">Sobre</p>
@@ -552,8 +591,7 @@ function ArtistProfile() {
                 <Flatlist wrap={true} data={testeCard} type="tattooSimple" label="Destaques" />
                 {(!updateStatus && isAdmin) &&
                     <div className="update-instagram-button" id="update-instagram-images" onClick={() => {
-                        setUpdateStatus(true);
-                        UpdateInstagramImages();
+                        showConfirmDialog();
                     }}>
                         <img src={RefreshIcon} alt="" />
                     </div>
