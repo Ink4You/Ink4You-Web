@@ -15,23 +15,6 @@ function TattooList() {
         const { data } = await api.get('/tatuagens');
     }
 
-    function ChangeImage(e) {
-        let files = e.target.files;
-
-        let reader = new FileReader();
-        reader.readAsDataURL(files[0]);
-
-        reader.onload = (e) => {
-            let result = e.target.result;
-            let bytes = result.split(',')[1];
-            
-            console.log('bytes :', bytes)
-            api.patch('tatuadores/foto/8', { foto: bytes }).then((response) => { 
-                console.log(response)
-            });
-        } 
-    }
-
     return (
         <>
             <Header />
@@ -49,7 +32,6 @@ function TattooList() {
                     <div className="content">
                         <Flatlist data={testeCard} type="tattoo" wrap={true} />
                     </div>
-                    <input type="file" name="file" onChange={(e) => ChangeImage(e)} accept="image/jpeg"/>
                 </section>
             </section>
         </>
