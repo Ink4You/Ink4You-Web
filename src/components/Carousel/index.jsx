@@ -19,27 +19,21 @@ function Carousel() {
     <>
       <div className="items-wrapper">
         <div id="items">
-          <div className="item">
-
-            <div className="report">
-              {
-                relatos?.map((element) =>
-                  element !== null && (
-                    <>
-                      <img src={element?.imagem || ""} />
-                      <div>
-                        <p>{element?.descricao || ""}</p>
-                        <span>{element?.nome_usuario || ""}</span>
-                      </div>
-                    </>
-                  )
-
-                )
-
-              }
-            </div>
-          </div>
-
+          {relatos?.map((element) =>
+            element !== null && (
+              <div className="item">
+                <div className="report">
+                  <>
+                    <img src={element?.imagem || ""} />
+                    <div>
+                      <p>{element?.descricao || ""}</p>
+                      <span>{element?.nome_usuario || ""}</span>
+                    </div>
+                  </>
+                </div>
+              </div>
+            )
+          )}
         </div>
       </div>
     </>
