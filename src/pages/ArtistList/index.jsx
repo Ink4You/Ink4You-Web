@@ -21,7 +21,7 @@ function ArtistList() {
     return (
         <>
             <Header />
-            <section className="container">
+            <section className="container artist-list-container">
                 <Filters
                     StyleEnabled={true}
                     LocalizationEnabled={true}
