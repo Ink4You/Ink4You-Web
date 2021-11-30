@@ -1,30 +1,29 @@
-section.artist-list-container {
-    /* height: calc(100vh - 65px); */
+section.tattoo-list-container {
     margin-top: 65px;
     background-color: var(--white);
 }
 
-section.artist-list-container section.artist-list {
-    width: calc(100% - 270px);
+section.tattoo-list-container section.tattoo-list {
+    /* width: calc(100% - 270px); */
     display: flex;
     flex: 1;
     flex-direction: column;
     padding: 32px 50px; /* 32px por causa da label do input de pesquisa */
-    /* background-color: var(--white); */
 }
 
-section.artist-list-container section.artist-list div.header {
+
+section.tattoo-list-container section.tattoo-list div.header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     /* background-color: tomato; */
 }
 
-section.artist-list-container section.artist-list div.header h2 {
+section.tattoo-list-container section.tattoo-list div.header h2 {
     margin-top: 18px; /* 18px por causa da label do input de pesquisa */
 }
 
-section.artist-list-container section.artist-list div.content {
+section.tattoo-list-container section.tattoo-list div.content {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;

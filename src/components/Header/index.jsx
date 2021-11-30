@@ -60,7 +60,7 @@ function Header(props) {
             </div>
             <div className="div-options">
                 <Link to='/TattooArtists'>Tatuadores</Link>
-                <Link to='/'>Tatuagens</Link>
+                <Link to='/Tattoo'>Tatuagens</Link>
                 <Link to='/'>Informações</Link>
                 <Link to='/'>Relatos</Link>
                 <img src={iconTheme}
