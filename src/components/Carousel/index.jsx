@@ -5,39 +5,38 @@ import api from '../../api';
 
 
 function Carousel() {
-    const [relatos, setRelatos] = useState([]);
+  const [relatos, setRelatos] = useState([]);
 
 
-    useEffect(() => {
-        async function getData() {
-            const { data } = await api.get("/relatos/buscar-relatos");
-            setRelatos(data.pilha);
-        }
-        getData();
-    }, []);
-    return (
-        <>
-            <div className="items-wrapper">
-                <div id="items"
-                >      {
-                        relatos?.map((element) =>
-                            element !== null && (
-                                <div className="item">
-                                    <div className="report">
-                                        <>
-                                            <img src={element?.imagem || ""} />
-                                            <div>
-                                                <p>{element?.descricao || ""}</p>
-                                                <span>{element?.nome_usuario || ""}</span>
-                                            </div>
-                                        </>
-                                    </div>
-                                </div>
-                            ))}
+  useEffect(() => {
+    async function getData() {
+      const { data } = await api.get("/relatos/buscar-relatos");
+      setRelatos(data.pilha);
+    }
+    getData();
+  }, []);
+  return (
+    <>
+      <div className="items-wrapper">
+        <div id="items">
+          {relatos?.map((element) =>
+            element !== null && (
+              <div className="item">
+                <div className="report">
+                  <>
+                    <img src={element?.imagem || ""} />
+                    <div>
+                      <p>{element?.descricao || ""}</p>
+                      <span>{element?.nome_usuario || ""}</span>
+                    </div>
+                  </>
                 </div>
-            </div>
-        </>
-    );
+              </div>
+            )
+          )}
+        </div>
+      </div>
+    </>
+  );
 }
-
 export default Carousel;
