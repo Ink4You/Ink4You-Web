@@ -3,7 +3,10 @@ import Logo from '../../img/logo.png'
 import { Link, useHistory } from 'react-router-dom';
 import { Button, Avatar, ClickAwayListener, Portal } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import EveningIcon from '../../img/sunset.svg'
+import EveningIcon from '../../img/sunset.svg';
+import ProfileIcon from '../../img/user.svg';
+import Logout from '../../img/log-out.svg';
+import Swal from 'sweetalert2';
 import '../../global.css';
 import './styles.css';
 import { useState } from 'react';
@@ -14,10 +17,32 @@ function Header(props) {
     const dataUser = JSON.parse(localStorage.getItem('@dataUser'));
     const userType = localStorage.getItem('userType');
 
+    function redirectToProfile() {
+        history.push(`/artistProfile/?${dataUser.id_tatuador}`);
+        window.location.reload();
+    }
+
     function logout() {
         localStorage.removeItem('@dataUser');
         history.push('/login');
     }
+
+    function showConfirmDialog() {
+        Swal.fire({
+            title: 'Logout',
+            text: "Vai mesmo nos deixar? :(",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sim, mas volto logo!',
+            cancelButtonText: 'Não, quero ficar!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                logout();
+            } 
+        })
+    }
+
     const [open, setOpen] = React.useState(false);
 
     const handleClick = () => {
@@ -63,12 +88,12 @@ function Header(props) {
                             </button>
                             {open ? (
                                 <div className="dropdown">
-                                    <div className="btn" onClick={() => userType === 'USER' ? history.push('/userProfile') : history.push(`/artistProfile/?${dataUser.id_tatuador}`)}>
-                                        <div></div>
+                                    <div className="btn" onClick={() => userType === 'USER' ? history.push('/userProfile') : redirectToProfile()} >
+                                        <div><img src={ProfileIcon} alt="" /></div>
                                         <span>Perfil</span>
                                     </div>
-                                    <div className="btn" onClick={() => logout()}>
-                                        <div></div>
+                                    <div className="btn" onClick={() => showConfirmDialog()}>
+                                        <div><img src={Logout} alt="" /></div>
                                         <span>Logout</span>
                                     </div>
                                 </div>
