@@ -314,6 +314,7 @@ label {
 
 .edit-profile-container-row img, 
 .add-tattoo-container-row img {
+    width: 90px;
     height: 90px;
     border-radius: 50%;
     margin-right: 20px;
@@ -340,11 +341,13 @@ label {
    
 }
 
-input#file {
+input#file,
+input#fileTatuador {
     display: none;
 }
 
-div.container-input label {
+div.container-input label,
+.edit-profile-container .div-input-file label {
     width: 36px;
     height: 36px;
     display: flex;
@@ -356,13 +359,19 @@ div.container-input label {
     background-image: var(--blue-gradient);
 }
 
-div.container-input label img {
+div.container-input label img,
+.edit-profile-container .div-input-file label img {
     width: 20px;
 }
 
 .div-input-file {
     margin-top: -45px;
     margin-left: 75px;
+}
+
+.edit-profile-container .div-input-file {
+    margin-top: -50px;
+    margin-left: 90px !important;
 }
 
 @media (max-width: 1366px) {

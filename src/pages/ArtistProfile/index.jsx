@@ -58,6 +58,7 @@ function ArtistProfile() {
     const [stylesSelected, setStylesSelected] = useState([]);
 
     const [file, setFile] = useState();
+    const [fileTatuador, setFileTatuador] = useState();
     const [tattooTitle, setTattooTitle] = useState();
     const [tattooLocal, setTattooLocal] = useState();
     const [tattooList, setTattooList] = useState([]);
@@ -101,6 +102,7 @@ function ArtistProfile() {
             setStreet(localStorage.getItem('logradouro'));
             setPinCenter({ lat: Number(localStorage.getItem('latitude')), lng: Number(localStorage.getItem('longitude')) });
             GetTattoos();
+            GetArtistInfos();
         }
         WorkAround();
     }, [loading]);
@@ -258,6 +260,16 @@ function ArtistProfile() {
 
             const { data } = await api.put(`/tatuadores/${dataUser.id_tatuador}`, userData);
             await api.post(`/estilo-tatuador/atualiza-estilos/${id}`, stylesSelected);
+
+            let formData = new FormData();
+            formData.append('file', fileTatuador);
+            const { dataFile } = await api.patch(`tatuadores/foto/${dataUser.id_tatuador}`, formData, {
+                headers: {
+                    "Content-type": "multipart/form-data",
+                }
+            });
+
+            setProfilePhoto(dataFile);
 
             if (!instagramIntegration) {
                 setInstagramUsername(null);
@@ -435,6 +447,18 @@ function ArtistProfile() {
                         }
                         <p>Edição de Perfil</p>
                     </div>
+                    <div className="div-input-file">
+                            <label htmlFor="fileTatuador" title="Escolha a imagem">
+                                <img src={CamIcon} alt="Adicionar imagem" />
+                            </label>
+                            <input
+                                type="file"
+                                name="fileTatuador"
+                                id="fileTatuador"
+                                accept="image/*"
+                                onChange={(e) => setFileTatuador(e.target.files[0])}
+                            />
+                        </div>
                     <Input text="Nome"
                         onChange={e => setName(e.target.value)}
                         value={name}
