@@ -24,7 +24,6 @@ function Flatlist(props) {
               artistName={element.artistName}
             />)}
         {props.type === 'tattooArtist' &&
-          console.log(data),
           data.map((element) => 
             <TattooArtistCard
               key={element.id_tatuador}
