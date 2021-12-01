@@ -116,7 +116,6 @@ function ArtistProfile() {
     }, [updateStatus]);
 
     async function ValidateUser() {
-
         let id = window.location.href.split('?')[1];
         setId(id);
 
@@ -132,13 +131,13 @@ function ArtistProfile() {
             GetArtistInfos();
         }
 
-
+        
         if (localStorage.getItem('@dataUser') == null) {
             // history.push('/');
             setIsAdmin(false);
-
+            
         } else {
-
+            
             if (id == data.id_tatuador) {
                 setIsAdmin(true);
             } else {
