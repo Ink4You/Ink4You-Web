@@ -67,7 +67,7 @@ function Header(props) {
                     alt="Trocar tema"
                     className="theme-icon"
                     onClick={() => alert('Ainda não funfa :)')} />
-                {dataUser == null &&
+                {(dataUser == null || dataUser == "") &&
                     <Button
                         id="btn-signin"
                         className="btn-primary"

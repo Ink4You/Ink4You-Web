@@ -31,11 +31,12 @@ function Register() {
         setStep(step - 1);
     }
 
-    async function HandleLogin() {
+    async function HandleRegister() {
         if (userType === 'User') {
             setAccountState({
                 ...accountState,
-                foto_perfil: undefined
+                foto_perfil: undefined,
+                sobre: "Olá, seja bem vindo ao meu perfil!"
             })
 
             delete accountState.logradouro;
@@ -55,9 +56,11 @@ function Register() {
             try {
                 await api.post('/tatuadores/cadastro-tatuador', accountState)
                     .then(response => {
-                        console.log(response.data)
+                        console.log(response.data);
+                        localStorage.setItem('@dataUser', JSON.stringify(response.data));
                         HandleCepAPI(accountState.cep);
-                        history.push('/home')
+                        history.push(`/artistProfile/?${response.data.id_tatuador}`);
+                                            
                     })
             } catch (err) {
                 console.log(err);
@@ -157,7 +160,7 @@ function Register() {
                         userType={userType}
                         nextStep={nextStep}
                         previousStep={previousStep}
-                        handleLogin={HandleLogin}
+                        handleLogin={HandleRegister}
                         accountState={accountState}
                         setAccountState={setAccountState} />}
 
