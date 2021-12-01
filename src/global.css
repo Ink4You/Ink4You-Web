@@ -44,6 +44,14 @@ code {
   }
 }
 
+/* div, p, img {
+  animation: fade-in 0.5s;
+} */
+
+img {
+  user-select: none;
+}
+
 .container {
   width: 100%;
   min-height: calc(100vh - 65px);
@@ -53,11 +61,18 @@ code {
 
 .container .form {
   width: 35vw;
+  height: 100vh;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: #E9E9E9;
+}
+
+.container #form-dados {
+  padding-top: 140px;
+  padding-bottom: 40px;
 }
 
 .container .form-container {

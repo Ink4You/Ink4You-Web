@@ -5,7 +5,6 @@ async function HandleCepAPI(cep) {
         console.log('salvando informações de endereço...');
         await api.get(`https://viacep.com.br/ws/${cep}/json/`)
             .then(response => {
-                console.log(response.data);
                 localStorage.setItem('logradouro', response.data.logradouro);
                 localStorage.setItem('cidade', response.data.localidade);
                 localStorage.setItem('uf', response.data.uf);

@@ -148,7 +148,7 @@ export function LocationInformationStep(props) {
                 <>
                     <Input
                         text="Estado"
-                        value={props.accountState.estado}
+                        value={props.accountState.uf}
                         disabled={true}
                         onChange={e => props.setAccountState({
                             ...props.accountState,

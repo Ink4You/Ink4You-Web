@@ -91,6 +91,16 @@
     transition: 0.3s;
 }
 
+.dropdown div.btn div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dropdown div.btn img {
+    height: 18px;
+}
+
 .dropdown div.btn:hover {
     background-color: var(--secondary-white);
 }

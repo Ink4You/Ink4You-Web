@@ -7,7 +7,6 @@ import './style.css';
 
 function Flatlist(props) {
   const data = props.data;
-  console.log(data);
   return (
     <div className="flatlist">
       <p className="label">{props.label}</p>
@@ -39,10 +38,8 @@ function Flatlist(props) {
             <TattooSimpleCard
               key={element.id}
               id={element.id}
-              tattooPhoto={element.photo || element.image_byte}
-              artistPhoto={element.artistPhoto || undefined}
-              title={element.title || undefined}
-              artistName={element.artistName || undefined}
+              tattooPhoto={element.src_imagem || element.image_byte}
+              title={element.titulo || undefined}
             />)}
         {props.type === 'comment' &&
           data.map((element) =>
@@ -61,4 +58,4 @@ function Flatlist(props) {
 
 }
 
-export default Flatlist
+export default Flatlist;

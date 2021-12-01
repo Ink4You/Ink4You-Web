@@ -5,7 +5,7 @@ import DOMPurify from 'dompurify';
 import './style.css';
 
 function TattooArtistCard(props) {
-    const url = `/artistProfile/${props.id}`;
+    const url = `/artistProfile/?${props.id}`;
 
     return (
         <Link to={url} >

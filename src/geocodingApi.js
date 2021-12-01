@@ -1,7 +1,6 @@
 import api from './api.js';
 
 async function GeocodingApi(cep) {
-    console.log(cep)
 
     try {
         console.log('Obtendo informações de coordenadas...');
@@ -11,10 +10,11 @@ async function GeocodingApi(cep) {
             throw console.error("Erro ao buscar coordenadas");
         }
 
-        console.log(response.data)
         const data = response.data.results[0].geometry.location;
         localStorage.setItem('latitude', data.lat);
         localStorage.setItem('longitude', data.lng);
+
+
     } catch (error) {
         console.log(error);
     }

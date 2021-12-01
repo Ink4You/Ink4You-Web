@@ -8,7 +8,6 @@ import './styles.css';
 import { PersonalInformationStep, LocationInformationStep, LoginInformationStep } from './Steps';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import Slide from '@material-ui/core/Slide';
 import { useHistory } from 'react-router-dom';
 
 function Register() {
@@ -80,10 +79,6 @@ function Register() {
         setErrorAuthentication(false);
     };
 
-    function SlideTransition(props) {
-        return <Slide {...props} direction="up" />;
-    }
-
     async function handleCepAPI() {
         if (accountState.cep !== '') {
             try {
@@ -108,7 +103,7 @@ function Register() {
                 ...accountState,
                 cep: data.cep.replace('-', ''),
                 logradouro: data.logradouro,
-                estado: data.uf,
+                uf: data.uf,
                 cidade: data.localidade
             })
         } else {
@@ -124,7 +119,7 @@ function Register() {
         <section className="container">
             <InitialSideImage phrase='“Procurando tattoo? Ink4you.”' />
             <section className="form">
-                <div className="form-container">
+                <div className="form-container" id="form-dados">
                     <FormHeader text={titleSteps[step]} />
                     <Stepper style={{ backgroundColor: 'transparent' }} alternativeLabel activeStep={step}>
                         <Step>
@@ -169,7 +164,6 @@ function Register() {
                     <Snackbar open={errorAuthentication}
                         autoHideDuration={3000}
                         onClose={handleClose}
-                        TransitionComponent={SlideTransition}
                         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}>
                         <Alert onClose={handleClose} severity="error">
                             {errorAuthentication}
