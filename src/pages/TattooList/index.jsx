@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header';
 import Filters from '../../components/Filters';
 import SearchInput from '../../components/SearchInput';
@@ -10,10 +10,35 @@ import './style.css';
 function TattooList() {
 
     const [tattooList,setTattooList] = useState([]);
+    const [tattooInstagramList,setTattooInstagramList] = useState([]);
 
-    async function GetTattooList() {
+
+    useEffect(() => {
+        async function WorkAround() {
+            GetTattoos();
+        }
+        WorkAround(); 
+    },[])
+    
+    useEffect(() => {
+        async function WorkAround() {
+            GetTattoosInstagram();
+        }
+        WorkAround(); 
+    },[])
+
+    async function GetTattoos() {
         const { data } = await api.get('/tatuagens');
+        
+        setTattooList(data);
     }
+    
+    async function GetTattoosInstagram() {
+        const { data } = await api.get('/instagram');
+
+        setTattooInstagramList(data);
+    }
+
 
     return (
         <>
@@ -30,7 +55,8 @@ function TattooList() {
                         <SearchInput />
                     </div>
                     <div className="content">
-                        <Flatlist data={testeCard} type="tattoo" wrap={true} />
+                        <Flatlist data={tattooList} type="tattooSimple" wrap={true} />
+                        <Flatlist data={tattooInstagramList} type="tattooSimple" wrap={true} />
                     </div>
                 </section>
             </section>

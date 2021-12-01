@@ -29,3 +29,15 @@ section.tattoo-list-container section.tattoo-list div.content {
     flex-wrap: wrap;
     /* background-color: turquoise; */
 }
+
+section.tattoo-list-container section.tattoo-list div.content .simple-card {
+    cursor: pointer;
+}
+
+section.tattoo-list-container section.tattoo-list div.content .tattoo-photo {
+    z-index: 0;
+}
+
+section.tattoo-list-container section.tattoo-list div.content .heart-icon {
+    z-index: 1;
+}

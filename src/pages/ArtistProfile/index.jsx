@@ -111,25 +111,28 @@ function ArtistProfile() {
     }, [updateStatus]);
 
     async function ValidateUser() {
-        if (localStorage.getItem('@dataUser') == null) {
-            history.push('/');
+        let id = window.location.href.split('?')[1];
+        setId(id);
 
+        // localstorage usado para contornar o problema de atualização do state
+        localStorage.setItem('id_tatuador_aux', id);
+
+        let data = JSON.parse(localStorage.getItem('@dataUser'));
+        setDataUser(data);
+
+        if (id !== undefined) {
+            GetArtistInfos();
         } else {
-            let id = window.location.href.split('?')[1];
-            setId(id);
+            GetArtistInfos();
+        }
 
-            // localstorage usado para contornar o problema de atualização do state
-            localStorage.setItem('id_tatuador_aux', id);
-
-            let data = JSON.parse(localStorage.getItem('@dataUser'));
-            setDataUser(data);
-
-            if (id !== undefined) {
-                GetArtistInfos();
-            } else {
-                GetArtistInfos();
-            }
-
+        
+        if (localStorage.getItem('@dataUser') == null) {
+            // history.push('/');
+            setIsAdmin(false);
+            
+        } else {
+            
             if (id == data.id_tatuador) {
                 setIsAdmin(true);
             } else {
