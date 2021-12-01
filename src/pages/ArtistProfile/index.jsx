@@ -17,7 +17,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { FormGroup, FormControlLabel, Switch } from '@material-ui/core';
 import InstagramIcon from '../../img/instagramIcon.png';
 import { apiKey, testeCard, tattooListMocked, testeComment, randomTatooImg } from '../../utils/MockData'; // Dados usados para teste.
-import { CepValidator, CnpjValidator, EmailValidator, NameValidator, PasswordValidator, PhoneValidator, InstagramAccountValidator } from '../../utils/Validator';
+import { CepValidator, CnpjValidator, EmailValidator, NameValidator, PasswordValidator, PhoneValidator, InstagramAccountValidator, SizeValidator } from '../../utils/Validator';
 import { InstagramImagesResponseToJson, Ratings } from '../../utils/Adapter';
 import api from '../../api';
 import CamIcon from '../../img/camera.svg';
@@ -70,6 +70,9 @@ function ArtistProfile() {
     const [respInputEmail, setRespInputEmail] = useState(true);
     const [respInputPassword, setRespInputPassword] = useState(true);
     const [respInstagramUsername, setRespInstagramUsername] = useState(true);
+    const [respInputTattooTitle, setRespInputTattoTitle] = useState(false);
+    const [respInputTattooLocal, setRespInputTattooLocal] = useState(false);
+
     const [instagramImages, setInstagramImages] = useState([]);
     const [pinCenter, setPinCenter] = useState({ lat: Number(localStorage.getItem('latitude')), lng: Number(localStorage.getItem('longitude')) });
     const [mapCenter, setMapCenter] = useState();
@@ -111,24 +114,28 @@ function ArtistProfile() {
     }, [updateStatus]);
 
     async function ValidateUser() {
+
+        let id = window.location.href.split('?')[1];
+        setId(id);
+
+        // localstorage usado para contornar o problema de atualização do state
+        localStorage.setItem('id_tatuador_aux', id);
+
+        let data = JSON.parse(localStorage.getItem('@dataUser'));
+        setDataUser(data);
+
+        if (id !== undefined) {
+            GetArtistInfos();
+        } else {
+            GetArtistInfos();
+        }
+
+
         if (localStorage.getItem('@dataUser') == null) {
-            history.push('/');
+            // history.push('/');
+            setIsAdmin(false);
 
         } else {
-            let id = window.location.href.split('?')[1];
-            setId(id);
-
-            // localstorage usado para contornar o problema de atualização do state
-            localStorage.setItem('id_tatuador_aux', id);
-
-            let data = JSON.parse(localStorage.getItem('@dataUser'));
-            setDataUser(data);
-
-            if (id !== undefined) {
-                GetArtistInfos();
-            } else {
-                GetArtistInfos();
-            }
 
             if (id == data.id_tatuador) {
                 setIsAdmin(true);
@@ -165,8 +172,8 @@ function ArtistProfile() {
     async function GetTattoos() {
         api.get(`/tatuagens/tatuador/${localStorage.getItem('id_tatuador_aux')}`).then((response) => {
             console.log(response.data);
-            if (response.data.length > 0){
-                setTattooList(response.data);   
+            if (response.data.length > 0) {
+                setTattooList(response.data);
             }
         });
     }
@@ -203,7 +210,7 @@ function ArtistProfile() {
                 document.getElementById(element.id_estilo).checked = true;
                 checked.push(element.id_estilo);
             });
-    
+
             setStylesSelected(checked);
         } catch (error) {
             console.log(error);
@@ -297,7 +304,7 @@ function ArtistProfile() {
     async function HandleAddTattooPhoto(id) {
         let formData = new FormData();
         formData.append('file', file);
-    
+
         try {
             await api.patch(`tatuagens/foto/${id}`, formData, {
                 headers: {
@@ -306,9 +313,9 @@ function ArtistProfile() {
             });
             setShowAddTattoo(false);
         } catch (error) {
-           setError(error); 
-        } 
-        
+            setError(error);
+        }
+
         await GetTattoos();
         setLoading(false);
         setShowSnack2(true);
@@ -401,6 +408,14 @@ function ArtistProfile() {
         )
     }
 
+    function ReturnFirstLetter() {
+        if (name[0] !== undefined) {
+            return name[0].toUpperCase();
+        } else {
+            return '?';
+        }
+    }
+
     return (
         <>
             {loading && <LinearProgress />}
@@ -415,13 +430,11 @@ function ArtistProfile() {
                         }
                         {!profilePhoto &&
                             <div className="profile-avatar" alt="">
-                                <p>{name !== undefined ? name[0].toUpperCase() : ''}</p>
+                                <p>{ReturnFirstLetter()}</p>
                             </div>
                         }
                         <p>Edição de Perfil</p>
                     </div>
-                  
-
                     <Input text="Nome"
                         onChange={e => setName(e.target.value)}
                         value={name}
@@ -482,7 +495,7 @@ function ArtistProfile() {
                                     <Switch
                                         checked={instagramIntegration}
                                         onChange={() => {
-                                            setInstagramIntegration(!instagramIntegration)
+                                            setInstagramIntegration(!instagramIntegration);
                                         }}
                                     />
                                 } label={
@@ -559,26 +572,34 @@ function ArtistProfile() {
                         <p>Adicionar Destaque</p>
                     </div>
                     <div className="container-input">
-                        <label htmlFor="file" title="Escolha a imagem">
-                            <img src={CamIcon} alt="Adicionar imagem" />
-                        </label>
-                        <input
-                            type="file"
-                            name="file"
-                            id="file"
-                            accept="image/*"
-                            onChange={(e) => setFile(e.target.files[0])}
-                        />
+                        <div className="div-input-file">
+                            <label htmlFor="file" title="Escolha a imagem">
+                                <img src={CamIcon} alt="Adicionar imagem" />
+                            </label>
+                            <input
+                                type="file"
+                                name="file"
+                                id="file"
+                                accept="image/*"
+                                onChange={(e) => setFile(e.target.files[0])}
+                            />
+                        </div>
                     </div>
                     <Input text="Título"
                         onChange={e => setTattooTitle(e.target.value)}
-                        value={tattooTitle} />
+                        value={tattooTitle}
+                        validator={SizeValidator}
+                        validate={tattooTitle}
+                        setRespValidation={setRespInputTattoTitle} />
                     <Input text="Local"
                         onChange={e => setTattooLocal(e.target.value)}
-                        value={tattooLocal} />
+                        value={tattooLocal}
+                        validator={SizeValidator}
+                        validate={tattooLocal}
+                        setRespValidation={setRespInputTattooLocal} />
                     <button
                         className="save-btn"
-                        // disabled={ValidationStep()}
+                        disabled={!(respInputTattooTitle && respInputTattooLocal)}
                         onClick={() => HandleAddTattoo()}>
                         Salvar
                     </button>
@@ -595,7 +616,7 @@ function ArtistProfile() {
                         }
                         {!profilePhoto &&
                             <div className="profile-avatar" alt="">
-                                <p>{name !== undefined ? name[0].toUpperCase() : ''}</p>
+                                <p>{ReturnFirstLetter()}</p>
                             </div>
                         }
                         <div className="stars-row" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(Ratings(artistRating)) }}>
@@ -641,7 +662,7 @@ function ArtistProfile() {
                     </div>
                 }
                 <Flatlist wrap={true} data={tattooList} type="tattooSimple" label="Destaques" />
-                {(!updateStatus && isAdmin) &&
+                {(!updateStatus && isAdmin && instagramUsername) &&
                     <div className="update-instagram-button" id="update-instagram-images" onClick={() => {
                         showConfirmDialog();
                     }}>
@@ -653,7 +674,7 @@ function ArtistProfile() {
                         <img src={CircularLoading} alt="" />
                     </div>
                 }
-                {(instagramUsername && instagramImages.length > 0) &&
+                {instagramUsername &&
                     <Flatlist wrap={true} data={instagramImages} type="tattooSimple" label="Tatuagens do Instagram" />
                 }
                 <Flatlist data={testeComment} type="comment" label="Avaliações e feedbacks" />
@@ -679,5 +700,6 @@ function ArtistProfile() {
         </>
     )
 }
+
 
 export default ArtistProfile;

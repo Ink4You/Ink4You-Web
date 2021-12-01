@@ -58,6 +58,18 @@ export function NameValidator(input) {
 
 }
 
+export function SizeValidator(input) {
+
+    let resp = false;
+
+    if (input !== '' && input !== null && input !== undefined) {
+        resp = input.length > 1 ? true : false;
+    }
+
+    return resp;
+
+}
+
 export function CepValidator(input) {
 
     let resp = false;

@@ -360,6 +360,11 @@ div.container-input label img {
     width: 20px;
 }
 
+.div-input-file {
+    margin-top: -45px;
+    margin-left: 75px;
+}
+
 @media (max-width: 1366px) {
     .profile-artist-container .profile-infos .location-infos {
         width: 33%;
