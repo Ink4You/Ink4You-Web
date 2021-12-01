@@ -114,6 +114,12 @@ label {
     margin-top: 10px;
 }
 
+.profile-artist-container .profile-infos .description #title-label {
+    display: block;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+}
+
 .profile-artist-container .profile-infos .description p:nth-child(4),
 .profile-artist-container .profile-infos .description p:nth-child(2) {
     margin-top: 10px;
@@ -332,6 +338,26 @@ label {
     margin-right: 20px;
     margin-top: 20px;
    
+}
+
+input#file {
+    display: none;
+}
+
+div.container-input label {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    background-image: var(--blue-gradient);
+}
+
+div.container-input label img {
+    width: 20px;
 }
 
 @media (max-width: 1366px) {

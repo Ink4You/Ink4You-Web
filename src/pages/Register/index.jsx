@@ -119,7 +119,7 @@ function Register() {
         <section className="container">
             <InitialSideImage phrase='“Procurando tattoo? Ink4you.”' />
             <section className="form">
-                <div className="form-container">
+                <div className="form-container" id="form-dados">
                     <FormHeader text={titleSteps[step]} />
                     <Stepper style={{ backgroundColor: 'transparent' }} alternativeLabel activeStep={step}>
                         <Step>

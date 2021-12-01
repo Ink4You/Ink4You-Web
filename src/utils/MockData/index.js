@@ -4,6 +4,39 @@ export const randomTatooImg = "https://www.gugotattoo.com.br/images/estudio-de-t
 
 export const apiKey = "AIzaSyCW-lbUFoYzIdCo5n-7eFHkih5RbB03xHk";
 
+export const tattooListMocked = [{
+    id_tatuagem: '1',
+    titulo: "Tatuagem cachorro",
+    local_tatuagem: null,
+    src_imagem: profilePhoto
+},
+{
+    id_tatuagem: '2',
+    titulo: "Tatuagem cachorro",
+    local_tatuagem: null,
+    src_imagem: profilePhoto
+},
+{
+    id_tatuagem: '3',
+    titulo: "Tatuagem cachorro",
+    local_tatuagem: null,
+    src_imagem: profilePhoto
+},
+{
+    id_tatuagem: '4',
+    titulo: "Tatuagem cachorro",
+    local_tatuagem: null,
+    src_imagem: profilePhoto
+},
+{
+    id_tatuagem: '5',
+    titulo: "Tatuagem cachorro",
+    local_tatuagem: null,
+    src_imagem: profilePhoto
+}];
+
+
+
 export const testeCard = [{
     id: '1',
     photo: profilePhoto,
