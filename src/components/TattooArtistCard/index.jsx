@@ -10,7 +10,7 @@ function TattooArtistCard(props) {
     return (
         <Link to={url} >
             <div className="card">
-                <img className="artist-photo" src={props.artistPhoto} alt="Foto do tatuador" />
+                <img className="artist-photo" src={`data:image/jpeg;base64,${props.artistPhoto}`} alt="Foto do tatuador" />
                 <div className="card-description">
                     <p className="artist-name">{props.artistName}</p>
                     <span>{props.uf}</span>
