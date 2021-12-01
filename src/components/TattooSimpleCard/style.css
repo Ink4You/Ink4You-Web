@@ -11,7 +11,7 @@
 .simple-card .tattoo-photo {
     width: 170px;
     border-radius: 5px;
-    z-index: -1
+    z-index: -1;
 }
 
 .simple-card p {
