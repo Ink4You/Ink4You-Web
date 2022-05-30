@@ -10,9 +10,6 @@ function TattooSimpleCard(props) {
     const history = useHistory();
 
     let title = props.title;
-
-    // console.log(props);
-
     if (props.title !== undefined) {
         title = props.title.length > 18 ? props.title.substring(0, 12) + "..." : props.title;
     }
@@ -30,7 +27,7 @@ function TattooSimpleCard(props) {
         }}>
             {/* <img className="heart-icon" onClick={() => alert(props.id)} src={props.isFavorite ? heartIcon : heartFilledIcon} alt="" /> */}
             <img className="heart-icon" src={icon} alt="" />
-            <img className="tattoo-photo" src={`data:image/jpeg;base64,${props.tattooPhoto}`} alt="" />
+            <img className="tattoo-photo" src={`${props.tattooPhoto}`} alt="" />
             {title && 
                 <p>{title}</p>
             }

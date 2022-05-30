@@ -35,7 +35,6 @@ function TattooList() {
     
     async function GetTattoosInstagram() {
         const { data } = await api.get('/instagram');
-
         setTattooInstagramList(data);
     }
 
@@ -56,7 +55,7 @@ function TattooList() {
                     </div>
                     <div className="content">
                         <Flatlist data={tattooList} type="tattooSimple" wrap={true} />
-                        <Flatlist data={tattooInstagramList} type="tattooSimple" wrap={true} />
+                        {/* <Flatlist data={tattooInstagramList} type="tattooSimple" wrap={true} /> */}
                     </div>
                 </section>
             </section>

@@ -6,7 +6,7 @@ import Comment from '../Comment'
 import './style.css';
 
 function Flatlist(props) {
-  // console.log(props);
+
   const data = props.data;
   return (
     <div className="flatlist">
