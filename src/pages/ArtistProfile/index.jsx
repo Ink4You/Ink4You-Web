@@ -789,6 +789,7 @@ function ArtistProfile() {
             <img src={CircularLoading} alt="" />
           </div>
         )}
+        {console.log(instagramImages)}
            {instagramUsername &&
                     <Flatlist wrap={true} data={instagramImages} type="tattooSimple" label="Tatuagens do Instagram" />
                 }

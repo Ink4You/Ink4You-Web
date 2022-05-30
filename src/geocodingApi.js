@@ -4,7 +4,7 @@ async function GeocodingApi(cep) {
 
     try {
         console.log('Obtendo informações de coordenadas...');
-        const response = await api.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${cep}&key=AIzaSyCW-lbUFoYzIdCo5n-7eFHkih5RbB03xHk`)
+        const response = await api.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${cep}&key=AIzaSyClZmxpcaXtnc_EQwnEtJ7Rx3Tqx2Nz1Dw`)
         
         if (response.data.status === "ZERO_RESULTS") {
             throw console.error("Erro ao buscar coordenadas");

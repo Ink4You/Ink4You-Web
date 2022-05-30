@@ -40,7 +40,7 @@ function Flatlist(props) {
               key={element.id_tatuagem || element.id}
               id={element.id_tatuagem || element.id}
               idTatuador={element.id_tatuador}
-              tattooPhoto={element.src_imagem || element.imagem_byte || element.image_byte}
+              tattooPhoto={element.src_imagem || element.imagem_byte || element.image_byte || element.imagem || element.image}
               title={element.titulo || undefined}
             />)}
         {props.type === 'comment' &&
